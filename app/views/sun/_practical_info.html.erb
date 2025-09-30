@@ -1,0 +1,64 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-4">
+    <div class="practical-item">
+      <div class="flex items-center gap-2 mb-2">
+        <span>🪟</span>
+        <span class="text-sm font-medium">
+          <%= t ".shadow_length" %>
+        </span>
+      </div>
+      <div class="bg-background/50 rounded p-2">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".shadow_length_factor" %>
+        </div>
+        <div class="font-mono font-semibold">
+          <% if sun.topocentric.horizontal.altitude.positive? %>
+            <%= shadow_length_factor.round(2) %>x
+          <% else %>
+            <%= t ".sun_is_set_shadow" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="practical-item">
+      <div class="flex items-center gap-2 mb-2">
+        <span>⚡</span>
+        <span class="text-sm font-medium">
+          <%= t ".solar_panel_angle" %>
+        </span>
+      </div>
+      <div class="bg-background/50 rounded p-2">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".current_optimal_tilt" %>
+        </div>
+        <div class="font-mono font-semibold">
+          <% if sun.topocentric.horizontal.altitude.positive? %>
+            <%= format_number(
+              sun.topocentric.horizontal.altitude.degrees,
+              unit: :degree,
+              precision: 1
+            ) %>
+          <% else %>
+            <%= t ".sun_is_set_tilt" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="practical-item">
+      <div class="flex items-center gap-2 mb-2">
+        <span>⧖</span>
+        <span class="text-sm font-medium">
+          <%= t ".equation_of_time" %>
+        </span>
+      </div>
+      <div class="bg-background/50 rounded p-2">
+        <div class="font-mono font-semibold">
+          <%= duration_to_human(sun.equation_of_time) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-muted-foreground">
+        <%= t ".current" %>
+      </span>
+      <span class="font-medium text-lg">
+        <%= format_number(
+          moon.distance_from_earth.km,
+          unit: :km,
+          precision: 0
+        ) %>
+      </span>
+    </div>
+    <%= render(
+      DistanceBarComponent.new(
+        start_distance: next_perigee.value.km,
+        current_distance: moon.distance_from_earth.km,
+        end_distance: next_apogee.value.km,
+        start_distance_title: t(".perigee"),
+        end_distance_title: t(".apogee")
+      )
+    ) %>
+    <div class="pt-2 border-t border-border/30">
+      <div class="text-sm">
+        <div class="flex justify-between mb-1">
+          <span class="text-muted-foreground">
+            <%= t ".next_perigee" %>
+          </span>
+          <span class="font-medium">
+            <%= nillable_datetime(
+              next_perigee.instant.to_time,
+              utc_offset: observer.utc_offset,
+              format: :short
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".next_apogee" %>
+          </span>
+          <span class="font-medium">
+            <%= nillable_datetime(
+              next_apogee.instant.to_time,
+              utc_offset: observer.utc_offset,
+              format: :short
+            ) %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

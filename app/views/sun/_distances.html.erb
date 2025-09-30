@@ -1,0 +1,50 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-muted-foreground">
+        <%= t ".current" %>
+      </span>
+      <span class="font-medium text-lg">
+        <%= format_number(
+          sun.distance_from_earth.km,
+          unit: :km,
+          precision: 0
+        ) %>
+      </span>
+    </div>
+    <%= render(
+      DistanceBarComponent.new(
+        start_distance: next_perihelion.value.km,
+        current_distance: sun.distance_from_earth.km,
+        end_distance: next_aphelion.value.km,
+        start_distance_title: t(".perihelion"),
+        end_distance_title: t(".aphelion")
+      )
+    ) %>
+    <div class="pt-2 border-t border-border/30">
+      <div class="text-sm space-y-1">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".next_perihelion" %>
+          </span>
+          <span class="font-medium">
+            <%= l next_perihelion.instant.to_time.to_date, format: :full_month_short %>
+            <%= l next_perihelion.instant.to_time, format: :utc_hm %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".next_aphelion" %>
+          </span>
+          <span class="font-medium">
+            <%= l next_aphelion.instant.to_time.to_date, format: :full_month_short %>
+            <%= l next_aphelion.instant.to_time, format: :utc_hm %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

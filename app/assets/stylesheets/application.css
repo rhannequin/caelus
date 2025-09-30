@@ -1,10 +1,411 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+:root {
+  --background: 220 30% 96%;
+  --foreground: 220 30% 8%;
+  --card: 220 15% 98%;
+  --card-foreground: 220 30% 8%;
+  --primary: 240 100% 60%;
+  --primary-foreground: 220 15% 98%;
+  --muted-foreground: 220 15% 45%;
+  --accent: 280 80% 70%;
+  --border: 220 15% 88%;
+
+  --gradient-cosmic: linear-gradient(
+      135deg,
+      hsl(240 100% 60%),
+      hsl(280 80% 70%)
+  );
+  --shadow-cosmic: 0 10px 40px hsl(220 30% 8% / 0.1);
+  --glow-accent: 0 0 30px hsl(280 80% 70% / 0.15);
+
+  --radius: 1rem;
+}
+
+.dark {
+  --background: 220 27% 8%;
+  --foreground: 220 15% 95%;
+  --card: 220 20% 12%;
+  --card-foreground: 220 15% 95%;
+  --primary: 240 100% 70%;
+  --primary-foreground: 220 27% 8%;
+  --muted-foreground: 220 15% 65%;
+  --accent: 280 100% 60%;
+  --border: 220 20% 20%;
+
+  --gradient-cosmic: linear-gradient(
+      135deg,
+      hsl(240 100% 70%),
+      hsl(280 100% 60%)
+  );
+  --shadow-cosmic: 0 10px 40px hsl(220 27% 8% / 0.5);
+  --glow-accent: 0 0 30px hsl(280 100% 60% / 0.2);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.bg-card {
+  background-color: hsl(var(--card));
+}
+
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+.cosmic-card {
+  border-radius: 0.75rem;
+  border-width: 1px;
+  border-color: hsl(var(--border) / 0.5);
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.8),
+      hsl(var(--card) / 0.6)
+  );
+  box-shadow: var(--shadow-cosmic), inset 0 1px 0 hsl(var(--border) / 0.3);
+}
+
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
+}
+
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.text-cosmic {
+  text-shadow: 0 0 12px hsl(var(--accent) / 0.3);
+  background: var(--gradient-cosmic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-accent {
+  color: hsl(var(--accent));
+}
+
+.glow-accent {
+  box-shadow: var(--glow-accent);
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color,
+  text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.border-border\/30 {
+  border-color: hsl(var(--border) / 0.3);
+}
+
+.link {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.3);
+  text-underline-offset: 2px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: hsl(var(--accent));
+  text-decoration-color: hsl(var(--accent) / 0.5);
+}
+
+h1, h2, h3 {
+  letter-spacing: 0.02em;
+}
+
+.moon-svg-container {
+  position: relative;
+  display: inline-block;
+}
+
+.moon-svg-container::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: radial-gradient(
+      circle,
+      hsl(var(--accent) / 0.1),
+      transparent 70%
+  );
+  z-index: -1;
+  animation: moonGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+  0% { opacity: 0.3; transform: scale(0.95); }
+  100% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.moon-svg-container svg {
+  filter: drop-shadow(0 0 8px hsl(var(--accent) / 0.3));
+}
+
+.moon-hero-container {
+  position: relative;
+  display: inline-block;
+}
+
+.moon-stat-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--card) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.moon-time-row,
+.calendar-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid hsl(var(--border) / 0.2);
+}
+
+.moon-time-row:last-child,
+.calendar-item:last-child {
+  border-bottom: none;
+}
+
+.phase-item {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--background) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.2);
+  transition: all 0.2s ease;
+}
+
+.phase-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 8px hsl(var(--accent) / 0.3));
+}
+
+.moon-calendar .calendar-day {
+  aspect-ratio: 1;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.moon-calendar .calendar-day.today {
+  background: hsl(var(--primary) / 0.2);
+  border: 1px solid hsl(var(--primary) / 0.5);
+}
+
+.moon-mini {
+  font-size: 1rem;
+  margin-top: 0.125rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .moon-hero-container svg {
+    width: 140px;
+    height: 140px;
+  }
+  .moon-stat-card {
+    padding: 0.75rem;
+  }
+}
+
+.dark .moon-stat-card {
+  background: hsl(var(--card) / 0.3);
+}
+
+.dark .phase-item {
+  background: hsl(var(--card) / 0.2);
+}
+
+.dark .moon-calendar .calendar-day.today {
+  background: hsl(var(--primary) / 0.15);
+}
+
+.sun-hero-container {
+  position: relative;
+  display: inline-block;
+}
+
+.sun-hero-container::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border-radius: 50%;
+  background: radial-gradient(
+      circle,
+      rgba(253, 184, 19, 0.3),
+      rgba(255, 160, 0, 0.1),
+      transparent 70%
+  );
+  z-index: -1;
+  animation: sunPulse 3s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.sun-rays {
+  animation: sunRotate 60s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes sunRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sun-stat-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.5),
+      hsl(var(--card) / 0.3)
+  );
+  border: 1px solid hsl(var(--border) / 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.sun-time-row {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid hsl(var(--border) / 0.2);
+}
+
+.sun-time-row:last-child {
+  border-bottom: none;
+}
+
+.twilight-section {
+  position: relative;
+}
+
+.photo-time-block {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--background) / 0.3);
+}
+
+.photo-time-card {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background: hsl(var(--card) / 0.3);
+  border: 1px solid hsl(var(--border) / 0.2);
+}
+
+.coordinate-group {
+  position: relative;
+}
+
+.season-item {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--background) / 0.3);
+  border: 1px solid hsl(var(--border) / 0.2);
+}
+
+.season-item.current {
+  background: hsl(var(--primary) / 0.05);
+  border-color: hsl(var(--primary) / 0.3);
+}
+
+.practical-item {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--background) / 0.2);
+}
+
+.elevation-chart {
+  padding: 1rem;
+  background: hsl(var(--background) / 0.2);
+  border-radius: 0.5rem;
+}
+
+.dark .sun-stat-card {
+  background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.3),
+      hsl(var(--card) / 0.2)
+  );
+}
+
+.dark .photo-time-card {
+  background: hsl(var(--card) / 0.2);
+}
+
+.dark .season-item {
+  background: hsl(var(--card) / 0.2);
+}
+
+.dark .season-item.current {
+  background: hsl(var(--primary) / 0.08);
+}
+
+.dark .practical-item {
+  background: hsl(var(--card) / 0.15);
+}
+
+@media (max-width: 768px) {
+  .sun-hero-container svg {
+    width: 140px;
+    height: 140px;
+  }
+
+  .sun-stat-card {
+    padding: 0.75rem;
+  }
+
+  .elevation-chart svg {
+    height: 150px;
+  }
+}
+
+@keyframes dataUpdate {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}

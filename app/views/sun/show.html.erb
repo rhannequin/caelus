@@ -1,0 +1,76 @@
+<% content_for :title, "#{t("title")} • #{t(".title")}" %>
+
+<%= render(
+  "hero",
+  sun: @sun,
+  yesterday_sun: @yesterday_sun,
+  observer: @observer,
+  transit_altitude: @transit_altitude
+) %>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="space-y-6">
+    <%= render(
+      "today",
+      sun: @sun,
+      observer: @observer,
+      rising_azimuth: @rising_azimuth,
+      transit_altitude: @transit_altitude,
+      setting_azimuth: @setting_azimuth
+    ) %>
+
+    <%= render(
+      "twilight",
+      twilight_event: @twilight_event,
+      observer: @observer
+    ) %>
+
+    <%= render "coordinates", sun: @sun, observer: @observer, time: @time %>
+
+    <%= render(
+      "photography",
+      observer: @observer,
+      morning_golden_hour: @morning_golden_hour,
+      evening_golden_hour: @evening_golden_hour,
+      morning_blue_hour: @morning_blue_hour,
+      evening_blue_hour: @evening_blue_hour
+    ) %>
+  </div>
+
+  <div class="space-y-6">
+    <%= render(
+      "distances",
+      sun: @sun,
+      next_perihelion: @next_perihelion,
+      next_aphelion: @next_aphelion,
+      observer: @observer
+    ) %>
+
+    <%= render "seasons", upcoming_seasons: @upcoming_seasons %>
+
+    <%= render(
+      "sky_position",
+      sun: @sun,
+      zodiac_sign: @zodiac_sign,
+      sub_solar_observer: @sub_solar_observer
+    ) %>
+  </div>
+
+  <div class="space-y-6">
+    <%= render(
+      "practical_info",
+      sun: @sun,
+      shadow_length_factor: @shadow_length_factor
+    ) %>
+
+    <%= cache("sun_elevation_chart/#{observer_cache_key}", expires_at: observer_end_of_year) do %>
+      <%= render(
+        "elevation_chart",
+        yearly_elevation: @yearly_elevation,
+        time: @time
+      ) %>
+    <% end %>
+
+    <%= render "calendar", time: @time %>
+  </div>
+</div>

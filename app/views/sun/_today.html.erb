@@ -1,0 +1,86 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary flex items-center gap-2">
+    <span class="text-2xl">🌅</span>
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-4">
+    <div class="sun-time-row">
+      <div class="flex items-center justify-between">
+        <span class="text-muted-foreground">
+          <%= t ".sunrise" %>
+        </span>
+        <div class="text-right">
+          <div class="font-semibold text-yellow-500">
+            <%= nillable_datetime(
+              sun.rts.rising_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </div>
+          <% if sun.rts.rising_time %>
+            <div class="text-xs text-muted-foreground">
+              <%= t "shared.azimuth.abbr_title" %>
+              <%= format_number(
+                rising_azimuth.degrees,
+                unit: :degree,
+                precision: 1
+              ) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="sun-time-row">
+      <div class="flex items-center justify-between">
+        <span class="text-muted-foreground">
+          <%= t ".solar_noon" %>
+        </span>
+        <div class="text-right">
+          <div class="font-semibold">
+            <%= nillable_datetime(
+              sun.rts.transit_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </div>
+          <% if sun.rts.transit_time %>
+            <div class="text-xs text-muted-foreground">
+              <%= t "shared.altitude.abbr_title" %>
+              <%= format_number(
+                transit_altitude.degrees,
+                unit: :degree,
+                precision: 1
+              ) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="sun-time-row">
+      <div class="flex items-center justify-between">
+        <span class="text-muted-foreground">
+          <%= t ".sunrise" %>
+        </span>
+        <div class="text-right">
+          <div class="font-semibold text-orange-500">
+            <%= nillable_datetime(
+              sun.rts.setting_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </div>
+          <% if sun.rts.setting_time %>
+            <div class="text-xs text-muted-foreground">
+              <%= t "shared.azimuth.abbr_title" %>
+              <%= format_number(
+                setting_azimuth.degrees,
+                unit: :degree,
+                precision: 1
+              ) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

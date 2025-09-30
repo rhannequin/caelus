@@ -1,0 +1,29 @@
+<div class="flex justify-between items-center m-0 gap-4">
+  <%= render "shared/navigation" %>
+  <div class="flex items-center gap-4">
+    <%= render "shared/location_selector" %>
+    <%= render "shared/dark_mode_toggle" %>
+  </div>
+</div>
+
+<h1 class="text-3xl font-bold">
+  <%= link_to(
+    root_path,
+    class: "text-cosmic hover:text-accent transition-all duration-150 ease-in-out"
+  ) do %>
+    ✨ <%= content_for?(:title) ? yield(:title) : t("title") %>
+  <% end %>
+</h1>
+
+<p class="text-muted-foreground">
+  <span class="inline sm:inline">
+    <%= l(
+      Time.current.localtime(@observer.utc_offset).to_date,
+      format: :long
+    ) %>
+    UTC<%= @observer.utc_offset %>
+  </span>
+  <span class="block sm:inline sm:ml-2">
+    [<%= format_observer_coordinates(@observer) %>]
+  </span>
+</p>

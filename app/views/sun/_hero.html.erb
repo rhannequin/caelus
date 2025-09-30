@@ -1,0 +1,192 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card p-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+    <div class="flex flex-col items-center">
+      <div class="sun-hero-container mb-4">
+        <svg
+          width="180"
+          height="180"
+          viewBox="0 0 180 180"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <radialGradient id="sunGradient" cx="50%" cy="50%">
+              <stop offset="0%" style="stop-color:#FDB813;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#FFA000;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF6F00;stop-opacity:1" />
+            </radialGradient>
+            <filter id="sunGlow">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle
+            cx="90"
+            cy="90"
+            r="60"
+            fill="url(#sunGradient)"
+            filter="url(#sunGlow)"
+          />
+          <g class="sun-rays">
+            <path
+              d="M 90 20 L 90 5"
+              stroke="#FFA000"
+              stroke-width="3"
+              stroke-linecap="round"/>
+            <path
+              d="M 90 175 L 90 160"
+              stroke="#FFA000"
+              stroke-width="3"
+              stroke-linecap="round"/>
+            <path
+              d="M 20 90 L 5 90"
+              stroke="#FFA000"
+              stroke-width="3"
+              stroke-linecap="round"/>
+            <path
+              d="M 175 90 L 160 90"
+              stroke="#FFA000"
+              stroke-width="3"
+              stroke-linecap="round"/>
+            <path
+              d="M 140 40 L 150 30"
+              stroke="#FFA000"
+              stroke-width="2"
+              stroke-linecap="round"/>
+            <path
+              d="M 40 140 L 30 150"
+              stroke="#FFA000"
+              stroke-width="2"
+              stroke-linecap="round"/>
+            <path
+              d="M 140 140 L 150 150"
+              stroke="#FFA000"
+              stroke-width="2"
+              stroke-linecap="round"/>
+            <path
+              d="M 40 40 L 30 30"
+              stroke="#FFA000"
+              stroke-width="2"
+              stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="sun-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".current_altitude" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            sun.topocentric.horizontal.altitude.degrees,
+            unit: :degree,
+            precision: 1
+          ) %>
+        </div>
+        <% if sun.topocentric.horizontal.altitude.positive? %>
+          <div class="text-xs text-green-500">
+            <%= t "shared.altitude.positive" %>
+          </div>
+        <% else %>
+          <div class="text-xs text-red-700">
+            <%= t "shared.altitude.negative" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="sun-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".azimuth" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            sun.topocentric.horizontal.azimuth.degrees,
+            unit: :degree,
+            precision: 1
+          ) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= cardinal_direction(sun.topocentric.horizontal.azimuth.degrees) %>
+        </div>
+      </div>
+      <div class="sun-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".day_length" %>
+        </div>
+        <% if sun.rts.rising_time && sun.rts.setting_time %>
+          <div class="text-xl font-semibold">
+            <%= duration_to_human(sun.rts.setting_time - sun.rts.rising_time) %>
+          </div>
+          <div class="text-xs text-accent">
+            <%= duration_to_human(
+              (sun.rts.setting_time - sun.rts.rising_time) -
+              (yesterday_sun.rts.setting_time - yesterday_sun.rts.rising_time)
+            ) %>
+            <%= t ".vs_yesterday" %>
+          </div>
+        <% else %>
+          <div class="text-xl font-semibold">
+            &empty;
+          </div>
+        <% end %>
+      </div>
+      <div class="sun-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".solar_noon" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= nillable_datetime(
+            sun.rts.transit_time,
+            utc_offset: observer.utc_offset,
+            format: :hm
+          ) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          Max:
+          <% if transit_altitude %>
+            <%= format_number(
+              transit_altitude.degrees,
+              unit: :degree,
+              precision: 1
+            ) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="sun-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".distance" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            sun.distance_from_earth.km,
+            unit: :km,
+            precision: 0
+          ) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= format_number(
+            sun.distance_from_earth.au,
+            unit: :au,
+            precision: 3
+          ) %>
+        </div>
+      </div>
+      <div class="sun-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".light_travel" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= duration_to_human(
+            sun.distance_from_earth.km / 300_000 # TODO: use true light speed C
+          ) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= t ".to_earth" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="flex justify-end m-0">
+  <button
+    id="app-darkmode-toggle"
+    type="button"
+    class="cursor-pointer text-gray-800 dark:text-gray-100 hover:text-gray-600
+      dark:hover:text-gray-300 transition-colors"
+    data-dark-mode-target="themeToggle"
+    data-action="click->dark-mode#toggleTheme"
+    aria-label="Toggle dark mode"
+  >
+    <span class="w-6 h-6 hidden" data-dark-mode-target="darkIcon">
+      <%= render "shared/icons/moon", class: "w-6 h-6" %>
+    </span>
+
+    <span class="w-6 h-6 hidden" data-dark-mode-target="lightIcon">
+      <%= render "shared/icons/sun", class: "w-6 h-6" %>
+    </span>
+  </button>
+</div>

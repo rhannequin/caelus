@@ -1,0 +1,88 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card mt-6">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h4 class="text-sm font-medium mb-2 text-muted-foreground">
+        <%= t ".current_constellation" %>
+      </h4>
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">
+          <%= sun.constellation.emoji %>
+        </span>
+        <div>
+          <div class="font-semibold text-lg">
+            <%= sun.constellation.name %>
+          </div>
+          <div class="text-sm text-muted-foreground">
+            <%= sun.constellation.abbreviation.capitalize %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-sm font-medium mb-2 text-muted-foreground">
+        <%= t ".astrological_sign" %>
+      </h4>
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">
+          <%= zodiac_sign.constellation.emoji %>
+        </span>
+        <div>
+          <div class="font-semibold text-lg">
+            <%= zodiac_sign.constellation.name %>
+          </div>
+          <div class="text-sm text-muted-foreground">
+            <%= zodiac_sign.range %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 pt-4 border-t border-border/30">
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-4 text-sm">
+      <div>
+        <div class="text-muted-foreground">
+          <%= t ".absolute_magnitude" %>
+        </div>
+        <div class="font-mono font-medium">
+          +<%= sun.class::ABSOLUTE_MAGNITUDE %>
+        </div>
+      </div>
+      <div>
+        <div class="text-muted-foreground">
+          <%= t ".apparent_magnitude" %>
+        </div>
+        <div class="font-mono font-medium">
+          <%= sun.magnitude.round(2) %>
+        </div>
+      </div>
+      <div>
+        <div class="text-muted-foreground">
+          <%= t ".angular_diameter" %>
+        </div>
+        <div class="font-mono font-medium">
+          <%= format_number(
+            sun.angular_diameter.to_dms.minutes,
+            unit: :arcminute,
+            precision: 0
+          ) %>
+          <%= format_number(
+            sun.angular_diameter.to_dms.seconds,
+            unit: :arcsecond,
+            precision: 0
+          ) %>
+        </div>
+      </div>
+      <div>
+        <div class="text-muted-foreground">
+          <%= t ".sub_solar_point" %>
+        </div>
+        <div class="font-mono font-medium">
+          <%= format_observer_coordinates(sub_solar_observer) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

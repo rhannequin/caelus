@@ -1,0 +1,27 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-4">
+    <% upcoming_phases.each do |moon_phase| %>
+      <div class="phase-item">
+        <div class="flex items-center gap-3">
+          <div class="phase-icon">
+            <%= t "moon.phase_emojis.#{moon_phase.phase}" %>
+          </div>
+          <div class="flex-1">
+            <div class="font-semibold">
+              <%= t "moon.phases.#{moon_phase.phase}" %>
+            </div>
+            <div class="text-sm text-muted-foreground">
+              <%= l moon_phase.time.to_date, format: :full_month_short %>
+            </div>
+            <div class="text-xs text-accent">
+              <%= l moon_phase.time, format: :utc_hm %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

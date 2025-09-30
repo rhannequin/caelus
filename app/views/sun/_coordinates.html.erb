@@ -1,0 +1,82 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="coordinate-group">
+      <div class="text-xs text-accent mb-2">
+        <%= t ".equatorial" %>
+      </div>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".right_ascension" %>
+          </span>
+          <span class="font-mono font-medium">
+            <%= sun
+              .topocentric
+              .equatorial
+              .right_ascension
+              .str(:hms, precision: 0) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".declination" %>
+          </span>
+          <span class="font-mono font-medium">
+            <%= sun
+              .topocentric
+              .equatorial
+              .declination
+              .str(:dms, precision: 0) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".hour_angle" %>
+          </span>
+          <span class="font-mono font-medium">
+            <%= sun
+              .topocentric
+              .equatorial
+              .compute_hour_angle(time: time, longitude: observer.longitude)
+              .str(:hms, precision: 0) %>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="shrink-0 bg-border h-[1px] w-full"></div>
+    <div class="coordinate-group">
+      <div class="text-xs text-accent mb-2">
+        <%= t ".ecliptic" %>
+      </div>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".longitude" %>
+          </span>
+          <span class="font-mono font-medium">
+            <%= format_number(
+              sun.apparent.ecliptic.longitude.degrees,
+              unit: :degree,
+              precision: 1
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".latitude" %>
+          </span>
+          <span class="font-mono font-medium">
+            <%= format_number(
+              sun.apparent.ecliptic.latitude.degrees,
+              unit: :degree,
+              precision: 1
+            ) %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

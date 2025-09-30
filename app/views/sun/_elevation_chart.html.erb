@@ -1,0 +1,58 @@
+<%
+  current_elevation_point = yearly_elevation.current(time)
+  chart_generator = ElevationChartSvg.new(
+    elevations: yearly_elevation,
+    current_position: current_elevation_point
+  )
+  min_elevation = yearly_elevation.minimum
+  max_elevation = yearly_elevation.maximum
+  current_elevation = current_elevation_point.elevation
+%>
+
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card mt-6">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="elevation-chart">
+    <%= chart_generator.draw %>
+  </div>
+  
+  <div class="flex justify-around mt-4 text-sm">
+    <div class="text-center">
+      <div class="text-muted-foreground">
+        <%= t(".minimum", value: min_elevation.date.strftime("%b")) %>
+      </div>
+      <div class="font-semibold">
+        <%= format_number(
+          min_elevation.elevation.degrees,
+          unit: :degree,
+          precision: 1
+        ) %>
+      </div>
+    </div>
+    <div class="text-center">
+      <div class="text-muted-foreground">
+        <%= t ".current" %>
+      </div>
+      <div class="font-semibold text-primary">
+        <%= format_number(
+          current_elevation.degrees,
+          unit: :degree,
+          precision: 1
+        ) %>
+      </div>
+    </div>
+    <div class="text-center">
+      <div class="text-muted-foreground">
+        <%= t ".maximum", value: max_elevation.date.strftime("%b") %>
+      </div>
+      <div class="font-semibold">
+        <%= format_number(
+          max_elevation.elevation.degrees,
+          unit: :degree,
+          precision: 1
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>

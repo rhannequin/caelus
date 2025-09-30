@@ -1,0 +1,36 @@
+<div
+  id="cookie-consent"
+  class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t
+    border-gray-200 dark:border-gray-700 p-4 z-50 shadow-lg"
+>
+  <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center
+    justify-between gap-4">
+    <div class="text-sm text-gray-700 dark:text-gray-300">
+      <%= t ".description" %>
+      <%= link_to(
+        t(".learn_more"),
+        privacy_policy_path,
+        class: "text-blue-600 dark:text-blue-400 hover:underline"
+      ) %>
+    </div>
+    <div class="flex gap-2">
+      <%= button_to(
+        t(".consent_button"),
+        cookie_consent_path,
+        method: :post,
+        data: {turbo: false},
+        class: "cursor-pointer px-4 py-2 bg-blue-600 hover:bg-blue-700
+          text-white rounded-md transition-colors border-0"
+      ) %>
+      <%= button_to(
+        t(".no_consent_button"),
+        cookie_consent_path,
+        method: :delete,
+        data: {turbo: false},
+        class: "cursor-pointer px-4 py-2 border border-gray-300
+          dark:border-gray-600 bg-transparent text-gray-700 dark:text-gray-300
+          rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      ) %>
+    </div>
+  </div>
+</div>

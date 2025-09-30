@@ -1,0 +1,94 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="twilight-section">
+      <div class="text-sm font-medium mb-2 text-blue-400">
+        <%= t ".morning" %>
+      </div>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".astronomical" %>
+          </span>
+          <span class="font-mono">
+            <%= nillable_datetime(
+              twilight_event.morning_astronomical_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".nautical" %>
+          </span>
+          <span class="font-mono">
+            <%= nillable_datetime(
+              twilight_event.morning_nautical_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".civil" %>
+          </span>
+          <span class="font-mono">
+            <%= nillable_datetime(
+              twilight_event.morning_civil_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="shrink-0 bg-border h-[1px] w-full"></div>
+    <div class="twilight-section">
+      <div class="text-sm font-medium mb-2 text-orange-400">
+        <%= t ".evening" %>
+      </div>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".civil" %>
+          </span>
+          <span class="font-mono">
+            <%= nillable_datetime(
+              twilight_event.evening_civil_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".nautical" %>
+          </span>
+          <span class="font-mono">
+            <%= nillable_datetime(
+              twilight_event.evening_nautical_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".astronomical" %>
+          </span>
+          <span class="font-mono">
+            <%= nillable_datetime(
+              twilight_event.evening_astronomical_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".mean_radius" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.class::MEAN_RADIUS_KM,
+          unit: :km,
+          precision: 1
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".mass" %>
+      </span>
+      <span class="font-mono font-medium">7.342 × 10e22 kg</span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".gravity" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.class::GRAVITY_MPS2,
+          unit: :mps2,
+          precision: 2
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".escape_velocity" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.class::ESCAPE_VELOCITY_KMPS,
+          unit: :kmps,
+          precision: 2
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".orbital_period" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.class::ORBITAL_PERIOD_DAYS,
+          unit: :day,
+          precision: 6
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".orbital_speed" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.velocity.kmps,
+          unit: :kmps,
+          precision: 2
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".tilt" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.class::AXIAL_TILT_DEGREES,
+          unit: :degree,
+          precision: 3
+        ) %>
+      </span>
+    </div>
+  </div>
+</div>

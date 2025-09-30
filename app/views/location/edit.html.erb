@@ -1,0 +1,113 @@
+<turbo-frame id="location_modal">
+  <div data-controller="location">
+    <div
+      class="fixed inset-0 bg-black/60 z-40"
+      data-action="click->location#close"
+    ></div>
+
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                  rounded-lg border bg-white dark:bg-gray-900
+                  text-card-foreground shadow-sm z-50 w-full max-w-md p-6">
+      <h2 class="text-xl font-bold mb-4 text-cosmic">
+        <%= t ".title" %>
+      </h2>
+      
+      <div class="text-sm text-muted-foreground mb-4">
+        <%= t ".current", latitude: @latitude, longitude: @longitude %>
+      </div>
+
+      <button
+        type="button"
+        class="w-full flex items-center justify-center gap-2 rounded-md
+                bg-primary text-primary-foreground px-4 py-2 mb-4
+                hover:bg-primary/90 cursor-pointer"
+        data-action="click->location#detect"
+        data-location-target="detectBtn"
+      >
+        <%= t ".use_current_btn" %>
+      </button>
+
+      <p class="text-center text-sm text-muted-foreground my-4">
+        <%= t ".manually" %>
+      </p>
+
+      <%= form_with(
+          url: location_path,
+          method: :patch,
+          data: { turbo_frame: "_top" }
+        ) do |f| %>
+        <div class="space-y-4">
+          <div>
+            <%= f.label(
+              :latitude,
+              t(".form.latitude"),
+              class: "text-sm font-medium"
+            ) %>
+            <%= f.text_field(
+              :latitude,
+              value: @latitude,
+              class: "w-full rounded-md border bg-transparent p-2 mt-1",
+              "data-location-target": "lat",
+              required: true,
+              type: :number,
+              step: :any,
+              min: -90,
+              max: 90
+            ) %>
+          </div>
+          <div>
+            <%= f.label(
+              :longitude,
+              t(".form.longitude"),
+              class: "text-sm font-medium"
+            ) %>
+            <%= f.text_field(
+              :longitude,
+              value: @longitude,
+              class: "w-full rounded-md border bg-transparent p-2 mt-2",
+              "data-location-target": "lng",
+              required: true,
+              type: :number,
+              step: :any,
+              min: -180,
+              max: 180
+            ) %>
+          </div>
+          <div>
+            <%= f.label(
+              :utc_offset,
+              t(".form.utc_offset"),
+              class: "text-sm font-medium"
+            ) %>
+            <%= f.select(
+              :utc_offset,
+              options_for_select(utc_offset_options, @utc_offset),
+              {},
+              class: "w-full rounded-md border bg-transparent p-2 mt-2",
+              "data-location-target": "utc",
+              required: true
+            ) %>
+            <div class="text-xs text-muted-foreground mt-1">
+              <%= t ".form.utc_offset_help" %>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-6">
+          <button
+            type="button"
+            class="rounded-md border border-input bg-transparent px-4 py-2
+              hover:bg-accent hover:text-accent-foreground cursor-pointer"
+            data-action="click->location#cancel"
+          >
+            <%= t ".form.cancel" %>
+          </button>
+          <%= f.submit(
+            t(".form.submit"),
+            class: "cursor-pointer rounded-md bg-primary text-primary-foreground
+              px-4 py-2 hover:bg-primary/90"
+          ) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

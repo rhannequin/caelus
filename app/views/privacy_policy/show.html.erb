@@ -1,0 +1,325 @@
+<% content_for :title, "#{t("title")} • #{t(".title")}" %>
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="text-center space-y-2">
+    <h1 class="text-4xl font-bold text-cosmic">
+      <%= t(".title") %>
+    </h1>
+    <p class="text-muted-foreground">
+      <%= t(".last_updated") %>
+    </p>
+  </div>
+
+  <div class="cosmic-card space-y-6">
+    <p class="text-lg leading-relaxed">
+      <%= t(".introduction") %>
+    </p>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.who_we_are.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.who_we_are.content") %>
+        <br>
+        <%= t(".sections.who_we_are.contact_info") %>
+        <a
+          href="mailto: <%= t(".sections.who_we_are.email") %>"
+          class="link"
+        >
+          <%= t(".sections.who_we_are.email") %></a>.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.what_data_we_collect.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.what_data_we_collect.intro") %>
+      </p>
+
+      <ul class="list-disc ml-6 space-y-2">
+        <% t(".sections.what_data_we_collect.data_points").each do |point| %>
+          <li><%= point %></li>
+        <% end %>
+      </ul>
+
+      <p class="leading-relaxed">
+        <%= t(".sections.what_data_we_collect.storage_info") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.why_we_collect.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.why_we_collect.content") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.legal_basis.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.legal_basis.content") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.how_long.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.how_long.content") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.how_we_protect.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.how_we_protect.content") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.your_rights.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.your_rights.intro") %>
+      </p>
+      <ul class="list-disc ml-6 space-y-3">
+        <li>
+          <%= t(".sections.your_rights.rights.access") %>
+        </li>
+        <li>
+          <%= t(".sections.your_rights.rights.erasure") %>
+          <%= link_to(
+            t(".sections.your_rights.rights.delete_my_data"),
+            cookie_consent_path,
+            method: :delete,
+            data: {
+              turbo_method: :delete,
+            },
+            class: "link"
+          ) %>.
+          <%= t(".sections.your_rights.rights.erasure_manual") %>
+        </li>
+        <li>
+          <%= t(".sections.your_rights.rights.withdraw_consent") %>
+          <%= link_to(
+            t(".sections.your_rights.rights.clearing_cookies"),
+            cookie_consent_path,
+            method: :delete,
+            data: {
+              turbo_method: :delete,
+            },
+            class: "link"
+          ) %>
+          <%= t(".sections.your_rights.rights.withdraw_consent_manual") %>
+        </li>
+        <li>
+          <%= t(".sections.your_rights.rights.restriction") %>
+        </li>
+      </ul>
+
+      <p class="leading-relaxed">
+        <%= t(".sections.your_rights.contact_exercise") %>
+        <a
+          href="mailto: <%= t(".sections.who_we_are.email") %>"
+          class="link"
+        >
+          <%= t(".sections.who_we_are.email") %></a>.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.changes.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.changes.content") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.cookies.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.cookies.intro") %>
+      </p>
+      <ul class="list-disc ml-6 space-y-2">
+        <li>
+          <strong>
+            <%= t(".sections.cookies.types.essential") %>
+          </strong>
+        </li>
+        <li>
+          <strong>
+            <%= t(".sections.cookies.types.preference") %>
+          </strong>
+        </li>
+        <li>
+          <strong>
+            <%= t(".sections.cookies.types.consent") %>
+          </strong>
+        </li>
+      </ul>
+      
+      <h3 class="text-xl font-semibold text-primary mt-4">
+        <%= t(".sections.cookies.details_title") %>
+      </h3>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300
+                        dark:border-gray-600">
+          <thead>
+            <tr class="bg-gray-100 dark:bg-gray-800">
+              <th class="border border-gray-300 dark:border-gray-600 px-3 py-2
+                          text-left">
+                <%= t(".sections.cookies.table.headers.name") %>
+              </th>
+              <th class="border border-gray-300 dark:border-gray-600 px-3 py-2
+                          text-left">
+                <%= t(".sections.cookies.table.headers.purpose") %>
+              </th>
+              <th class="border border-gray-300 dark:border-gray-600 px-3 py-2
+                          text-left">
+                <%= t(".sections.cookies.table.headers.duration") %>
+              </th>
+              <th class="border border-gray-300 dark:border-gray-600 px-3 py-2
+                          text-left">
+                <%= t(".sections.cookies.table.headers.type") %>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <code>
+                  <%= t(".sections.cookies.table.cookies.cookie_consent.name") %>
+                </code>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.cookie_consent.purpose") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.cookie_consent.duration") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.cookie_consent.type") %>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <code>
+                  <%= t(".sections.cookies.table.cookies.latitude.name") %>
+                </code>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.latitude.purpose") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.latitude.duration") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.latitude.type") %>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <code>
+                  <%= t(".sections.cookies.table.cookies.longitude.name") %>
+                </code>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.longitude.purpose") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.longitude.duration") %>
+              </td>
+              <td class="border border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.longitude.type") %>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <code>
+                  <%= t(".sections.cookies.table.cookies.utc_offset.name") %>
+                </code>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.utc_offset.purpose") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.utc_offset.duration") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.utc_offset.type") %>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <code>
+                  <%= t(".sections.cookies.table.cookies.theme.name") %>
+                </code>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.theme.purpose") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.theme.duration") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.theme.type") %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <p class="leading-relaxed mt-4">
+        <%= t(".sections.cookies.additional_info") %>
+      </p>
+      
+      <h3 class="text-xl font-semibold text-primary mt-4">
+        <%= t(".sections.cookies.rejection_title") %>
+      </h3>
+      <p class="leading-relaxed">
+        <%= t(".sections.cookies.rejection_content") %>
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.local_storage.title") %>
+      </h2>
+      <p class="leading-relaxed">
+        <%= t(".sections.local_storage.intro") %>
+      </p>
+      <p class="leading-relaxed">
+        <%= t(".sections.local_storage.purpose") %>
+      </p>
+      <ul class="list-disc ml-6 space-y-2">
+        <% t(".sections.local_storage.benefits").each do |benefit| %>
+          <li><%= benefit %></li>
+        <% end %>
+      </ul>
+      <p class="leading-relaxed mt-4">
+        <%= t(".sections.local_storage.privacy") %>
+      </p>
+      <ul class="list-disc ml-6 space-y-2">
+        <% t(".sections.local_storage.privacy_points").each do |point| %>
+          <li><%= point %></li>
+        <% end %>
+      </ul>
+      <p class="leading-relaxed mt-4">
+        <%= t(".sections.local_storage.management") %>
+      </p>
+    </section>
+  </div>
+</div>

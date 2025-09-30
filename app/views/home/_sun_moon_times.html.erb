@@ -1,0 +1,102 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-4">
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-2xl">☀️</span>
+        <h4 class="font-semibold">
+          <%= t ".titles.sun" %>
+        </h4>
+      </div>
+      <div class="space-y-2 text-sm ml-8">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".titles.civil_twilight" %>
+          </span>
+          <span class="font-medium">
+            <%= nillable_datetime(
+              twilight_events.morning_civil_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".titles.sunrise" %>
+          </span>
+          <span class="font-medium text-yellow-400">
+            <%= nillable_datetime(
+              sun.rts.rising_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".titles.sunset" %>
+          </span>
+          <span class="font-medium text-orange-400">
+            <%= nillable_datetime(
+              sun.rts.setting_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".titles.civil_twilight_end" %>
+          </span>
+          <span class="font-medium">
+            <%= nillable_datetime(
+              twilight_events.evening_civil_twilight_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shrink-0 bg-border h-[1px] w-full my-4"></div>
+
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-2xl">🌙</span>
+        <h4 class="font-semibold">
+          <%= t ".titles.moon" %>
+        </h4>
+      </div>
+      <div class="space-y-2 text-sm ml-8">
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".titles.moonrise" %>
+          </span>
+          <span class="font-medium text-blue-300">
+            <%= nillable_datetime(
+              moon.rts.rising_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-muted-foreground">
+            <%= t ".titles.moonset" %>
+          </span>
+          <span class="font-medium text-blue-300">
+            <%= nillable_datetime(
+              moon.rts.setting_time,
+              utc_offset: observer.utc_offset,
+              format: :hm
+            ) %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

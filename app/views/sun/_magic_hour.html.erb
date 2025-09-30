@@ -1,0 +1,13 @@
+<div class="font-mono">
+  <%= nillable_datetime(
+    magic_hour.first,
+    utc_offset: observer.utc_offset,
+    format: :hm
+  ) %>
+  -
+  <%= nillable_datetime(
+    magic_hour.second,
+    utc_offset: observer.utc_offset,
+    format: :hm
+  ) %>
+</div>

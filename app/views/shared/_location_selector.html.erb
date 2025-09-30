@@ -1,0 +1,27 @@
+<div>
+  <a
+    href="<%= edit_location_path if cookie_consent_given? %>"
+    data-turbo-frame="location_modal"
+    aria-label="<%= t ".location_modal.label" %>"
+    class="text-gray-800 dark:text-gray-100 hover:text-gray-600
+            dark:hover:text-gray-300 transition-colors
+            <%= cookie_consent_given? ? "cursor-pointer" : "cursor-not-allowed" %>"
+    title="<%= cookie_consent_given? ? t(".location_modal.title") : t(".location_modal.title_no_cookie_conset") %>"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      class="w-6 h-6 fill-current <%= "text-gray-400 dark:text-gray-500" unless cookie_consent_given? %>"
+    >
+      <path
+        fill-rule="evenodd"
+        d="
+          M9.69 18.933l.003-.001a9.723 9.723 0 005.698-3.035c1.458-1.574
+          2.115-3.593 2.115-5.696a7.5 7.5 0 00-15 0c0 2.103.657 4.122 2.115
+          5.696A9.723 9.723 0 009.307 18.93l.003.001a1.43 1.43 0 001.38-.001zM10
+          12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </a>
+</div>

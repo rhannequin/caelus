@@ -1,1 +1,37 @@
-<h1>Welcome to Caelus</h1>
+<div class="lg:col-span-4 space-y-6">
+  <%= cache(
+    "tonight_sky/#{observer_cache_key}/#{Date.current}",
+    expires_at: observer_end_of_day
+  ) do %>
+    <%= render(
+      "tonight_sky",
+      observer: @observer,
+      twilight_events: @twilight_events,
+      next_twilight_events: @next_twilight_events,
+      planets: @planets
+    ) %>
+  <% end %>
+  <%= cache("current_moon/#{observer_cache_key}", expires_in: 1.hour) do %>
+    <%= render "current_moon", moon: @moon, observer: @observer %>
+  <% end %>
+  <%= cache(
+    "sun_moon_times/#{observer_cache_key}/#{Date.current}",
+    expires_at: observer_end_of_day
+  ) do %>
+    <%= render(
+      "sun_moon_times",
+      twilight_events: @twilight_events,
+      sun: @sun,
+      moon: @moon, observer: @observer
+    ) %>
+  <% end %>
+</div>
+
+<div class="lg:col-span-5 space-y-6">
+  <%= cache(
+    "planets_tonight/#{observer_cache_key}/#{Date.current}",
+    expires_at: observer_end_of_day
+  ) do %>
+    <%= render "planets_tonight", planets: @planets, observer: @observer %>
+  <% end %>
+</div>

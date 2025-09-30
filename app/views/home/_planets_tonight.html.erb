@@ -1,0 +1,76 @@
+<div>
+  <h2 class="text-2xl font-bold mb-4 text-cosmic">
+    <%= t ".title" %>
+  </h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <% planets.each do |planet| %>
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl"><%= planet.class.symbol %></span>
+            <h3 class="text-xl font-bold"><%= planet.class.planet_name %></h3>
+          </div>
+          <div class="inline-flex items-center rounded-full border px-2.5 py-0.5
+            text-xs font-semibold transition-colors focus:outline-none
+            focus:ring-2 focus:ring-ring focus:ring-offset-2 glow-accent
+            <%= planet.visibility.visible? ? "border-transparent bg-primary text-primary-foreground" : "border-transparent" %>">
+            <%= planet.visibility.visible? ? t(".visibility.visible") : t(".visibility.not_visible") %>
+          </div>
+        </div>
+        <div class="space-y-2 text-sm text-muted-foreground">
+          <div class="flex justify-between">
+            <span><%= t ".titles.magnitude" %></span>
+            <span class="text-foreground font-medium">
+              <%= format_number planet.magnitude, precision: 2 %>
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span><%= t ".titles.constellation" %></span>
+            <span class="text-foreground font-medium">
+              <%= planet.constellation.name %>
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span><%= t ".titles.rise" %></span>
+            <span class="text-foreground font-medium">
+              <%= nillable_datetime(
+                planet.rts.rising_time,
+                utc_offset: observer.utc_offset,
+                format: :hm
+              ) %>
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span><%= t ".titles.set" %></span>
+            <span class="text-foreground font-medium">
+              <%= nillable_datetime(
+                planet.rts.setting_time,
+                utc_offset: observer.utc_offset,
+                format: :hm
+              ) %>
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span><%= t ".titles.distance" %></span>
+            <span class="text-foreground font-medium">
+              <%= format_number(
+                planet.distance_from_earth.au,
+                unit: :au,
+                precision: 2
+              ) %>
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span><%= t ".titles.phase" %></span>
+            <span class="text-foreground font-medium">
+              <%= t(
+                ".illumination",
+                percentage: planet.illuminated_percentage.round
+              ) %>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

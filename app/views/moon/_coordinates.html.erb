@@ -1,0 +1,57 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".right_ascension" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= @moon
+          .topocentric
+          .equatorial
+          .right_ascension
+          .str(:hms, precision: 0)
+        %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".declination" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= @moon
+          .topocentric
+          .equatorial
+          .declination
+          .str(:dms, precision: 0)
+        %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".ecliptic_longitude" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.apparent.ecliptic.longitude.degrees,
+          unit: :degree,
+          precision: 1
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".ecliptic_latitude" %>
+      </span>
+      <span class="font-mono font-medium">
+        <%= format_number(
+          @moon.apparent.ecliptic.latitude.degrees,
+          unit: :degree,
+          precision: 1
+        ) %>
+      </span>
+    </div>
+  </div>
+</div>
