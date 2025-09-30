@@ -1,0 +1,29 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <% upcoming_seasons.each_with_index do |season, i| %>
+      <div class="season-item <%= "current" if i.zero? %>">
+        <div class="flex items-center gap-3">
+          <div class="flex-1">
+            <div class="font-semibold">
+              <%= t "seasons.#{season[:name]}" %>
+            </div>
+            <div class="text-sm text-muted-foreground">
+              <%= l season[:time].to_date, format: :full_month_short %>
+            </div>
+            <div class="text-xs text-accent">
+              <%= l season[:time], format: :utc_hm %>
+            </div>
+          </div>
+          <% if i.zero? %>
+            <span class="text-xs bg-primary/20 text-primary px-2 py-1 rounded">
+              <%= t ".next" %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

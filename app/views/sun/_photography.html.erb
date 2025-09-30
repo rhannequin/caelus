@@ -1,0 +1,67 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="photo-time-block">
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400"></div>
+        <span class="font-medium text-sm">
+          <%= t ".golden_hour" %>
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-sm">
+        <div class="photo-time-card">
+          <div class="text-xs text-muted-foreground">
+            <%= t ".morning" %>
+          </div>
+          <%= render(
+            "magic_hour",
+            magic_hour: morning_golden_hour,
+            observer: observer
+          ) %>
+        </div>
+        <div class="photo-time-card">
+          <div class="text-xs text-muted-foreground">
+            <%= t ".evening" %>
+          </div>
+          <%= render(
+            "magic_hour",
+            magic_hour: evening_golden_hour,
+            observer: observer
+          ) %>
+        </div>
+      </div>
+    </div>
+    <div class="photo-time-block">
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-400 to-indigo-400"></div>
+        <span class="font-medium text-sm">
+          <%= t ".blue_hour" %>
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-sm">
+        <div class="photo-time-card">
+          <div class="text-xs text-muted-foreground">
+            <%= t ".morning" %>
+          </div>
+          <%= render(
+            "magic_hour",
+            magic_hour: morning_blue_hour,
+            observer: observer
+          ) %>
+        </div>
+        <div class="photo-time-card">
+          <div class="text-xs text-muted-foreground">
+            <%= t ".evening" %>
+          </div>
+          <%= render(
+            "magic_hour",
+            magic_hour: evening_blue_hour,
+            observer: observer
+          ) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

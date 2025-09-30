@@ -1,0 +1,27 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="moon-calendar">
+    <div class="grid grid-cols-7 gap-1 text-center text-xs mb-2">
+      <% week.each do |moon| %>
+        <div class="text-muted-foreground">
+          <%= l(moon.time.to_date, format: :abbreviated_day) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="grid grid-cols-7 gap-1">
+      <% week.each do |moon| %>
+        <div
+          class="calendar-day <%= "today" if moon.time.to_date == @moon.time.to_date %>">
+          <div class="text-xs">
+            <%= moon.time.to_date.strftime("%-d") %>
+          </div>
+          <div class="moon-mini">
+            <%= MoonPhaseSvg.new(moon, size: 10).draw %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<% content_for :title, "#{t("title")} • #{t(".title")}" %>
+
+<%= render "hero", moon: @moon, observer: @observer %>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="space-y-6">
+    <%= render(
+      "today",
+      moon: @moon,
+      observer: @observer,
+      rising_azimuth: @rising_azimuth,
+      transit_altitude: @transit_altitude,
+      setting_azimuth: @setting_azimuth
+    ) %>
+
+    <%= render "coordinates", moon: @moon %>
+
+    <%= render(
+      "distances",
+      moon: @moon,
+      observer: @observer,
+      next_perigee: @next_perigee,
+      next_apogee: @next_apogee
+    ) %>
+  </div>
+
+  <div class="space-y-6">
+    <%= render "upcoming_phases", upcoming_phases: @upcoming_phases %>
+    <%= render "this_week", week: @week %>
+  </div>
+
+  <div class="space-y-6">
+    <%= render "physical_characteristics", moon: @moon %>
+    <%= render "lunar_calendars", time: @time %>
+  </div>
+</div>

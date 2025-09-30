@@ -1,0 +1,118 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card p-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+    <div class="flex flex-col items-center">
+      <div class="moon-hero-container mb-4">
+        <%= MoonPhaseSvg.new(moon, size: 90).draw %>
+      </div>
+      <h3 class="text-3xl font-bold text-cosmic mb-2">
+        <%= t "moon.phases.#{moon.current_phase_name}" %>
+      </h3>
+      <div class="text-5xl font-bold text-primary mb-2">
+        <%= number_to_percentage moon.illuminated_percentage, precision: 0 %>
+      </div>
+      <div class="text-sm text-muted-foreground">
+        <%= t ".age", age: format_number(moon.age, precision: 1) %>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="moon-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.distance" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            moon.distance_from_earth.km,
+            unit: :km,
+            precision: 0
+          ) %>
+        </div>
+        <div class="text-xs text-accent">
+          <% if moon.approaching_primary? %>
+            <%= t ".distance.moving_closer" %>
+          <% else %>
+            <%= t ".distance.moving_away" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="moon-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.angular_size" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            moon.angular_diameter.degrees * 60,
+            unit: :arcminute,
+            precision: 2
+          ) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= t("units.arcminute.name").pluralize.downcase %>
+        </div>
+      </div>
+      <div class="moon-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.constellation" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= moon.constellation.name %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= moon.constellation.abbreviation.capitalize %>
+        </div>
+      </div>
+      <div class="moon-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.altitude" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            moon.topocentric.horizontal.altitude.degrees,
+            unit: :degree,
+            precision: 1
+          ) %>
+        </div>
+        <% if moon.topocentric.horizontal.altitude.positive? %>
+          <div class="text-xs text-green-500">
+            <%= t "shared.altitude.positive" %>
+          </div>
+        <% else %>
+          <div class="text-xs text-red-700">
+            <%= t "shared.altitude.negative" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="moon-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.azimuth" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(
+            moon.topocentric.horizontal.azimuth.degrees,
+            unit: :degree,
+            precision: 1
+          ) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= cardinal_direction(
+            moon.topocentric.horizontal.azimuth.degrees
+          ) %>
+        </div>
+      </div>
+      <div class="moon-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.next_phase" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= t "moon.phases.#{moon.next_phase.phase}" %>
+        </div>
+        <div class="text-xs text-accent">
+          <%= l(
+            moon.next_phase.time.localtime(observer.utc_offset).to_date,
+            format: :short
+          ) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

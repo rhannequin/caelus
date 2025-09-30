@@ -1,0 +1,42 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+  <div class="space-y-3">
+    <div class="calendar-item">
+      <div class="text-sm text-muted-foreground">
+        <%= t ".julian_day" %>
+      </div>
+      <div class="font-semibold font-mono">
+        <%= time.to_date.to_datetime.ajd.to_f %>
+      </div>
+    </div>
+    <div class="calendar-item">
+      <div class="text-sm text-muted-foreground">
+        <%= t ".modified_julian_day" %>
+      </div>
+      <div class="font-semibold font-mono">
+        <%= time.to_datetime.mjd %>
+      </div>
+    </div>
+    <div class="calendar-item">
+      <div class="text-sm text-muted-foreground">
+        <%= t ".day_of_year" %>
+      </div>
+      <div class="font-semibold">
+        <%= time.yday %>
+        /
+        <%= Date.gregorian_leap?(time.year) ? 366 : 365 %>
+      </div>
+    </div>
+    <div class="calendar-item">
+      <div class="text-sm text-muted-foreground">
+        <%= t ".week_of_year" %>
+      </div>
+      <div class="font-semibold">
+        <%= t ".week" %>
+        <%= time.strftime("%V").to_i %>
+      </div>
+    </div>
+  </div>
+</div>

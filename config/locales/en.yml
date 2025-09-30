@@ -1,31 +1,664 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  cardinal_direction:
+    north: N
+    north_east: NE
+    east: E
+    south_east: SE
+    south: S
+    south_west: SW
+    west: W
+    north_west: NW
+    with_symbols:
+      north: ↑ N
+      north_east: ↗ NE
+      east: → E
+      south_east: ↘ SE
+      south: ↓ S
+      south_west: ↙ SW
+      west: ← W
+      north_west: ↖ NW
+  constellation:
+    human_name:
+      and: Andromeda
+      ant: Antlia
+      aps: Apus
+      aqr: Aquarius
+      aql: Aquila
+      ara: Ara
+      ari: Aries
+      aur: Auriga
+      boo: Boötes
+      cae: Caelum
+      cam: Camelopardalis
+      cnc: Cancer
+      cvn: Canes Venatici
+      cmi: Canis Minor
+      cma: Canis Major
+      cap: Capricornus
+      car: Carina
+      cas: Cassiopeia
+      cen: Centaurus
+      cep: Cepheus
+      cet: Cetus
+      cha: Chamaeleon
+      cir: Circinus
+      col: Columba
+      com: Coma Berenices
+      cra: Corona Australis
+      crb: Corona Borealis
+      crv: Corvus
+      crt: Crater
+      cru: Crux
+      cyg: Cygnus
+      del: Delphinus
+      dor: Dorado
+      dra: Draco
+      equ: Equuleus
+      eri: Eridanus
+      for: Fornax
+      gem: Gemini
+      gru: Grus
+      her: Hercules
+      hor: Horologium
+      hya: Hydra
+      hyi: Hydrus
+      ind: Indus
+      lac: Lacerta
+      leo: Leo
+      lmi: Leo Minor
+      lep: Lepus
+      lib: Libra
+      lup: Lupus
+      lyn: Lynx
+      lyr: Lyra
+      men: Mensa
+      mic: Microscopium
+      mon: Monoceros
+      mus: Musca
+      nor: Norma
+      oct: Octans
+      oph: Ophiuchus
+      ori: Orion
+      pav: Pavo
+      peg: Pegasus
+      per: Perseus
+      phe: Phoenix
+      pic: Pictor
+      psc: Pisces
+      psa: Piscis Austrinus
+      pup: Puppis
+      pyx: Pyxis
+      ret: Reticulum
+      sge: Sagitta
+      sgr: Sagittarius
+      sco: Scorpius
+      scl: Sculptor
+      sct: Scutum
+      ser: Serpens
+      sex: Sextans
+      tau: Taurus
+      tel: Telescopium
+      tri: Triangulum
+      tra: Triangulum Australe
+      tuc: Tucana
+      uma: Ursa Major
+      umi: Ursa Minor
+      vel: Vela
+      vir: Virgo
+      vol: Volans
+      vul: Vulpecula
+    emoji:
+      and: ⭐
+      ant: 🔧
+      aps: 🐦
+      aqr: ♒
+      aql: 🦅
+      ara: 🏺
+      ari: ♈
+      aur: 🛡️
+      boo: 🐂
+      cae: 🔨
+      cam: 🦒
+      cnc: ♋
+      cvn: 🐕
+      cmi: 🐕
+      cma: 🐕
+      cap: ♑
+      car: ⚓
+      cas: 👑
+      cen: 🏹
+      cep: 👑
+      cet: 🐋
+      cha: 🦎
+      cir: 🎯
+      col: 🕊️
+      com: 💇‍♀️
+      cra: 👑
+      crb: 👑
+      crv: 🐦‍⬛
+      crt: 🏺
+      cru: ✝️
+      cyg: 🦢
+      del: 🐬
+      dor: 🐟
+      dra: 🐉
+      equ: 🐴
+      eri: 🌊
+      for: 🔥
+      gem: ♊
+      gru: 🦆
+      her: 💪
+      hor: ⏰
+      hya: 🐍
+      hyi: 🐍
+      ind: 🏹
+      lac: 🦎
+      leo: ♌
+      lmi: 🦁
+      lep: 🐰
+      lib: ♎
+      lup: 🐺
+      lyn: 🐱
+      lyr: 🎵
+      men: 🏔️
+      mic: 🔬
+      mon: 🦄
+      mus: 🪰
+      nor: 📏
+      oct: 🧭
+      oph: 🐍
+      ori: 🏹
+      pav: 🦚
+      peg: 🐎
+      per: ⚔️
+      phe: 🔥
+      pic: 🎨
+      psc: ♓
+      psa: 🐟
+      pup: ⚓
+      pyx: 📦
+      ret: 🕸️
+      sge: 🏹
+      sgr: ♐
+      sco: ♏
+      scl: 🗿
+      sct: 🛡️
+      ser: 🐍
+      sex: 🔭
+      tau: ♉
+      tel: 🔭
+      tri: 🔺
+      tra: 🔺
+      tuc: 🦜
+      uma: 🐻
+      umi: 🐻
+      vel: ⛵
+      vir: ♍
+      vol: 🐟
+      vul: 🦊
+  date:
+    formats:
+      abbreviated_day: "%a"
+      full_month_short: "%B %d"
+  location:
+    edit:
+      current: "Current: %{latitude}°, %{longitude}°"
+      form:
+        cancel: Cancel
+        latitude: Latitude
+        longitude: Longitude
+        utc_offset: Timezone (UTC Offset)
+        utc_offset_help: Select your timezone to ensure accurate astronomical
+          calculations
+        submit: Save Location
+      manually: or enter coordinates manually
+      title: Set Your Location
+      use_current_btn: Use my current location
+  home:
+    current_moon:
+      age: "%{age} days"
+      moon_link: See Moon details
+      titles:
+        age: "Age:"
+        next_phase: "Next major phase:"
+        rise: "Rise:"
+        set: "Set:"
+        transit: "Transit:"
+    index:
+      distances_table:
+        distance_from_earth: Distance from Earth
+    planets_tonight:
+      illumination: "%{percentage}% illuminated"
+      title: 🪐 Planets Tonight
+      titles:
+        constellation: "Constellation:"
+        distance: "Distance:"
+        magnitude: "Magnitude:"
+        phase: "Phase:"
+        rise: "Rise:"
+        set: "Set:"
+      visibility:
+        not_visible: Not Visible
+        visible: Visible
+    sun_moon_times:
+      title: "Sun & Moon Times"
+      titles:
+        civil_twilight: "Civil Twilight:"
+        civil_twilight_end: "Civil Twilight End:"
+        moon: Moon
+        moonrise: "Moonrise:"
+        moonset: "Moonset:"
+        sun: Sun
+        sunrise: "Sunrise:"
+        sunset: "Sunset:"
+    tonight_sky:
+      moon_interference:
+        extreme: Extreme
+        full: Full
+        high: High
+        low: Low
+        moderate: Moderate
+        none: None
+      planets_visible_count:
+        one: "1 planet"
+        other: "%{count} planets"
+      title: ⭐ Tonight's Sky
+      titles:
+        astronomical_twilight: "Astronomical Twilight:"
+        moon_interference: "Moon Interference:"
+        planets_visible: "Planets Visible:"
+  models:
+    planets:
+      mercury:
+        name: Mercury
+      venus:
+        name: Venus
+      earth:
+        name: Earth
+      mars:
+        name: Mars
+      jupiter:
+        name: Jupiter
+      saturn:
+        name: Saturn
+      uranus:
+        name: Uranus
+      neptune:
+        name: Neptune
+  moon:
+    coordinates:
+      declination: Declination
+      ecliptic_latitude: Ecliptic Latitude
+      ecliptic_longitude: Ecliptic Longitude
+      right_ascension: Right Ascension
+      title: 📐 Coordinates
+    distances:
+      apogee: Apogee
+      perigee: Perigee
+      current: Current
+      next_apogee: Next Apogee
+      next_perigee: Next Perigee
+      title: 📏 Distance
+    hero:
+      age: "%{age} days old"
+      distance:
+        moving_away: ⇠ Moving away
+        moving_closer: Moving closer ⇢
+      titles:
+        altitude: Altitude
+        angular_size: Angular Size
+        azimuth: Azimuth
+        constellation: Constellation
+        distance: Distance
+        next_phase: Next Phase
+    lunar_calendars:
+      title: 📅 Lunar Calendars
+      titles:
+        chinese_calendar: Chinese Calendar
+        hebrew_calendar: Hebrew Calendar
+        islamic_calendar: Islamic Calendar
+    phases:
+      first_quarter: First Quarter
+      full_moon: Full Moon
+      last_quarter: Last Quarter
+      new_moon: New Moon
+      waning_crescent: Waning Crescent
+      waning_gibbous: Waning Gibbous
+      waxing_crescent: Waxing Crescent
+      waxing_gibbous: Waxing Gibbous
+    phase_emojis:
+      first_quarter: 🌓
+      full_moon: 🌕
+      last_quarter: 🌗
+      new_moon: 🌑
+      waning_crescent: 🌘
+      waning_gibbous: 🌖
+      waxing_crescent: 🌒
+      waxing_gibbous: 🌔
+    physical_characteristics:
+      escape_velocity: Escape Velocity
+      gravity: Gravity
+      mass: Mass
+      mean_radius: Mean Radius
+      orbital_period: Orbital Period
+      orbital_speed: Orbital Speed
+      tilt: Tilt
+      title: 🚀 Physical Characteristics
+    show:
+      title: Moon
+    this_week:
+      title: 📆 This Week
+    today:
+      altitude: "Alt:"
+      azimuth: "Az:"
+      moonrise: Moonrise
+      moonset: Moonset
+      title: ⏰ Today's Moon
+      transit: Transit
+    upcoming_phases:
+      title: 🌙 Upcoming Phases
+  number:
+    format:
+      delimiter: "\u202F"
+      separator: "."
+  privacy_policy:
+    show:
+      title: Privacy Policy
+      last_updated: "Last updated: 2025-09-01"
+      introduction: This Privacy Policy explains how we collect, use, and
+        protect your personal data when you use this website.
+      sections:
+        who_we_are:
+          title: 1. Who we are
+          content: Rémy Hannequin, the owner and operator of this website.
+          contact_info: "If you have any questions about this Privacy Policy,
+            you can contact us at:"
+          email: remy.hannequin@gmail.com
+        what_data_we_collect:
+          title: 2. What data we collect
+          intro: "If you choose to submit the location form, we collect and
+            store the following information:"
+          data_points:
+            - Latitude and longitude
+            - Time zone (UTC offset)
+          storage_info: This information is stored in a signed cookie on your
+            device. It is not shared with third parties and is not used for
+            advertising or tracking.
+        why_we_collect:
+          title: 3. Why we collect this data
+          content: "We collect and store this data to provide you with
+            personalised features: adjusting content to your local time zone or
+            location."
+        legal_basis:
+          title: 4. Legal basis for processing
+          content: The legal basis for processing your location data is your
+            consent, which you give by submitting the location form. For cookie
+            consent preferences, we store your choice (accept or reject) to
+            remember your preference and avoid showing the consent banner
+            repeatedly. This is allowed under GDPR as it serves a legitimate
+            interest in providing a better user experience. You can withdraw
+            your consent at any time (see Section 7 below).
+        how_long:
+          title: 5. How long we keep your data
+          content: Your location data is kept only in your browser cookie and is
+            automatically deleted when the cookie expires after 12 months or if
+            you clear your cookies.
+        how_we_protect:
+          title: 6. How we protect your data
+          content: The cookie is signed to prevent tampering. Your data is not
+            transmitted to third parties.
+        your_rights:
+          title: 7. Your rights under GDPR
+          intro: "You have the following rights regarding your personal data:"
+          rights:
+            access: "Access: You can request to know what data we store about
+              you."
+            erasure: "Erasure: You can delete the cookies at any time by
+              clicking this link:"
+            delete_my_data: Delete my data
+            erasure_manual: You can also do it manually in your browser
+              settings.
+            withdraw_consent: "Withdraw consent: You may withdraw your consent
+              by"
+            clearing_cookies: clearing the cookies
+            withdraw_consent_manual: or disabling cookies in your browser.
+            restriction: "Restriction/objection: You may ask us to stop
+              processing your data."
+          contact_exercise: To exercise any of these rights, please contact us
+            at
+        changes:
+          title: 8. Changes to this Privacy Policy
+          content: We may update this Privacy Policy from time to time. We will
+            update the "Last updated" date at the top of this page whenever
+            changes are made.
+        cookies:
+          title: 9. Cookies and Local Storage
+          intro: "This website uses cookies and local storage to store your
+            preferences and settings. We use the following types of storage:"
+          types:
+            essential: "Essential cookies: Required for the website to function
+              properly"
+            preference: "Preference cookies: Store your location and timezone
+              settings for personalised astronomical calculations"
+            consent: "Consent cookies: Remember your cookie consent preference"
+            local_storage: "Local storage: Stores your theme preference
+              (dark/light mode) locally in your browser"
+          details_title: Storage Details
+          table:
+            headers:
+              name: Name
+              purpose: Purpose
+              duration: Duration
+              type: Type
+            cookies:
+              cookie_consent:
+                name: cookie_consent
+                purpose: Stores your cookie consent preference (accept/reject)
+                  to remember your choice
+                duration: 1 year
+                type: Cookie
+              latitude:
+                name: latitude
+                purpose: Stores your latitude for astronomical calculations
+                duration: 1 year
+                type: Cookie
+              longitude:
+                name: longitude
+                purpose: Stores your longitude for astronomical calculations
+                duration: 1 year
+                type: Cookie
+              utc_offset:
+                name: utc_offset
+                purpose: Stores your timezone offset for date/time display
+                duration: 1 year
+                type: Cookie
+              theme:
+                name: theme (localStorage)
+                purpose: Stores your dark/light mode theme preference
+                duration: Until cleared
+                type: Local Storage
+          additional_info: All cookies are first-party cookies and are not
+            shared with third parties. Local storage data is stored locally in
+            your browser and is not transmitted to our servers. You can manage
+            your cookie preferences at any time through your browser settings or
+            by using the data deletion link provided in Section 7. Local storage
+            can be cleared through your browser's developer tools or privacy
+            settings.
+          rejection_title: What happens if you reject cookies?
+          rejection_content: If you reject cookies, the website will still
+            function but will use default location settings (Paris, France) and
+            won't remember your location preferences between visits. However, we
+            do store your rejection preference to avoid showing the consent
+            banner repeatedly. You can still use all features of the website
+            without location cookies. Theme preferences stored in local storage
+            will continue to work even if cookies are rejected.
+        local_storage:
+          title: 10. Local Storage
+          intro: "This website uses browser local storage to enhance your user
+            experience by remembering certain preferences:"
+          purpose: "Local storage is used to store your theme preference (dark
+            or light mode) locally in your browser. This data:"
+          benefits:
+            - "Remembers your theme choice across all pages and browser
+              sessions"
+            - "Provides instant theme switching without page reloads"
+            - "Works offline and doesn't require server communication"
+            - "Is automatically applied when you return to the website"
+          privacy: "Local storage data is:"
+          privacy_points:
+            - "Stored locally on your device only"
+            - "Not transmitted to our servers"
+            - "Not shared with third parties"
+            - "Accessible only by this website"
+          management: "You can manage or clear local storage data through your
+            browser's developer tools or privacy settings. Clearing local
+            storage will reset your theme preference to the default setting."
+  seasons:
+    december_solstice: December Solstice
+    june_solstice: June Solstice
+    march_equinox: March Equinox
+    september_equinox: September Equinox
+  shared:
+    altitude:
+      abbr_title: "Alt:"
+      negative: Below horizon
+      positive: Above horizon
+    azimuth:
+      abbr_title: "Az:"
+    cookie_consent_banner:
+      consent_button: Accept
+      no_consent_button: Reject
+      description: We use cookies to remember your stargazing location for
+        personalised sky data and observations.
+      learn_more: Learn more
+    footer:
+      enable_cookies: Enable Cookies
+      made_with_love_html: "Made with &hearts; by %{author_link}
+        using %{link}"
+      privacy_policy: Privacy Policy
+    location_selector:
+      location_modal:
+        label: Set your location
+        title: Set your location preferences
+        title_no_cookie_conset: Accept cookies to set location preferences
+    navigation:
+      moon: Moon
+      sun: Sun
+  sun:
+    calendar:
+      day_of_year: Day of Year
+      julian_day: Julian Day
+      modified_julian_day: Modified Julian Day
+      title: 📅 Solar Calendars
+      week: Week
+      week_of_year: Week of Year
+    coordinates:
+      declination: Declination
+      ecliptic: Ecliptic
+      equatorial: Equatorial
+      hour_angle: Hour Angle
+      latitude: Latitude
+      longitude: Longitude
+      right_ascension: Right Ascension
+      title: 📐 Coordinates
+    distances:
+      aphelion: Aphelion
+      current: Current
+      next_aphelion: Next Aphelion
+      next_perihelion: Next Perihelion
+      perihelion: Perihelion
+      title: 📏 Distance
+    elevation_chart:
+      current: Current
+      maximum: "Max (%{value})"
+      minimum: "Min (%{value})"
+      title: 📊 Solar Elevation Throughout the Year
+    hero:
+      azimuth: Azimuth
+      current_altitude: Current Altitude
+      day_length: Day Length
+      distance: Distance
+      light_travel: Light Travel
+      solar_noon: Solar Noon
+      to_earth: to Earth
+      vs_yesterday: vs yesterday
+    photography:
+      blue_hour: Blue Hour
+      evening: Evening
+      golden_hour: Golden Hour
+      morning: Morning
+      title: 📸 Photography
+    practical_info:
+      current_optimal_tilt: Current optimal tilt
+      equation_of_time: Equation of Time
+      shadow_length: Shadow Length
+      shadow_length_factor: Shadow length factor
+      solar_panel_angle: Solar Panel Angle
+      sun_is_set_shadow: Sun is set, no shadow
+      sun_is_set_tilt: Sun is set, no solar energy
+      title: 🛠️ Practical Info
+    seasons:
+      next: Next
+      title: 🍂 Seasons
+    show:
+      title: Sun
+    sky_position:
+      absolute_magnitude: Absolute Magnitude
+      angular_diameter: Angular Diameter
+      apparent_magnitude: Apparent Magnitude
+      astrological_sign: Astrological Sign
+      current_constellation: Current Constellation
+      sub_solar_point: Sub-Solar Point
+      title: 🌌 Sky Position
+    today:
+      solar_noon: Solar Noon
+      sunrise: Sunrise
+      sunset: Sunset
+      title: Today's Sun
+    twilight:
+      astronomical: Astronomical
+      civil: Civil
+      evening: Evening
+      morning: Morning
+      nautical: Nautical
+      title: 🌆 Twilight
+  time:
+    formats:
+      hm: "%H:%M"
+      utc_hm: "%H:%M UTC"
+  title: Caelus
+  units:
+    arcminute:
+      name: Arcminute
+      symbol: ′
+    arcsecond:
+      name: Arcsecond
+      symbol: ″
+    astronomical_unit:
+      name: Astronomical Unit
+      symbol: "\u00A0AU"
+    day:
+      name: Day
+      symbol: "\u00A0days"
+    degree:
+      name: Degree
+      symbol: °
+    kilometer:
+      name: Kilometer
+      symbol: "\u00A0km"
+    km_per_second:
+      name: Kilometer per second
+      symbol: "\u00A0km/s"
+    m_per_second_squared:
+      name: Meter per second squared
+      symbol: "\u00A0m/s²"
+    duration:
+      hour:
+        name: Hour
+        symbol: h
+      minute:
+        name: Minute
+        symbol: m
+      second:
+        name: Second
+        symbol: s

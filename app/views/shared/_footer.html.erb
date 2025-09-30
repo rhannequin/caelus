@@ -1,0 +1,25 @@
+<footer class="text-center">
+  <p>
+    <%= t(
+      ".made_with_love_html",
+      link: link_to("Astronoby", "https://github.com/rhannequin/astronoby", class: "link"),
+      author_link: link_to("Rémy Hannequin", root_path, class: "link")
+    ) %>
+  </p>
+  <div class="flex justify-center gap-4 text-sm">
+    <%= link_to(
+      t(".privacy_policy"),
+      privacy_policy_path,
+      class: "link"
+    ) %>
+    <% unless cookie_consent_given? %>
+      <%= button_to(
+        t(".enable_cookies"),
+        cookie_consent_path,
+        method: :post,
+        data: {turbo: false},
+        class: "link border-0 bg-transparent p-0 text-left"
+      ) %>
+    <% end %>
+  </div>
+</footer>

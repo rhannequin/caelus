@@ -1,0 +1,31 @@
+<div class="distance-bar">
+  <div class="relative h-2 bg-border/30 rounded-full overflow-hidden">
+    <div
+      class="absolute h-full bg-gradient-to-r from-blue-500 to-primary"
+      style="width: <%= percentage %>%"></div>
+    <div
+      class="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2
+                border-primary rounded-full"
+      style="left: <%= percentage %>%"></div>
+  </div>
+  <div class="flex justify-between text-xs text-muted-foreground mt-2">
+    <span>
+      <%= @start_distance_title %>
+      <br/>
+      <%= helpers.format_number(
+        @start_distance,
+        unit: :km,
+        precision: 0
+      ) %>
+    </span>
+    <span>
+      <%= @end_distance_title %>
+      <br/>
+      <%= helpers.format_number(
+        @end_distance,
+        unit: :km,
+        precision: 0
+      ) %>
+    </span>
+  </div>
+</div>

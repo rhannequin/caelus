@@ -1,0 +1,47 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h2 class="text-xl font-bold mb-4 text-cosmic">
+    <%= t ".title" %>
+  </h2>
+  <div class="space-y-3 text-sm">
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".titles.astronomical_twilight" %>
+      </span>
+      <span class="font-medium">
+        <%= nillable_datetime(
+          twilight_events.evening_astronomical_twilight_time,
+          utc_offset: observer.utc_offset,
+          format: :hm
+        ) %>
+        :
+        <%= nillable_datetime(
+          next_twilight_events.morning_astronomical_twilight_time,
+          utc_offset: observer.utc_offset,
+          format: :hm
+        ) %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".titles.moon_interference" %>
+      </span>
+      <% interference = MoonInterference
+        .new(observer: observer)
+        .interference %>
+      <span class="font-medium <%= interference_color(interference) %>">
+        <%= t ".moon_interference.#{interference}" %>
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-muted-foreground">
+        <%= t ".titles.planets_visible" %>
+      </span>
+      <span class="font-medium text-green-400">
+        <%= t(
+          ".planets_visible_count",
+          count: planets.count { _1.visibility.visible? }
+        ) %>
+      </span>
+    </div>
+  </div>
+</div>

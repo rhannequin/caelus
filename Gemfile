@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "astronoby", github: "rhannequin/astronoby"
 gem "bootsnap", require: false
 gem "bugsnag"
 gem "importmap-rails"
@@ -15,6 +16,7 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "thruster", require: false
 gem "turbo-rails"
+gem "view_component"
 
 group :development, :test do
   gem "brakeman", require: false

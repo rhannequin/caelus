@@ -1,0 +1,79 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <div class="text-center">
+    <div class="flex justify-center items-center mb-4">
+      <div class="moon-svg-container">
+        <%= MoonPhaseSvg.new(moon, size: 50).draw %>
+      </div>
+    </div>
+    <h2 class="text-2xl font-bold mb-2 text-cosmic">
+      <%= t "moon.phases.#{moon.current_phase_name}" %>
+    </h2>
+    <p class="text-3xl font-bold text-primary mb-4">
+      <%= number_to_percentage moon.illuminated_percentage, precision: 0 %>
+    </p>
+    <div class="space-y-3 text-sm">
+      <div class="flex justify-between border-b border-border/30 pb-2">
+          <span class="text-muted-foreground">
+            <%= t ".titles.age" %>
+          </span>
+        <span class="font-medium">
+          <%= t ".age", age: format_number(moon.age, precision: 1) %>
+        </span>
+      </div>
+      <div class="flex justify-between border-b border-border/30 pb-2">
+        <span class="text-muted-foreground">
+          <%= t ".titles.rise" %>
+        </span>
+        <span class="font-medium">
+          <%= nillable_datetime(
+            moon.rts.rising_time,
+            utc_offset: observer.utc_offset,
+            format: :hm
+          ) %>
+        </span>
+      </div>
+      <div class="flex justify-between border-b border-border/30 pb-2">
+        <span class="text-muted-foreground">
+          <%= t ".titles.transit" %>
+        </span>
+        <span class="font-medium">
+          <%= nillable_datetime(
+            moon.rts.transit_time,
+            utc_offset: observer.utc_offset,
+            format: :hm
+          ) %>
+        </span>
+      </div>
+      <div class="flex justify-between border-b border-border/30 pb-2">
+        <span class="text-muted-foreground">
+          <%= t ".titles.set" %>
+        </span>
+        <span class="font-medium">
+          <%= nillable_datetime(
+            moon.rts.setting_time,
+            utc_offset: observer.utc_offset,
+            format: :hm
+          ) %>
+        </span>
+      </div>
+      <div class="pt-2">
+        <p class="text-muted-foreground text-xs">
+          <%= t ".titles.next_phase" %>
+        </p>
+        <p class="font-medium">
+          <%= t "moon.phases.#{moon.next_phase.phase}" %>
+        </p>
+        <p class="text-xs text-accent">
+          <%= l(
+            moon.next_phase.time.localtime(observer.utc_offset).to_date,
+            format: :short
+          ) %>
+        </p>
+      </div>
+
+      <div class="pt-4 text-center">
+        <%= link_to t(".moon_link"), moon_path, class: "link text-sm" %>
+      </div>
+    </div>
+  </div>
+</div>
