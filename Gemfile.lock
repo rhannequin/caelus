@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/rhannequin/astronoby.git
-  revision: 9c0750e50b75dac3ac2ba887beefeb3f0ab945b4
+  revision: 2bd13cf8afe5721b44dc7ecc5c1fee7c089990ae
+  branch: deep-sky-object-rts
   specs:
     astronoby (0.8.0)
       ephem (~> 0.3)

@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "astronoby", github: "rhannequin/astronoby"
+gem "astronoby", github: "rhannequin/astronoby", branch: "deep-sky-object-rts"
 gem "bootsnap", require: false
 gem "bugsnag"
 gem "importmap-rails"
