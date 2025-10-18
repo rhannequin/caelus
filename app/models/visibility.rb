@@ -22,9 +22,17 @@ class Visibility
 
   private
 
+  def astronoby_body
+    if @body.is_a?(MessierObject)
+      @body.deep_sky_object
+    else
+      @body.planet_class
+    end
+  end
+
   def body_rts
     Astronoby::RiseTransitSetCalculator.new(
-      body: @body.planet_class,
+      body: astronoby_body,
       observer: @observer,
       ephem: SPK.inpop19a
     )

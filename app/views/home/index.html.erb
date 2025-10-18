@@ -35,3 +35,14 @@
     <%= render "planets_tonight", planets: @planets, observer: @observer %>
   <% end %>
 </div>
+
+<%= cache(
+  "deep_sky_objects_tonight/#{observer_cache_key}/#{Date.current}",
+  expires_at: observer_end_of_day
+) do %>
+  <%= render(
+    "deep_sky_objects",
+    observer: @observer,
+    messier_object_positions: @messier_object_positions
+  ) %>
+<% end %>

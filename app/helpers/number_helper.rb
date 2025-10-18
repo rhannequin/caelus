@@ -9,6 +9,7 @@ module NumberHelper
     degree: "degree",
     km: "kilometer",
     kmps: "km_per_second",
+    light_year: "light_year",
     mps2: "m_per_second_squared"
   }.freeze
 

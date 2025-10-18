@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
+  MAXIMUM_DEEP_SKY_OBJECTS = 10
+
   def index
     @planets = Rails.cache.fetch(
       "planets/#{observer_cache_key}/#{Date.current}",
@@ -49,6 +51,18 @@ class HomeController < ApplicationController
         observer: @observer,
         ephem: SPK.inpop19a
       ).event_on(Date.tomorrow)
+    end
+
+    @messier_object_positions = Rails.cache.fetch(
+      "messier_object_positions/#{observer_cache_key}/#{Date.current}",
+      expires_at: observer_end_of_day
+    ) do
+      MessierCatalog
+        .all
+        .map { |obj| obj.at(Time.now, observer: @observer, use_ephem: true) }
+        .max(MAXIMUM_DEEP_SKY_OBJECTS) do |a, b|
+          b.messier_object.magnitude <=> a.messier_object.magnitude
+        end
     end
   end
 end

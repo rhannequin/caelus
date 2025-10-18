@@ -224,6 +224,19 @@ en:
         rise: "Rise:"
         set: "Set:"
         transit: "Transit:"
+    deep_sky_objects:
+      details: Astronomical Details
+      magnitude: Magnitude
+      rise: Rise
+      set: Set
+      size: Size
+      title: 🔭 Deep-Sky Objects Tonight
+      titles:
+        declination: "Declination:"
+        distance: "Distance:"
+        right_ascension: "Right Ascension:"
+      transit: Transit
+      type: Type
     index:
       distances_table:
         distance_from_earth: Distance from Earth
@@ -267,6 +280,55 @@ en:
         astronomical_twilight: "Astronomical Twilight:"
         moon_interference: "Moon Interference:"
         planets_visible: "Planets Visible:"
+  messier:
+    title: "Messier %{number}"
+    tool:
+      binoculars: Binoculars
+      naked_eye: Naked-eye
+      telescope: Telescope
+    types:
+      asterism:
+        name: Asterism
+        emoji: ✨
+      elliptical_galaxy:
+        name: Elliptical Galaxy
+        emoji: 🔵
+      double_star:
+        name: Double Star
+        emoji: ♊
+      globular_cluster:
+        name: Globular Cluster
+        emoji: ⚪
+      irregular_galaxy:
+        name: Irregular Galaxy
+        emoji: 🌌
+      lenticular_galaxy:
+        name: Lenticular Galaxy
+        emoji: 💿
+      nebula:
+        name: Nebula
+        emoji: ☁️
+      nebula_with_cluster:
+        name: Nebula with Cluster
+        emoji: 🌟
+      open_cluster:
+        name: Open Cluster
+        emoji: ✨
+      planetary_nebula:
+        name: Planetary Nebula
+        emoji: 💍
+      reflection_nebula:
+        name: Reflection Nebula
+        emoji: 💎
+      spiral_galaxy:
+        name: Spiral Galaxy
+        emoji: 🌀
+      star_cloud:
+        name: Star Cloud
+        emoji: 🌫️
+      supernova_remnant:
+        name: Supernova Remnant
+        emoji: 💥
   models:
     planets:
       mercury:
@@ -649,6 +711,9 @@ en:
     km_per_second:
       name: Kilometer per second
       symbol: "\u00A0km/s"
+    light_year:
+      name: Light Year
+      symbol: "\u00A0ly"
     m_per_second_squared:
       name: Meter per second squared
       symbol: "\u00A0m/s²"

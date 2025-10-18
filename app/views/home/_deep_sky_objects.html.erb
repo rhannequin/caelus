@@ -1,0 +1,161 @@
+<div>
+  <h2 class="text-2xl font-bold mb-4 text-cosmic">
+    <%= t ".title" %>
+  </h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <% messier_object_positions.each do |messier_object_position| %>
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm
+        cosmic-card flex flex-col p-4">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">
+              <%= t(
+                "messier.types.#{messier_object_position.messier_object.type}.emoji"
+              ) %>
+            </span>
+            <div>
+              <h3 class="text-lg font-bold leading-tight">
+                <% if messier_object_position.messier_object.name %>
+                  <%= messier_object_position.messier_object.name %>
+                <% else %>
+                  <%= t(
+                    "messier.title",
+                    number: messier_object_position.messier_object.number
+                  ) %>
+                <% end %>
+              </h3>
+              <p class="text-sm text-muted-foreground">
+                <% if messier_object_position.messier_object.name %>
+                  <%= messier_object_position.messier_object.messier_number %>
+                  ·
+                <% end %>
+                <%= messier_object_position.messier_object.constellation.name %>
+              </p>
+            </div>
+          </div>
+          <div class="inline-flex items-center rounded-full border px-2.5 py-0.5
+            text-xs font-semibold transition-colors focus:outline-none
+            focus:ring-2 focus:ring-ring focus:ring-offset-2
+            border-transparent">
+            <%= messier_object_position.messier_object.visible_with %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center my-3">
+          <div>
+            <div class="text-xs text-muted-foreground">
+              <%= t ".magnitude" %>
+            </div>
+            <div class="font-semibold text-foreground">
+              <%= messier_object_position.messier_object.magnitude %>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-muted-foreground">
+              <%= t ".type" %>
+            </div>
+            <div class="font-semibold text-foreground truncate">
+              <%= t(
+                "messier.types.#{messier_object_position.messier_object.type}.name"
+              ) %>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-muted-foreground">
+              <%= t ".size" %>
+            </div>
+            <div class="font-semibold text-foreground">
+              <%= messier_object_position.messier_object.size %>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center text-sm border-t
+          border-border/20 pt-2 mt-auto">
+          <div class="text-center text-muted-foreground">
+            <div class="font-mono text-foreground">
+              <%= nillable_datetime(
+                messier_object_position.rts.rising_time,
+                utc_offset: observer.utc_offset,
+                format: :hm
+              ) %>
+            </div>
+            <div class="text-xs">
+              <%= t ".rise" %>
+            </div>
+          </div>
+          <div class="text-center text-sky-400 dark:text-sky-300">
+            <div class="font-mono font-bold">
+              <%= nillable_datetime(
+                messier_object_position.rts.transit_time,
+                utc_offset: observer.utc_offset,
+                format: :hm
+              ) %>
+            </div>
+            <div class="text-xs font-semibold">
+              <%= t ".transit" %>
+            </div>
+          </div>
+          <div class="text-center text-muted-foreground">
+            <div class="font-mono text-foreground">
+              <%= nillable_datetime(
+                messier_object_position.rts.setting_time,
+                utc_offset: observer.utc_offset,
+                format: :hm
+              ) %>
+            </div>
+            <div class="text-xs">
+              <%= t ".set" %>
+            </div>
+          </div>
+        </div>
+
+        <details class="text-xs mt-3">
+          <summary class="cursor-pointer text-muted-foreground
+            hover:text-foreground transition-colors">
+            <%= t ".details" %>
+          </summary>
+          <div class="space-y-1 text-muted-foreground pt-2 pl-2 border-l
+            border-border/20 ml-1 mt-1">
+            <div class="flex justify-between">
+              <span>
+                <%= t ".titles.right_ascension" %>
+              </span>
+              <span class="font-mono text-foreground">
+                <%= messier_object_position
+                  .topocentric
+                  .equatorial
+                  .right_ascension
+                  .str(:hms, precision: 0) %>
+              </span>
+            </div>
+            <div class="flex justify-between">
+              <span>
+                <%= t ".titles.declination" %>
+              </span>
+              <span class="font-mono text-foreground">
+                <%= messier_object_position
+                  .topocentric
+                  .equatorial
+                  .declination
+                  .str(:dms, precision: 0) %>
+              </span>
+            </div>
+            <div class="flex justify-between">
+              <span>
+                <%= t ".titles.distance" %>
+              </span>
+              <span class="font-mono text-foreground">
+                <%= format_number(
+                  messier_object_position.messier_object.distance,
+                  unit: :light_year,
+                  precision: 0
+                ) %>
+              </span>
+            </div>
+          </div>
+        </details>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -146,6 +146,29 @@ RSpec.describe Visibility, type: :model do
     end
   end
 
+  context "when the body is a deep-sky object" do
+    it "uses astronomical twilight for the night boundaries" do
+      date = Date.new(2025, 3, 15)
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(34.0),
+        longitude: Astronoby::Angle.from_degrees(-118.0)
+      )
+      messier_object = MessierObject.new(
+        j2000_coordinates: Astronoby::Coordinates::Equatorial.new(
+          right_ascension: Astronoby::Angle.zero,
+          declination: Astronoby::Angle.zero
+        )
+      )
+      visibility = described_class.new(
+        body: messier_object,
+        observer: observer,
+        date: date
+      )
+
+      expect(visibility.visible?).to be true
+    end
+  end
+
   context "when there's no twilight" do
     it "returns false" do
       date = Date.new(2025, 6, 20)
