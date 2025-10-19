@@ -13,6 +13,8 @@
   <%= yield :head %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
+  <%= favicon_link_tag "favicon.svg", type: "image/svg+xml" %>
+  <%= favicon_link_tag "favicon.png", rel: "alt", type: "image/png" %>
 </head>
 <body class="text-gray-900" data-controller="dark-mode">
 <main class="px-6 py-8 space-y-6">
