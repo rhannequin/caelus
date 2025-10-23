@@ -1,26 +1,26 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ["lat", "lng", "utc", "detectBtn"]
+  static targets = ['lat', 'lng', 'utc', 'detectBtn']
 
-  connect() {
+  connect () {
     this.boundCloseOnEscape = this.closeOnEscape.bind(this)
-    document.addEventListener("keydown", this.boundCloseOnEscape)
+    document.addEventListener('keydown', this.boundCloseOnEscape)
 
     if (this.hasDetectBtnTarget) {
       this.originalButtonText = this.detectBtnTarget.textContent
     }
   }
 
-  disconnect() {
-    document.removeEventListener("keydown", this.boundCloseOnEscape)
+  disconnect () {
+    document.removeEventListener('keydown', this.boundCloseOnEscape)
     this.stopLoadingAnimation()
   }
 
-  detect(event) {
+  detect (event) {
     event.preventDefault()
 
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       this.setDetectingState()
 
       const options = {
@@ -38,7 +38,7 @@ export default class extends Controller {
           this.setTimezoneFromLocation()
           this.setDefaultState()
         },
-        (error) => {
+        (_error) => {
           this.setErrorState()
         },
         options
@@ -46,49 +46,49 @@ export default class extends Controller {
     }
   }
 
-  setDetectingState() {
+  setDetectingState () {
     if (this.hasDetectBtnTarget) {
       this.detectBtnTarget.disabled = true
-      this.detectBtnTarget.classList.add("opacity-50", "cursor-not-allowed")
+      this.detectBtnTarget.classList.add('opacity-50', 'cursor-not-allowed')
       this.startLoadingAnimation()
     }
   }
 
-  setDefaultState() {
+  setDefaultState () {
     if (this.hasDetectBtnTarget) {
       this.stopLoadingAnimation()
       this.detectBtnTarget.textContent = this.originalButtonText
       this.detectBtnTarget.disabled = false
       this.detectBtnTarget.classList.remove(
-        "opacity-50",
-        "cursor-not-allowed",
-        "bg-red-500",
-        "hover:bg-red-600"
+        'opacity-50',
+        'cursor-not-allowed',
+        'bg-red-500',
+        'hover:bg-red-600'
       )
-      this.detectBtnTarget.classList.add("bg-primary", "hover:bg-primary/90")
+      this.detectBtnTarget.classList.add('bg-primary', 'hover:bg-primary/90')
     }
   }
 
-  setErrorState() {
+  setErrorState () {
     if (this.hasDetectBtnTarget) {
       this.stopLoadingAnimation()
-      this.detectBtnTarget.textContent = "Location unavailable"
+      this.detectBtnTarget.textContent = 'Location unavailable'
       this.detectBtnTarget.disabled = true
-      this.detectBtnTarget.classList.remove("bg-primary", "hover:bg-primary/90")
+      this.detectBtnTarget.classList.remove('bg-primary', 'hover:bg-primary/90')
       this.detectBtnTarget.classList.add(
-        "cursor-not-allowed",
-        "bg-gray-200",
-        "dark:bg-gray-700",
-        "text-gray-500",
-        "dark:text-gray-400",
-        "border",
-        "border-gray-300",
-        "dark:border-gray-600"
+        'cursor-not-allowed',
+        'bg-gray-200',
+        'dark:bg-gray-700',
+        'text-gray-500',
+        'dark:text-gray-400',
+        'border',
+        'border-gray-300',
+        'dark:border-gray-600'
       )
     }
   }
 
-  setTimezoneFromLocation() {
+  setTimezoneFromLocation () {
     if (!this.hasUtcTarget) return
 
     const now = new Date()
@@ -104,14 +104,14 @@ export default class extends Controller {
     // Ensure we don't exceed 12 hours
     const clampedHours = Math.min(adjustedHours, 12)
 
-    const sign = utcOffsetMinutes >= 0 ? "+" : "-"
-    const formattedHours = clampedHours.toString().padStart(2, "0")
-    const formattedMinutes = finalMinutes.toString().padStart(2, "0")
+    const sign = utcOffsetMinutes >= 0 ? '+' : '-'
+    const formattedHours = clampedHours.toString().padStart(2, '0')
+    const formattedMinutes = finalMinutes.toString().padStart(2, '0')
 
     const timezoneValue = `${sign}${formattedHours}:${formattedMinutes}`
 
     const select = this.utcTarget
-    for (let option of select.options) {
+    for (const option of select.options) {
       if (option.value === timezoneValue) {
         option.selected = true
         break
@@ -119,36 +119,36 @@ export default class extends Controller {
     }
   }
 
-  close() {
-    const modalFrame = document.getElementById("location_modal")
+  close () {
+    const modalFrame = document.getElementById('location_modal')
     if (modalFrame) {
-      modalFrame.innerHTML = ""
+      modalFrame.innerHTML = ''
     }
   }
 
-  cancel(event) {
+  cancel (event) {
     event.preventDefault()
     this.close()
   }
 
-  closeOnEscape(event) {
-    if (event.key === "Escape") {
+  closeOnEscape (event) {
+    if (event.key === 'Escape') {
       this.close()
     }
   }
 
-  startLoadingAnimation() {
+  startLoadingAnimation () {
     if (!this.hasDetectBtnTarget) return
 
     let dotCount = 0
     this.loadingInterval = setInterval(() => {
-      const text = dotCount === 0 ? "\u00A0" : ".".repeat(dotCount)
+      const text = dotCount === 0 ? '\u00A0' : '.'.repeat(dotCount)
       this.detectBtnTarget.textContent = text
       dotCount = (dotCount + 1) % 4
     }, 200)
   }
 
-  stopLoadingAnimation() {
+  stopLoadingAnimation () {
     if (this.loadingInterval) {
       clearInterval(this.loadingInterval)
       this.loadingInterval = null
