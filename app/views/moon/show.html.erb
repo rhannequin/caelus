@@ -4,14 +4,7 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
   <div class="space-y-6">
-    <%= render(
-      "today",
-      moon: @moon,
-      observer: @observer,
-      rising_azimuth: @rising_azimuth,
-      transit_altitude: @transit_altitude,
-      setting_azimuth: @setting_azimuth
-    ) %>
+    <%= render("today", moon: @moon, observer: @observer) %>
 
     <%= render "coordinates", moon: @moon %>
 
