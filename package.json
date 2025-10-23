@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "scripts": {
+    "lint": "standard app/javascript/**/*.js"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  },
+  "standard": {
+    "globals": [
+      "localStorage",
+      "navigator",
+      "document",
+      "window",
+      "setInterval",
+      "clearInterval"
+    ]
+  }
+}
