@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class LocationController < ApplicationController
+  LATITUDE_RANGE = -90.0..90.0
+  LONGITUDE_RANGE = -180.0..180.0
+
   def edit
     @latitude = @observer.latitude.degrees.round(4)
     @longitude = @observer.longitude.degrees.round(4)
@@ -10,8 +13,10 @@ class LocationController < ApplicationController
   def update
     return redirect_back(fallback_location: root_path) unless cookie_consent_given?
 
-    cookies.permanent.signed[:latitude] = params[:latitude]
-    cookies.permanent.signed[:longitude] = params[:longitude]
+    if valid_latitude?(params[:latitude]) && valid_longitude?(params[:longitude])
+      cookies.permanent.signed[:latitude] = params[:latitude].to_f
+      cookies.permanent.signed[:longitude] = params[:longitude].to_f
+    end
 
     if valid_utc_offset?(params[:utc_offset])
       cookies.permanent.signed[:utc_offset] = params[:utc_offset]
@@ -21,6 +26,18 @@ class LocationController < ApplicationController
   end
 
   private
+
+  def valid_latitude?(latitude)
+    return false unless latitude.present?
+
+    LATITUDE_RANGE.include?(latitude.to_f)
+  end
+
+  def valid_longitude?(longitude)
+    return false unless longitude.present?
+
+    LONGITUDE_RANGE.include?(longitude.to_f)
+  end
 
   def valid_utc_offset?(utc_offset)
     return false unless utc_offset.present?

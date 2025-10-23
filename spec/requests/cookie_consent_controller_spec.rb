@@ -39,8 +39,8 @@ RSpec.describe CookieConsentController, type: :request do
       )
       jar = response.request.cookie_jar
 
-      expect(jar.signed[:latitude]).to eq("34.0567")
-      expect(jar.signed[:longitude]).to eq("-118.2543")
+      expect(jar.signed[:latitude]).to eq(34.0567)
+      expect(jar.signed[:longitude]).to eq(-118.2543)
       expect(jar.signed[:utc_offset]).to eq("-08:00")
 
       delete cookie_consent_path
