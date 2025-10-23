@@ -18,12 +18,43 @@ RSpec.describe LocationController, type: :request do
         )
         jar = response.request.cookie_jar
 
-        latitude = jar.signed[:latitude]
-        longitude = jar.signed[:longitude]
-        utc_offset = jar.signed[:utc_offset]
-        expect(latitude).to eq("34.0567")
-        expect(longitude).to eq("-118.2543")
-        expect(utc_offset).to eq("-08:00")
+        expect(jar.signed[:latitude]).to eq(34.0567)
+        expect(jar.signed[:longitude]).to eq(-118.2543)
+        expect(jar.signed[:utc_offset]).to eq("-08:00")
+      end
+
+      it "ignores invalid latitude value" do
+        post cookie_consent_path
+
+        patch(
+          location_path,
+          params: {
+            latitude: "100.0000",
+            longitude: "-118.2543",
+            utc_offset: "-08:00"
+          }
+        )
+        jar = response.request.cookie_jar
+
+        expect(jar.signed[:latitude]).to be_nil
+        expect(jar.signed[:longitude]).to be_nil
+      end
+
+      it "ignores invalid longitude value" do
+        post cookie_consent_path
+
+        patch(
+          location_path,
+          params: {
+            latitude: "34.0567",
+            longitude: "-200.0000",
+            utc_offset: "-08:00"
+          }
+        )
+        jar = response.request.cookie_jar
+
+        expect(jar.signed[:latitude]).to be_nil
+        expect(jar.signed[:longitude]).to be_nil
       end
 
       it "redirects to the root path after updating when no referer" do
@@ -110,8 +141,8 @@ RSpec.describe LocationController, type: :request do
         jar = response.request.cookie_jar
 
         expect(response).to have_http_status(:found)
-        expect(jar.signed[:latitude]).to eq("34.0567")
-        expect(jar.signed[:longitude]).to eq("-118.2543")
+        expect(jar.signed[:latitude]).to eq(34.0567)
+        expect(jar.signed[:longitude]).to eq(-118.2543)
         expect(jar.signed[:utc_offset]).to be_nil
         expect(response).to redirect_to(root_path)
       end
