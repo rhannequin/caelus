@@ -12,27 +12,6 @@ class MoonController < ApplicationController
   def show
     @time = Time.current.localtime(@observer.utc_offset)
     @moon = Moon.new(observer: @observer, time: @time)
-    if @moon.rts.rising_time
-      @rising_azimuth = Moon
-        .new(observer: @observer, time: @moon.rts.rising_time)
-        .topocentric
-        .horizontal
-        .azimuth
-    end
-    if @moon.rts.transit_time
-      @transit_altitude = Moon
-        .new(observer: @observer, time: @moon.rts.transit_time)
-        .topocentric
-        .horizontal
-        .altitude
-    end
-    if @moon.rts.setting_time
-      @setting_azimuth = Moon
-        .new(observer: @observer, time: @moon.rts.setting_time)
-        .topocentric
-        .horizontal
-        .azimuth
-    end
     @next_apogee = extremum_calculator
       .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
       .first

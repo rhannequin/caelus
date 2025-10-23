@@ -21,7 +21,7 @@
             <div class="text-xs text-muted-foreground">
               <%= t "shared.azimuth.abbr_title" %>
               <%= format_number(
-                rising_azimuth.degrees,
+                sun.rising_azimuth.degrees,
                 unit: :degree,
                 precision: 1
               ) %>
@@ -47,7 +47,7 @@
             <div class="text-xs text-muted-foreground">
               <%= t "shared.altitude.abbr_title" %>
               <%= format_number(
-                transit_altitude.degrees,
+                sun.transit_altitude.degrees,
                 unit: :degree,
                 precision: 1
               ) %>
@@ -73,7 +73,7 @@
             <div class="text-xs text-muted-foreground">
               <%= t "shared.azimuth.abbr_title" %>
               <%= format_number(
-                setting_azimuth.degrees,
+                sun.setting_azimuth.degrees,
                 unit: :degree,
                 precision: 1
               ) %>

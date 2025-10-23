@@ -24,27 +24,6 @@ class SunController < ApplicationController
         samples: Date.gregorian_leap?(@time.year) ? 366 : 365
       )
     end
-    if @sun.rts.rising_time
-      @rising_azimuth = Sun
-        .new(observer: @observer, time: @sun.rts.rising_time)
-        .topocentric
-        .horizontal
-        .azimuth
-    end
-    if @sun.rts.transit_time
-      @transit_altitude = Sun
-        .new(observer: @observer, time: @sun.rts.transit_time)
-        .topocentric
-        .horizontal
-        .altitude
-    end
-    if @sun.rts.setting_time
-      @setting_azimuth = Sun
-        .new(observer: @observer, time: @sun.rts.setting_time)
-        .topocentric
-        .horizontal
-        .azimuth
-    end
     @twilight_event = twilight_calculator.event_on(
       @time.to_date,
       utc_offset: @observer.utc_offset

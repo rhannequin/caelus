@@ -241,4 +241,100 @@ RSpec.describe Moon, type: :model do
       expect(velocity.kilometers_per_second.round(2)).to eq(1.06)
     end
   end
+
+  describe "#rising_azimuth" do
+    it "returns an Astronoby::Angle" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.zero,
+        longitude: Astronoby::Angle.zero
+      )
+      time = Time.utc(2025, 10, 1)
+
+      azimuth = described_class
+        .new(observer: observer, time: time)
+        .rising_azimuth
+
+      expect(azimuth).to be_a(Astronoby::Angle)
+    end
+
+    context "when the moon is not rising on that day" do
+      it "returns nil" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(80),
+          longitude: Astronoby::Angle.zero
+        )
+        time = Time.utc(2025, 12, 1)
+
+        azimuth = described_class
+          .new(observer: observer, time: time)
+          .rising_azimuth
+
+        expect(azimuth).to be_nil
+      end
+    end
+  end
+
+  describe "#transit_altitude" do
+    it "returns an Astronoby::Angle" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.zero,
+        longitude: Astronoby::Angle.zero
+      )
+      time = Time.utc(2025, 10, 1)
+
+      azimuth = described_class
+        .new(observer: observer, time: time)
+        .transit_altitude
+
+      expect(azimuth).to be_a(Astronoby::Angle)
+    end
+
+    context "when the moon is not rising on that day" do
+      it "still returns an Astronoby::Angle" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(80),
+          longitude: Astronoby::Angle.zero
+        )
+        time = Time.utc(2025, 10, 1)
+
+        azimuth = described_class
+          .new(observer: observer, time: time)
+          .transit_altitude
+
+        expect(azimuth).to be_a(Astronoby::Angle)
+      end
+    end
+  end
+
+  describe "#setting_azimuth" do
+    it "returns an Astronoby::Angle" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.zero,
+        longitude: Astronoby::Angle.zero
+      )
+      time = Time.utc(2025, 10, 1)
+
+      azimuth = described_class
+        .new(observer: observer, time: time)
+        .setting_azimuth
+
+      expect(azimuth).to be_a(Astronoby::Angle)
+    end
+
+    context "when the moon is not setting on that day" do
+      it "returns nil" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(80),
+          longitude: Astronoby::Angle.zero
+        )
+        time = Time.utc(2025, 10, 1)
+
+        azimuth = described_class
+          .new(observer: observer, time: time)
+          .setting_azimuth
+
+        expect(azimuth).to be_nil
+      end
+    end
+  end
 end

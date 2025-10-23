@@ -50,6 +50,36 @@ module Planetable
       ).event_on(@time.to_date)
     end
 
+    def rising_azimuth
+      @rising_azimuth ||= if rts.rising_time
+        self.class
+          .new(observer: @observer, time: rts.rising_time)
+          .topocentric
+          .horizontal
+          .azimuth
+      end
+    end
+
+    def transit_altitude
+      @transit_altitude ||= if rts.transit_time
+        self.class
+          .new(observer: @observer, time: rts.transit_time)
+          .topocentric
+          .horizontal
+          .altitude
+      end
+    end
+
+    def setting_azimuth
+      @setting_azimuth ||= if rts.setting_time
+        self.class
+          .new(observer: @observer, time: rts.setting_time)
+          .topocentric
+          .horizontal
+          .azimuth
+      end
+    end
+
     def visibility
       @visibility ||= Visibility.new(
         body: self.class,
