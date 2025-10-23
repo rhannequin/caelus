@@ -11,8 +11,7 @@
             <h3 class="text-xl font-bold"><%= planet.class.planet_name %></h3>
           </div>
           <div class="inline-flex items-center rounded-full border px-2.5 py-0.5
-            text-xs font-semibold transition-colors focus:outline-none
-            focus:ring-2 focus:ring-ring focus:ring-offset-2 glow-accent
+            text-xs font-semibold
             <%= planet.visibility.visible? ? "border-transparent bg-primary text-primary-foreground" : "border-transparent" %>">
             <%= planet.visibility.visible? ? t(".visibility.visible") : t(".visibility.not_visible") %>
           </div>
@@ -20,7 +19,7 @@
         <div class="space-y-2 text-sm text-muted-foreground">
           <div class="flex justify-between">
             <span><%= t ".titles.magnitude" %></span>
-            <span class="text-foreground font-medium">
+            <span class="text-foreground font-mono">
               <%= format_number planet.magnitude, precision: 2 %>
             </span>
           </div>
@@ -32,7 +31,7 @@
           </div>
           <div class="flex justify-between">
             <span><%= t ".titles.rise" %></span>
-            <span class="text-foreground font-medium">
+            <span class="text-foreground font-mono">
               <%= nillable_datetime(
                 planet.rts.rising_time,
                 utc_offset: observer.utc_offset,
@@ -42,7 +41,7 @@
           </div>
           <div class="flex justify-between">
             <span><%= t ".titles.set" %></span>
-            <span class="text-foreground font-medium">
+            <span class="text-foreground font-mono">
               <%= nillable_datetime(
                 planet.rts.setting_time,
                 utc_offset: observer.utc_offset,
@@ -52,7 +51,7 @@
           </div>
           <div class="flex justify-between">
             <span><%= t ".titles.distance" %></span>
-            <span class="text-foreground font-medium">
+            <span class="text-foreground font-mono">
               <%= format_number(
                 planet.distance_from_earth.au,
                 unit: :au,

@@ -6,7 +6,7 @@
     <div
       class="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2
                 border-primary rounded-full"
-      style="left: <%= percentage %>%"></div>
+      style="left: clamp(0px, calc(<%= percentage %>% - 6px), calc(100% - 12px));"></div>
   </div>
   <div class="flex justify-between text-xs text-muted-foreground mt-2">
     <span>

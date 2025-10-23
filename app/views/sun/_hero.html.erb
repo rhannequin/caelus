@@ -159,11 +159,12 @@
         <div class="text-xs text-muted-foreground mb-1">
           <%= t ".distance" %>
         </div>
-        <div class="text-xl font-semibold">
-          <%= format_number(
-            sun.distance_from_earth.km,
-            unit: :km,
-            precision: 0
+        <div class="text-base font-semibold sm:text-lg md:text-xl">
+          <%= t(
+            ".distance_value_html",
+            distance: sun.distance_from_earth.km.to_i / 1_000_000,
+            unit: t("units.kilometer.symbol"),
+            sup: 6
           ) %>
         </div>
         <div class="text-xs text-muted-foreground">

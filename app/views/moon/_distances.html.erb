@@ -30,24 +30,18 @@
           <span class="text-muted-foreground">
             <%= t ".next_perigee" %>
           </span>
-          <span class="font-medium">
-            <%= nillable_datetime(
-              next_perigee.instant.to_time,
-              utc_offset: observer.utc_offset,
-              format: :short
-            ) %>
+          <span class="font-mono text-right">
+            <%= l next_perigee.instant.to_time.to_date, format: :full_month_short %>
+            <%= l next_perigee.instant.to_time, format: :utc_hm %>
           </span>
         </div>
         <div class="flex justify-between">
           <span class="text-muted-foreground">
             <%= t ".next_apogee" %>
           </span>
-          <span class="font-medium">
-            <%= nillable_datetime(
-              next_apogee.instant.to_time,
-              utc_offset: observer.utc_offset,
-              format: :short
-            ) %>
+          <span class="font-mono text-right">
+            <%= l next_apogee.instant.to_time.to_date, format: :full_month_short %>
+            <%= l next_apogee.instant.to_time, format: :utc_hm %>
           </span>
         </div>
       </div>
