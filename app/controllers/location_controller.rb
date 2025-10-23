@@ -28,19 +28,19 @@ class LocationController < ApplicationController
   private
 
   def valid_latitude?(latitude)
-    return false unless latitude.present?
+    return false if latitude.blank?
 
     LATITUDE_RANGE.include?(latitude.to_f)
   end
 
   def valid_longitude?(longitude)
-    return false unless longitude.present?
+    return false if longitude.blank?
 
     LONGITUDE_RANGE.include?(longitude.to_f)
   end
 
   def valid_utc_offset?(utc_offset)
-    return false unless utc_offset.present?
+    return false if utc_offset.blank?
 
     utc_offset.match?(/^[+-](0[0-9]|1[0-2]):(00|15|30|45)$/)
   end
