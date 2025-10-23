@@ -254,6 +254,7 @@ en:
         not_visible: Not Visible
         visible: Visible
     sun_moon_times:
+      sun_link: See Sun details
       title: "Sun & Moon Times"
       titles:
         civil_twilight: "Civil Twilight:"
@@ -640,6 +641,7 @@ en:
       current_altitude: Current Altitude
       day_length: Day Length
       distance: Distance
+      distance_value_html: "%{distance} × 10<sup>%{sup}</sup>%{unit}"
       light_travel: Light Travel
       solar_noon: Solar Noon
       to_earth: to Earth
@@ -661,7 +663,7 @@ en:
       title: 🛠️ Practical Info
     seasons:
       next: Next
-      title: 🍂 Seasons
+      title: 🍂 Next Seasons
     show:
       title: Sun
     sky_position:

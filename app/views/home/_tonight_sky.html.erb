@@ -7,7 +7,7 @@
       <span class="text-muted-foreground">
         <%= t ".titles.astronomical_twilight" %>
       </span>
-      <span class="font-medium">
+      <span class="font-mono">
         <%= nillable_datetime(
           twilight_events.evening_astronomical_twilight_time,
           utc_offset: observer.utc_offset,

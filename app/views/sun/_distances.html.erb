@@ -30,7 +30,7 @@
           <span class="text-muted-foreground">
             <%= t ".next_perihelion" %>
           </span>
-          <span class="font-medium">
+          <span class="font-mono text-right">
             <%= l next_perihelion.instant.to_time.to_date, format: :full_month_short %>
             <%= l next_perihelion.instant.to_time, format: :utc_hm %>
           </span>
@@ -39,7 +39,7 @@
           <span class="text-muted-foreground">
             <%= t ".next_aphelion" %>
           </span>
-          <span class="font-medium">
+          <span class="font-mono text-right">
             <%= l next_aphelion.instant.to_time.to_date, format: :full_month_short %>
             <%= l next_aphelion.instant.to_time, format: :utc_hm %>
           </span>

@@ -24,7 +24,7 @@
         <span class="text-muted-foreground">
           <%= t ".titles.rise" %>
         </span>
-        <span class="font-medium">
+        <span class="font-mono">
           <%= nillable_datetime(
             moon.rts.rising_time,
             utc_offset: observer.utc_offset,
@@ -36,7 +36,7 @@
         <span class="text-muted-foreground">
           <%= t ".titles.transit" %>
         </span>
-        <span class="font-medium">
+        <span class="font-mono">
           <%= nillable_datetime(
             moon.rts.transit_time,
             utc_offset: observer.utc_offset,
@@ -48,7 +48,7 @@
         <span class="text-muted-foreground">
           <%= t ".titles.set" %>
         </span>
-        <span class="font-medium">
+        <span class="font-mono">
           <%= nillable_datetime(
             moon.rts.setting_time,
             utc_offset: observer.utc_offset,

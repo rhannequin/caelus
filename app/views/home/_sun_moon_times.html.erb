@@ -15,7 +15,7 @@
           <span class="text-muted-foreground">
             <%= t ".titles.civil_twilight" %>
           </span>
-          <span class="font-medium">
+          <span class="font-mono">
             <%= nillable_datetime(
               twilight_events.morning_civil_twilight_time,
               utc_offset: observer.utc_offset,
@@ -27,7 +27,7 @@
           <span class="text-muted-foreground">
             <%= t ".titles.sunrise" %>
           </span>
-          <span class="font-medium text-yellow-400">
+          <span class="font-mono text-yellow-400">
             <%= nillable_datetime(
               sun.rts.rising_time,
               utc_offset: observer.utc_offset,
@@ -39,7 +39,7 @@
           <span class="text-muted-foreground">
             <%= t ".titles.sunset" %>
           </span>
-          <span class="font-medium text-orange-400">
+          <span class="font-mono text-orange-400">
             <%= nillable_datetime(
               sun.rts.setting_time,
               utc_offset: observer.utc_offset,
@@ -51,7 +51,7 @@
           <span class="text-muted-foreground">
             <%= t ".titles.civil_twilight_end" %>
           </span>
-          <span class="font-medium">
+          <span class="font-mono">
             <%= nillable_datetime(
               twilight_events.evening_civil_twilight_time,
               utc_offset: observer.utc_offset,
@@ -61,6 +61,8 @@
         </div>
       </div>
     </div>
+
+    <%= link_to t(".sun_link"), sun_path, class: "link text-sm" %>
 
     <div class="shrink-0 bg-border h-[1px] w-full my-4"></div>
 
@@ -76,7 +78,7 @@
           <span class="text-muted-foreground">
             <%= t ".titles.moonrise" %>
           </span>
-          <span class="font-medium text-blue-300">
+          <span class="font-mono text-blue-300">
             <%= nillable_datetime(
               moon.rts.rising_time,
               utc_offset: observer.utc_offset,
@@ -88,7 +90,7 @@
           <span class="text-muted-foreground">
             <%= t ".titles.moonset" %>
           </span>
-          <span class="font-medium text-blue-300">
+          <span class="font-mono text-blue-300">
             <%= nillable_datetime(
               moon.rts.setting_time,
               utc_offset: observer.utc_offset,
