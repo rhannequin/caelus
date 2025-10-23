@@ -40,7 +40,7 @@ class HomeController < ApplicationController
       Astronoby::TwilightCalculator.new(
         observer: @observer,
         ephem: SPK.inpop19a
-      ).event_on(Date.today, utc_offset: @observer.utc_offset)
+      ).event_on(Time.zone.today, utc_offset: @observer.utc_offset)
     end
 
     @next_twilight_events = Rails.cache.fetch(
@@ -59,7 +59,7 @@ class HomeController < ApplicationController
     ) do
       MessierCatalog
         .all
-        .map { |obj| obj.at(Time.now, observer: @observer, use_ephem: true) }
+        .map { |obj| obj.at(Time.current, observer: @observer, use_ephem: true) }
         .max(MAXIMUM_DEEP_SKY_OBJECTS) do |a, b|
           b.messier_object.magnitude <=> a.messier_object.magnitude
         end

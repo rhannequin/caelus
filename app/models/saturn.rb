@@ -15,7 +15,7 @@ class Saturn
     "♄"
   end
 
-  def initialize(observer:, time: Time.now)
+  def initialize(observer:, time: Time.current)
     @observer = observer
     @time = time
   end

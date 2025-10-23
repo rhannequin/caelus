@@ -34,7 +34,7 @@ class ElevationChartSvg
   end
 
   def draw
-    generate.html_safe
+    generate.html_safe # rubocop:disable Rails/OutputSafety
   end
 
   private

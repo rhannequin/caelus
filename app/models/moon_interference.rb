@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MoonInterference
-  def initialize(observer:, date: Date.today)
+  def initialize(observer:, date: Time.zone.today)
     @evening_date = date
     @morning_date = date + 1
     @day_after_morning_date = date + 2

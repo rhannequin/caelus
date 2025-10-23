@@ -51,7 +51,7 @@ jobs:
           bundler-cache: true
 
       - name: Lint Ruby code for consistent style
-        run: bundle exec standardrb
+        run: bundle exec rubocop
 
   lint_js:
     runs-on: ubuntu-latest
