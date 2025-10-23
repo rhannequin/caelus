@@ -56,10 +56,10 @@ class SunController < ApplicationController
       .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
       .first
     @upcoming_seasons = upcoming_seasons
-    @morning_golden_hour = morning_golden_hour
-    @evening_golden_hour = evening_golden_hour
-    @morning_blue_hour = morning_blue_hour
-    @evening_blue_hour = evening_blue_hour
+    @golden_blue_hour_calculator = GoldenBlueHourCalculator.new(
+      observer: @observer,
+      date: @time.to_date
+    )
     @zodiac_sign = ZodiacSign.for_date(@time.to_date)
     @sub_solar_observer = SubSolarObserver.from_sun(@sun)
     @shadow_length_factor = 1 / @sun.topocentric.horizontal.altitude.tan
@@ -92,7 +92,7 @@ class SunController < ApplicationController
       end
     end
     two_years_seasons
-      .select { it[:time] >= @time }
+      .select { |season| season[:time] >= @time }
       .first(UPCOMING_SEASONS_COUNT)
   end
 
@@ -101,63 +101,5 @@ class SunController < ApplicationController
       observer: @observer,
       ephem: SPK.inpop19a
     )
-  end
-
-  def morning_golden_hour
-    [
-      @sun.rts.rising_time,
-      twilight_calculator.time_for_zenith_angle(
-        date: @time.to_date,
-        period_of_the_day: Astronoby::TwilightCalculator::MORNING,
-        zenith_angle: GOLDEN_HOUR_ZENITH_ANGLE,
-        utc_offset: @observer.utc_offset
-      )
-    ]
-  end
-
-  def evening_golden_hour
-    [
-      twilight_calculator.time_for_zenith_angle(
-        date: @time.to_date,
-        period_of_the_day: Astronoby::TwilightCalculator::EVENING,
-        zenith_angle: GOLDEN_HOUR_ZENITH_ANGLE,
-        utc_offset: @observer.utc_offset
-      ),
-      @sun.rts.setting_time
-    ]
-  end
-
-  def morning_blue_hour
-    [
-      twilight_calculator.time_for_zenith_angle(
-        date: @time.to_date,
-        period_of_the_day: Astronoby::TwilightCalculator::MORNING,
-        zenith_angle: BLUE_HOUR_ZENITH_ANGLES.second,
-        utc_offset: @observer.utc_offset
-      ),
-      twilight_calculator.time_for_zenith_angle(
-        date: @time.to_date,
-        period_of_the_day: Astronoby::TwilightCalculator::MORNING,
-        zenith_angle: BLUE_HOUR_ZENITH_ANGLES.first,
-        utc_offset: @observer.utc_offset
-      )
-    ]
-  end
-
-  def evening_blue_hour
-    [
-      twilight_calculator.time_for_zenith_angle(
-        date: @time.to_date,
-        period_of_the_day: Astronoby::TwilightCalculator::EVENING,
-        zenith_angle: BLUE_HOUR_ZENITH_ANGLES.first,
-        utc_offset: @observer.utc_offset
-      ),
-      twilight_calculator.time_for_zenith_angle(
-        date: @time.to_date,
-        period_of_the_day: Astronoby::TwilightCalculator::EVENING,
-        zenith_angle: BLUE_HOUR_ZENITH_ANGLES.second,
-        utc_offset: @observer.utc_offset
-      )
-    ]
   end
 end
