@@ -1,26 +1,25 @@
 <div>
-  <a
-    href="<%= edit_location_path if cookie_consent_given? %>"
-    data-turbo-frame="location_modal"
-    aria-label="<%= t ".location_modal.label" %>"
-    class="text-gray-800 dark:text-gray-100 hover:text-gray-600
-            dark:hover:text-gray-300 transition-colors
-            <%= cookie_consent_given? ? "cursor-pointer" : "cursor-not-allowed" %>"
-    title="<%= cookie_consent_given? ? t(".location_modal.title") : t(".location_modal.title_no_cookie_conset") %>"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      class="w-6 h-6 fill-current <%= "text-gray-400 dark:text-gray-500" unless cookie_consent_given? %>"
+  <% if cookie_consent_given? %>
+    <a
+      href="<%= edit_location_path %>"
+      data-turbo-frame="location_modal"
+      aria-label="<%= t ".location_modal.label" %>"
+      class="text-gray-800 dark:text-gray-100 hover:text-gray-600
+              dark:hover:text-gray-300 transition-colors cursor-pointer"
+      title="<%= t(".location_modal.title") %>"
     >
-      <path
-        fill-rule="evenodd"
-        d="
-          M10 2.5C6.85 2.5 4.3 5.05 4.3 8.2c0 2.85 4.9 8.8 5.4 9.4a.6.6 0 00.6
-          0c.5-.6 5.4-6.55 5.4-9.4 0-3.15-2.55-5.7-5.7-5.7zm0 7.7a2 2 0 110-4 2
-          2 0 010 4z"
-        clip-rule="evenodd"
-      />
-    </svg>
-  </a>
+      <%= render "shared/icons/location" %>
+    </a>
+  <% else %>
+    <span
+      aria-label="<%= t ".location_modal.label" %>"
+      class="text-gray-800 dark:text-gray-100 cursor-not-allowed"
+      title="<%= t(".location_modal.title_no_cookie_conset") %>"
+    >
+      <%= render(
+        "shared/icons/location",
+        class: "text-gray-400 dark:text-gray-500"
+      ) %>
+    </span>
+  <% end %>
 </div>
