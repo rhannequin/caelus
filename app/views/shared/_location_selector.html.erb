@@ -11,15 +11,15 @@
       <%= render "shared/icons/location" %>
     </a>
   <% else %>
-    <span
-      aria-label="<%= t ".location_modal.label" %>"
-      class="text-gray-800 dark:text-gray-100 cursor-not-allowed"
-      title="<%= t(".location_modal.title_no_cookie_conset") %>"
+    <a
+      href="<%= new_cookie_consent_path %>"
+      data-turbo-frame="cookie_consent_modal"
+      aria-label="<%= t ".cookie_consent_modal.label" %>"
+      class="text-gray-800 dark:text-gray-100 hover:text-gray-600
+              dark:hover:text-gray-300 transition-colors cursor-pointer"
+      title="<%= t(".cookie_consent_modal.title") %>"
     >
-      <%= render(
-        "shared/icons/location",
-        class: "text-gray-400 dark:text-gray-500"
-      ) %>
-    </span>
+      <%= render "shared/icons/location", disabled: true %>
+    </a>
   <% end %>
 </div>

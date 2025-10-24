@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resource :privacy_policy, only: :show, controller: :privacy_policy
   resource :cookie_consent,
-    only: [:create, :destroy],
+    only: [:create, :destroy, :new],
     controller: :cookie_consent
 
   get "up" => "rails/health#show", :as => :rails_health_check
