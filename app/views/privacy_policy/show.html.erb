@@ -98,10 +98,11 @@
         </li>
         <li>
           <%= t(".sections.your_rights.rights.erasure") %>
-          <%= link_to(
+          <%= button_to(
             t(".sections.your_rights.rights.delete_my_data"),
             cookie_consent_path,
             method: :delete,
+            form: { class: "inline" },
             data: {
               turbo_method: :delete,
             },
@@ -111,10 +112,11 @@
         </li>
         <li>
           <%= t(".sections.your_rights.rights.withdraw_consent") %>
-          <%= link_to(
+          <%= button_to(
             t(".sections.your_rights.rights.clearing_cookies"),
             cookie_consent_path,
             method: :delete,
+            form: { class: "inline" },
             data: {
               turbo_method: :delete,
             },
