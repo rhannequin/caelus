@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rhannequin/astronoby.git
-  revision: 42c1f89fe254aa3c85e8049df9dde6963f6932fd
+  revision: 9dde85a4916b2e980abf071bcb894c2f0f02785b
   specs:
     astronoby (0.8.0)
       ephem (~> 0.3)
