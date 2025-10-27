@@ -18,31 +18,21 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def default_utc_offset
-    Time
-      .zone
-      .now
-      .in_time_zone(DEFAULT_TIME_ZONE)
-      .formatted_offset
-  end
-
   def set_observer(&block)
     if cookie_consent_given?
       latitude = (cookies.signed[:latitude] || DEFAULT_LOCATION.first).to_f
       longitude = (cookies.signed[:longitude] || DEFAULT_LOCATION.second).to_f
-      utc_offset = cookies.signed[:utc_offset] || default_utc_offset
       time_zone = cookies.signed[:time_zone] || DEFAULT_TIME_ZONE
     else
       latitude = DEFAULT_LOCATION.first
       longitude = DEFAULT_LOCATION.second
-      utc_offset = default_utc_offset
       time_zone = DEFAULT_TIME_ZONE
     end
 
     astronoby_observer = Astronoby::Observer.new(
       latitude: Astronoby::Angle.from_degrees(latitude),
       longitude: Astronoby::Angle.from_degrees(longitude),
-      utc_offset: utc_offset
+      utc_offset: Time.find_zone(time_zone)&.formatted_offset
     )
     @observer = Observer.new(
       astronoby_observer: astronoby_observer,

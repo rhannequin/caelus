@@ -12,7 +12,6 @@ class CookieConsentController < ApplicationController
     cookies.delete(:cookie_consent)
     cookies.delete(:latitude)
     cookies.delete(:longitude)
-    cookies.delete(:utc_offset)
     cookies.delete(:time_zone)
 
     cookies.signed[:cookie_consent] =

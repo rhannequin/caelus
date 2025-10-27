@@ -75,21 +75,6 @@
           </div>
           <div>
             <%= f.label(
-              :utc_offset,
-              t(".form.utc_offset"),
-              class: "text-sm font-medium"
-            ) %>
-            <%= f.select(
-              :utc_offset,
-              options_for_select(utc_offset_options, @utc_offset),
-              {},
-              class: "w-full rounded-md border bg-transparent p-2 mt-2",
-              "data-location-target": "utc",
-              required: true
-            ) %>
-          </div>
-          <div>
-            <%= f.label(
               :time_zone,
               t(".form.time_zone"),
               class: "text-sm font-medium"

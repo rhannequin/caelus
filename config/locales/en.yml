@@ -210,7 +210,6 @@ en:
         time_zone: Time zone
         time_zone_help: Select your time zone to ensure accurate astronomical
           calculations
-        utc_offset: UTC Offset
         submit: Save Location
       manually: or enter coordinates manually
       title: Set Your Location
@@ -444,8 +443,6 @@ en:
             store the following information:"
           data_points:
             location: Latitude and longitude
-            utc_offset_html: "Time zone (<abbr title=\"Coordinated Universal
-              Time\">UTC</abbr> offset, e.g., +02:00)"
             time_zone_html: "Time zone (<abbr title=\"Internet Assigned Numbers
               Authority\">IANA</abbr> identifier, e.g., Europe/Paris)"
           storage_info: This information is stored in a signed cookie on your
@@ -542,11 +539,6 @@ en:
               time_zone:
                 name: time_zone
                 purpose: Stores your time zone for accurate date/time display
-                duration: 1 year
-                type: Cookie
-              utc_offset:
-                name: utc_offset
-                purpose: Stores your timezone offset for date/time display
                 duration: 1 year
                 type: Cookie
           additional_info: All cookies are first-party cookies and are not
