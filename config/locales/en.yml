@@ -594,6 +594,17 @@ en:
       description: We use cookies to remember your stargazing location for
         personalised sky data and observations.
       learn_more: Learn more
+    cookie_consent_modal:
+      title: Accept Cookies
+      close: Close
+      description: To use location-based features, we need your consent to store
+        cookies that remember your location preferences.
+      location_feature_description: Accepting cookies will enable personalised
+        astronomical data like accurate sunrise/sunset times, moon phases, and
+        planet visibility for your location.
+      learn_more: Learn more
+      accept_cookies: Accept Cookies
+      decline: Not Now
     footer:
       enable_cookies: Enable Cookies
       made_with_love_html: "Made with &hearts; by %{author_link}
@@ -603,7 +614,9 @@ en:
       location_modal:
         label: Set your location
         title: Set your location preferences
-        title_no_cookie_conset: Accept cookies to set location preferences
+      cookie_consent_modal:
+        label: Accept cookies for location features
+        title: Accept cookies for location features
     navigation:
       moon: Moon
       sun: Sun

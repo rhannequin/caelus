@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class CookieConsentController < ApplicationController
+  def new
+    render layout: false
+  end
+
   def create
     cookies.signed[:cookie_consent] =
       {value: "true", expires: 1.year.from_now}
