@@ -108,7 +108,7 @@
         </div>
         <div class="text-xs text-accent">
           <%= l(
-            moon.next_phase.time.localtime(observer.utc_offset).to_date,
+            moon.next_phase.time.in_time_zone.to_date,
             format: :short
           ) %>
         </div>

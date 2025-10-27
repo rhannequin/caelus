@@ -54,15 +54,15 @@ class ApplicationController < ActionController::Base
   def observer_cache_key
     "#{@observer.latitude.degrees.round(3)}/" \
       "#{@observer.longitude.degrees.round(3)}/" \
-      "#{@observer.utc_offset}"
+      "#{@observer.time_zone.tzinfo.name}"
   end
 
   def observer_end_of_day
-    Time.now.getlocal(@observer.utc_offset).end_of_day
+    Time.current.end_of_day
   end
 
   def observer_end_of_year
-    Time.now.getlocal(@observer.utc_offset).end_of_year
+    Time.current.end_of_year
   end
 
   def cookie_consent_given?

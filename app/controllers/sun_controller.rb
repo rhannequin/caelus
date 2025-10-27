@@ -10,7 +10,7 @@ class SunController < ApplicationController
   ].freeze
 
   def show
-    @time = Time.current.localtime(@observer.utc_offset)
+    @time = Time.current
     @sun = Sun.new(observer: @observer, time: @time)
     @yesterday_sun = Sun.new(observer: @observer, time: @time - 1.day)
     @yearly_elevation = Rails.cache.fetch(
@@ -26,7 +26,7 @@ class SunController < ApplicationController
     end
     @twilight_event = twilight_calculator.event_on(
       @time.to_date,
-      utc_offset: @observer.utc_offset
+      utc_offset: @observer.time_zone.formatted_offset
     )
     @next_perihelion = extremum_calculator
       .periapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)

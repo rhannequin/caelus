@@ -81,7 +81,6 @@
                 <div class="font-mono text-foreground">
                   <%= nillable_datetime(
                     messier_object_position.rts.rising_time,
-                    utc_offset: observer.utc_offset,
                     format: :hm
                   ) %>
                 </div>
@@ -93,7 +92,6 @@
                 <div class="font-mono font-bold">
                   <%= nillable_datetime(
                     messier_object_position.rts.transit_time,
-                    utc_offset: observer.utc_offset,
                     format: :hm
                   ) %>
                 </div>
@@ -105,7 +103,6 @@
                 <div class="font-mono text-foreground">
                   <%= nillable_datetime(
                     messier_object_position.rts.setting_time,
-                    utc_offset: observer.utc_offset,
                     format: :hm
                   ) %>
                 </div>

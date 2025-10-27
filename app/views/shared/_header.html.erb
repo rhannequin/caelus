@@ -18,10 +18,10 @@
 <p class="text-muted-foreground">
   <span class="inline sm:inline">
     <%= l(
-      Time.current.localtime(@observer.utc_offset).to_date,
+      Time.current.to_date,
       format: :long
     ) %>
-    UTC<%= @observer.utc_offset %>
+    UTC<%= Time.zone.formatted_offset %>
   </span>
   <span class="block sm:inline sm:ml-2">
     [<%= format_observer_coordinates(@observer) %>]

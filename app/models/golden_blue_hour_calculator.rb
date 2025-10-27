@@ -19,7 +19,7 @@ class GoldenBlueHourCalculator
         date: @date,
         period_of_the_day: Astronoby::TwilightCalculator::MORNING,
         zenith_angle: GOLDEN_HOUR_ZENITH_ANGLE,
-        utc_offset: @observer.utc_offset
+        utc_offset: @observer.time_zone.formatted_offset
       )
     ]
   end
@@ -30,7 +30,7 @@ class GoldenBlueHourCalculator
         date: @date,
         period_of_the_day: Astronoby::TwilightCalculator::EVENING,
         zenith_angle: GOLDEN_HOUR_ZENITH_ANGLE,
-        utc_offset: @observer.utc_offset
+        utc_offset: @observer.time_zone.formatted_offset
       ),
       sun.rts.setting_time
     ]
@@ -42,13 +42,13 @@ class GoldenBlueHourCalculator
         date: @date,
         period_of_the_day: Astronoby::TwilightCalculator::MORNING,
         zenith_angle: BLUE_HOUR_ZENITH_ANGLES.second,
-        utc_offset: @observer.utc_offset
+        utc_offset: @observer.time_zone.formatted_offset
       ),
       twilight_calculator.time_for_zenith_angle(
         date: @date,
         period_of_the_day: Astronoby::TwilightCalculator::MORNING,
         zenith_angle: BLUE_HOUR_ZENITH_ANGLES.first,
-        utc_offset: @observer.utc_offset
+        utc_offset: @observer.time_zone.formatted_offset
       )
     ]
   end
@@ -59,13 +59,13 @@ class GoldenBlueHourCalculator
         date: @date,
         period_of_the_day: Astronoby::TwilightCalculator::EVENING,
         zenith_angle: BLUE_HOUR_ZENITH_ANGLES.first,
-        utc_offset: @observer.utc_offset
+        utc_offset: @observer.time_zone.formatted_offset
       ),
       twilight_calculator.time_for_zenith_angle(
         date: @date,
         period_of_the_day: Astronoby::TwilightCalculator::EVENING,
         zenith_angle: BLUE_HOUR_ZENITH_ANGLES.second,
-        utc_offset: @observer.utc_offset
+        utc_offset: @observer.time_zone.formatted_offset
       )
     ]
   end

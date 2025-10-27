@@ -10,7 +10,7 @@ class MoonController < ApplicationController
   WEEK_RANGE = (-3..3).to_a.freeze
 
   def show
-    @time = Time.current.localtime(@observer.utc_offset)
+    @time = Time.current
     @moon = Moon.new(observer: @observer, time: @time)
     @next_apogee = extremum_calculator
       .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)

@@ -11,11 +11,7 @@
         </span>
         <div class="text-right">
           <div class="font-semibold text-yellow-500">
-            <%= nillable_datetime(
-              sun.rts.rising_time,
-              utc_offset: observer.utc_offset,
-              format: :hm
-            ) %>
+            <%= nillable_datetime(sun.rts.rising_time, format: :hm) %>
           </div>
           <% if sun.rts.rising_time %>
             <div class="text-xs text-muted-foreground">
@@ -37,11 +33,7 @@
         </span>
         <div class="text-right">
           <div class="font-semibold">
-            <%= nillable_datetime(
-              sun.rts.transit_time,
-              utc_offset: observer.utc_offset,
-              format: :hm
-            ) %>
+            <%= nillable_datetime(sun.rts.transit_time, format: :hm) %>
           </div>
           <% if sun.rts.transit_time %>
             <div class="text-xs text-muted-foreground">
@@ -63,11 +55,7 @@
         </span>
         <div class="text-right">
           <div class="font-semibold text-orange-500">
-            <%= nillable_datetime(
-              sun.rts.setting_time,
-              utc_offset: observer.utc_offset,
-              format: :hm
-            ) %>
+            <%= nillable_datetime(sun.rts.setting_time, format: :hm) %>
           </div>
           <% if sun.rts.setting_time %>
             <div class="text-xs text-muted-foreground">

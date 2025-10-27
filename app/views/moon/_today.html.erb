@@ -10,11 +10,7 @@
         </span>
         <div class="text-right">
           <div class="font-mono">
-            <%= nillable_datetime(
-              moon.rts.rising_time,
-              utc_offset: observer.utc_offset,
-              format: :hm
-            ) %>
+            <%= nillable_datetime(moon.rts.rising_time, format: :hm) %>
           </div>
           <% if moon.rts.rising_time %>
             <div class="text-xs text-muted-foreground">
@@ -36,11 +32,7 @@
         </span>
         <div class="text-right">
           <div class="font-mono">
-            <%= nillable_datetime(
-              moon.rts.transit_time,
-              utc_offset: observer.utc_offset,
-              format: :hm
-            ) %>
+            <%= nillable_datetime(moon.rts.transit_time, format: :hm) %>
           </div>
           <% if moon.rts.transit_time %>
             <div class="text-xs text-muted-foreground">
@@ -62,11 +54,7 @@
         </span>
         <div class="text-right">
           <div class="font-mono">
-            <%= nillable_datetime(
-              moon.rts.setting_time,
-              utc_offset: observer.utc_offset,
-              format: :hm
-            ) %>
+            <%= nillable_datetime(moon.rts.setting_time, format: :hm) %>
           </div>
           <% if moon.rts.setting_time %>
             <div class="text-xs text-muted-foreground">

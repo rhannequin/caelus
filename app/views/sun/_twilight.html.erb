@@ -15,7 +15,6 @@
           <span class="font-mono">
             <%= nillable_datetime(
               twilight_event.morning_astronomical_twilight_time,
-              utc_offset: observer.utc_offset,
               format: :hm
             ) %>
           </span>
@@ -27,7 +26,6 @@
           <span class="font-mono">
             <%= nillable_datetime(
               twilight_event.morning_nautical_twilight_time,
-              utc_offset: observer.utc_offset,
               format: :hm
             ) %>
           </span>
@@ -39,7 +37,6 @@
           <span class="font-mono">
             <%= nillable_datetime(
               twilight_event.morning_civil_twilight_time,
-              utc_offset: observer.utc_offset,
               format: :hm
             ) %>
           </span>
@@ -59,7 +56,6 @@
           <span class="font-mono">
             <%= nillable_datetime(
               twilight_event.evening_civil_twilight_time,
-              utc_offset: observer.utc_offset,
               format: :hm
             ) %>
           </span>
@@ -71,7 +67,6 @@
           <span class="font-mono">
             <%= nillable_datetime(
               twilight_event.evening_nautical_twilight_time,
-              utc_offset: observer.utc_offset,
               format: :hm
             ) %>
           </span>
@@ -83,7 +78,6 @@
           <span class="font-mono">
             <%= nillable_datetime(
               twilight_event.evening_astronomical_twilight_time,
-              utc_offset: observer.utc_offset,
               format: :hm
             ) %>
           </span>

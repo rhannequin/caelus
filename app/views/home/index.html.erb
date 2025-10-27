@@ -12,7 +12,7 @@
     ) %>
   <% end %>
   <%= cache("current_moon/#{observer_cache_key}", expires_in: 1.hour) do %>
-    <%= render "current_moon", moon: @moon, observer: @observer %>
+    <%= render "current_moon", moon: @moon %>
   <% end %>
   <%= cache(
     "sun_moon_times/#{observer_cache_key}/#{Date.current}",
@@ -22,7 +22,7 @@
       "sun_moon_times",
       twilight_events: @twilight_events,
       sun: @sun,
-      moon: @moon, observer: @observer
+      moon: @moon
     ) %>
   <% end %>
 </div>
@@ -32,7 +32,7 @@
     "planets_tonight/#{observer_cache_key}/#{Date.current}",
     expires_at: observer_end_of_day
   ) do %>
-    <%= render "planets_tonight", planets: @planets, observer: @observer %>
+    <%= render "planets_tonight", planets: @planets %>
   <% end %>
 </div>
 
@@ -42,7 +42,6 @@
 ) do %>
   <%= render(
     "deep_sky_objects",
-    observer: @observer,
     messier_object_positions: @messier_object_positions
   ) %>
 <% end %>

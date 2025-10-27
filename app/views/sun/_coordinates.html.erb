@@ -40,7 +40,7 @@
             <%= sun
               .topocentric
               .equatorial
-              .compute_hour_angle(time: time, longitude: observer.longitude)
+              .compute_hour_angle(time: time, longitude: longitude)
               .str(:hms, precision: 0) %>
           </span>
         </div>
