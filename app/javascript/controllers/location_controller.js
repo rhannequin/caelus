@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['lat', 'lng', 'detectBtn']
+  static targets = ['lat', 'lng', 'detectBtn', 'timeZone']
 
   connect () {
     this.boundCloseOnEscape = this.closeOnEscape.bind(this)
@@ -35,6 +35,7 @@ export default class extends Controller {
             this.latTarget.value = position.coords.latitude.toFixed(4)
             this.lngTarget.value = position.coords.longitude.toFixed(4)
           }
+          this.setUserTimeZone()
           this.setDefaultState()
         },
         (_error) => {
@@ -84,6 +85,17 @@ export default class extends Controller {
         'border-gray-300',
         'dark:border-gray-600'
       )
+    }
+  }
+
+  setUserTimeZone () {
+    if (this.hasTimeZoneTarget) {
+      try {
+        this.timeZoneTarget.value = Intl
+          .DateTimeFormat()
+          .resolvedOptions()
+          .timeZone
+      } catch (_error) {}
     }
   }
 
