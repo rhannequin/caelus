@@ -13,7 +13,8 @@ RSpec.describe LocationController, type: :request do
           params: {
             latitude: "34.0567",
             longitude: "-118.2543",
-            utc_offset: "-08:00"
+            utc_offset: "-08:00",
+            time_zone: "America/Los_Angeles"
           }
         )
         jar = response.request.cookie_jar
@@ -21,6 +22,7 @@ RSpec.describe LocationController, type: :request do
         expect(jar.signed[:latitude]).to eq(34.0567)
         expect(jar.signed[:longitude]).to eq(-118.2543)
         expect(jar.signed[:utc_offset]).to eq("-08:00")
+        expect(jar.signed[:time_zone]).to eq("America/Los_Angeles")
       end
 
       it "ignores invalid latitude value" do
@@ -31,7 +33,8 @@ RSpec.describe LocationController, type: :request do
           params: {
             latitude: "100.0000",
             longitude: "-118.2543",
-            utc_offset: "-08:00"
+            utc_offset: "-08:00",
+            time_zone: "America/Los_Angeles"
           }
         )
         jar = response.request.cookie_jar
@@ -48,7 +51,8 @@ RSpec.describe LocationController, type: :request do
           params: {
             latitude: "34.0567",
             longitude: "-200.0000",
-            utc_offset: "-08:00"
+            utc_offset: "-08:00",
+            time_zone: "America/Los_Angeles"
           }
         )
         jar = response.request.cookie_jar
@@ -65,7 +69,8 @@ RSpec.describe LocationController, type: :request do
           params: {
             latitude: "34.0567",
             longitude: "-118.2543",
-            utc_offset: "-08:00"
+            utc_offset: "-08:00",
+            time_zone: "America/Los_Angeles"
           }
         )
 
@@ -81,7 +86,8 @@ RSpec.describe LocationController, type: :request do
           params: {
             latitude: "34.0567",
             longitude: "-118.2543",
-            utc_offset: "-08:00"
+            utc_offset: "-08:00",
+            time_zone: "America/Los_Angeles"
           },
           headers: {"HTTP_REFERER" => moon_path}
         )
@@ -100,7 +106,8 @@ RSpec.describe LocationController, type: :request do
             params: {
               latitude: "34.0567",
               longitude: "-118.2543",
-              utc_offset: offset
+              utc_offset: offset,
+              time_zone: "America/Los_Angeles"
             }
           )
 
@@ -119,7 +126,8 @@ RSpec.describe LocationController, type: :request do
             params: {
               latitude: "34.0567",
               longitude: "-118.2543",
-              utc_offset: offset
+              utc_offset: offset,
+              time_zone: "America/Los_Angeles"
             }
           )
 
@@ -135,7 +143,8 @@ RSpec.describe LocationController, type: :request do
           location_path,
           params: {
             latitude: "34.0567",
-            longitude: "-118.2543"
+            longitude: "-118.2543",
+            time_zone: "America/Los_Angeles"
           }
         )
         jar = response.request.cookie_jar
@@ -144,6 +153,50 @@ RSpec.describe LocationController, type: :request do
         expect(jar.signed[:latitude]).to eq(34.0567)
         expect(jar.signed[:longitude]).to eq(-118.2543)
         expect(jar.signed[:utc_offset]).to be_nil
+        expect(jar.signed[:time_zone]).to eq("America/Los_Angeles")
+        expect(response).to redirect_to(root_path)
+      end
+
+      it "rejects invalid time zones" do
+        post cookie_consent_path
+
+        patch(
+          location_path,
+          params: {
+            latitude: "34.0567",
+            longitude: "-118.2543",
+            utc_offset: "-08:00",
+            time_zone: "Singap"
+          }
+        )
+        jar = response.request.cookie_jar
+
+        expect(response).to have_http_status(:found)
+        expect(jar.signed[:latitude]).to eq(34.0567)
+        expect(jar.signed[:longitude]).to eq(-118.2543)
+        expect(jar.signed[:utc_offset]).to eq("-08:00")
+        expect(jar.signed[:time_zone]).to be_nil
+        expect(response).to redirect_to(root_path)
+      end
+
+      it "works without time_zone parameter" do
+        post cookie_consent_path
+
+        patch(
+          location_path,
+          params: {
+            latitude: "34.0567",
+            longitude: "-118.2543",
+            utc_offset: "-08:00"
+          }
+        )
+        jar = response.request.cookie_jar
+
+        expect(response).to have_http_status(:found)
+        expect(jar.signed[:latitude]).to eq(34.0567)
+        expect(jar.signed[:longitude]).to eq(-118.2543)
+        expect(jar.signed[:utc_offset]).to eq("-08:00")
+        expect(jar.signed[:time_zone]).to be_nil
         expect(response).to redirect_to(root_path)
       end
 
@@ -153,7 +206,8 @@ RSpec.describe LocationController, type: :request do
           params: {
             latitude: "34.0567",
             longitude: "-118.2543",
-            utc_offset: "-08:00"
+            utc_offset: "-08:00",
+            time_zone: "America/Los_Angeles"
           },
           headers: {"HTTP_REFERER" => sun_path}
         )

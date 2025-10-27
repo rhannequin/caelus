@@ -39,9 +39,15 @@
       </p>
 
       <ul class="list-disc ml-6 space-y-2">
-        <% t(".sections.what_data_we_collect.data_points").each do |point| %>
-          <li><%= point %></li>
-        <% end %>
+        <li>
+          <%= t(".sections.what_data_we_collect.data_points.location") %>
+        </li>
+        <li>
+          <%= t(".sections.what_data_we_collect.data_points.utc_offset_html") %>
+        </li>
+        <li>
+          <%= t(".sections.what_data_we_collect.data_points.time_zone_html") %>
+        </li>
       </ul>
 
       <p class="leading-relaxed">
@@ -262,6 +268,22 @@
               </td>
               <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
                 <%= t(".sections.cookies.table.cookies.utc_offset.type") %>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <code>
+                  <%= t(".sections.cookies.table.cookies.time_zone.name") %>
+                </code>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.time_zone.purpose") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.time_zone.duration") %>
+              </td>
+              <td class="border border-gray-300 dark:border-gray-600 px-3 py-2">
+                <%= t(".sections.cookies.table.cookies.time_zone.type") %>
               </td>
             </tr>
             <tr>

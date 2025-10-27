@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   DEFAULT_LOCATION = [48.85341, 2.3488] # Paris, France
   DEFAULT_TIME_ZONE = "Europe/Paris"
 
-  before_action :set_observer
+  around_action :set_observer
 
   helper_method :cookie_consent_given?,
     :cookie_consent_chosen?,
@@ -26,22 +26,29 @@ class ApplicationController < ActionController::Base
       .formatted_offset
   end
 
-  def set_observer
+  def set_observer(&block)
     if cookie_consent_given?
       latitude = (cookies.signed[:latitude] || DEFAULT_LOCATION.first).to_f
       longitude = (cookies.signed[:longitude] || DEFAULT_LOCATION.second).to_f
       utc_offset = cookies.signed[:utc_offset] || default_utc_offset
+      time_zone = cookies.signed[:time_zone] || DEFAULT_TIME_ZONE
     else
       latitude = DEFAULT_LOCATION.first
       longitude = DEFAULT_LOCATION.second
       utc_offset = default_utc_offset
+      time_zone = DEFAULT_TIME_ZONE
     end
 
-    @observer = Astronoby::Observer.new(
+    astronoby_observer = Astronoby::Observer.new(
       latitude: Astronoby::Angle.from_degrees(latitude),
       longitude: Astronoby::Angle.from_degrees(longitude),
       utc_offset: utc_offset
     )
+    @observer = Observer.new(
+      astronoby_observer: astronoby_observer,
+      time_zone: Time.find_zone(time_zone)
+    )
+    Time.use_zone(time_zone, &block)
   end
 
   def observer_cache_key

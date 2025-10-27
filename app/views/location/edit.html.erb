@@ -87,8 +87,32 @@
               "data-location-target": "utc",
               required: true
             ) %>
+          </div>
+          <div>
+            <%= f.label(
+              :time_zone,
+              t(".form.time_zone"),
+              class: "text-sm font-medium"
+            ) %>
+            <%= f.select(
+              :time_zone,
+              options_for_select(
+                ActiveSupport::TimeZone.all.map do |tz|
+                  [
+                    "(#{tz.formatted_offset}) #{tz.tzinfo.identifier.gsub('_', ' ')}",
+                    tz.tzinfo.name
+                  ]
+                end,
+                @time_zone_name
+              ),
+              { include_blank: false },
+              {
+                class: "w-full rounded-md border bg-transparent p-2 mt-2",
+                aria: { describedby: "time-zone-hint" }
+              }
+            ) %>
             <div class="text-xs text-muted-foreground mt-1">
-              <%= t ".form.utc_offset_help" %>
+              <%= t ".form.time_zone_help" %>
             </div>
           </div>
         </div>

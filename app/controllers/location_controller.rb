@@ -8,6 +8,7 @@ class LocationController < ApplicationController
     @latitude = @observer.latitude.degrees.round(4)
     @longitude = @observer.longitude.degrees.round(4)
     @utc_offset = @observer.utc_offset
+    @time_zone_name = @observer.time_zone&.name
   end
 
   def update
@@ -20,6 +21,10 @@ class LocationController < ApplicationController
 
     if valid_utc_offset?(params[:utc_offset])
       cookies.permanent.signed[:utc_offset] = params[:utc_offset]
+    end
+
+    if valid_time_zone?(params[:time_zone]) && params[:time_zone].present?
+      cookies.permanent.signed[:time_zone] = params[:time_zone]
     end
 
     redirect_back(fallback_location: root_path)
@@ -43,6 +48,14 @@ class LocationController < ApplicationController
     return false if utc_offset.blank?
 
     utc_offset.match?(/^[+-](0[0-9]|1[0-2]):(00|15|30|45)$/)
+  end
+
+  def valid_time_zone?(time_zone)
+    return true if time_zone.blank?
+
+    time_zone.in?(
+      ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }.compact
+    )
   end
 
   helper_method :utc_offset_options

@@ -34,7 +34,8 @@ RSpec.describe CookieConsentController, type: :request do
         params: {
           latitude: "34.0567",
           longitude: "-118.2543",
-          utc_offset: "-08:00"
+          utc_offset: "-08:00",
+          time_zone: "America/Los_Angeles"
         }
       )
       jar = response.request.cookie_jar
@@ -42,6 +43,7 @@ RSpec.describe CookieConsentController, type: :request do
       expect(jar.signed[:latitude]).to eq(34.0567)
       expect(jar.signed[:longitude]).to eq(-118.2543)
       expect(jar.signed[:utc_offset]).to eq("-08:00")
+      expect(jar.signed[:time_zone]).to eq("America/Los_Angeles")
 
       delete cookie_consent_path
       jar = response.request.cookie_jar
@@ -49,6 +51,7 @@ RSpec.describe CookieConsentController, type: :request do
       expect(jar.signed[:latitude]).to be_nil
       expect(jar.signed[:longitude]).to be_nil
       expect(jar.signed[:utc_offset]).to be_nil
+      expect(jar.signed[:time_zone]).to be_nil
     end
 
     it "redirects to the root path after deleting when no referer" do
