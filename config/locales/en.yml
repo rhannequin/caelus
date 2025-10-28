@@ -207,8 +207,8 @@ en:
         cancel: Cancel
         latitude: Latitude
         longitude: Longitude
-        utc_offset: Timezone (UTC Offset)
-        utc_offset_help: Select your timezone to ensure accurate astronomical
+        time_zone: Time zone
+        time_zone_help: Select your time zone to ensure accurate astronomical
           calculations
         submit: Save Location
       manually: or enter coordinates manually
@@ -427,7 +427,7 @@ en:
   privacy_policy:
     show:
       title: Privacy Policy
-      last_updated: "Last updated: 2025-09-01"
+      last_updated: "Last updated: 2025-10-31"
       introduction: This Privacy Policy explains how we collect, use, and
         protect your personal data when you use this website.
       sections:
@@ -442,8 +442,9 @@ en:
           intro: "If you choose to submit the location form, we collect and
             store the following information:"
           data_points:
-            - Latitude and longitude
-            - Time zone (UTC offset)
+            location: Latitude and longitude
+            time_zone_html: "Time zone (<abbr title=\"Internet Assigned Numbers
+              Authority\">IANA</abbr> identifier, e.g., Europe/Paris)"
           storage_info: This information is stored in a signed cookie on your
             device. It is not shared with third parties and is not used for
             advertising or tracking.
@@ -530,16 +531,16 @@ en:
                 purpose: Stores your longitude for astronomical calculations
                 duration: 1 year
                 type: Cookie
-              utc_offset:
-                name: utc_offset
-                purpose: Stores your timezone offset for date/time display
-                duration: 1 year
-                type: Cookie
               theme:
                 name: theme (localStorage)
                 purpose: Stores your dark/light mode theme preference
                 duration: Until cleared
                 type: Local Storage
+              time_zone:
+                name: time_zone
+                purpose: Stores your time zone for accurate date/time display
+                duration: 1 year
+                type: Cookie
           additional_info: All cookies are first-party cookies and are not
             shared with third parties. Local storage data is stored locally in
             your browser and is not transmitted to our servers. You can manage

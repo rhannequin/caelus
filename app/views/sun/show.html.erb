@@ -4,25 +4,24 @@
   "hero",
   sun: @sun,
   yesterday_sun: @yesterday_sun,
-  observer: @observer,
   transit_altitude: @transit_altitude
 ) %>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
   <div class="space-y-6">
-    <%= render("today", sun: @sun, observer: @observer) %>
+    <%= render "today", sun: @sun %>
+
+    <%= render "twilight", twilight_event: @twilight_event %>
 
     <%= render(
-      "twilight",
-      twilight_event: @twilight_event,
-      observer: @observer
+      "coordinates",
+      sun: @sun,
+      longitude: @observer.longitude,
+      time: @time
     ) %>
-
-    <%= render "coordinates", sun: @sun, observer: @observer, time: @time %>
 
     <%= render(
       "photography",
-      observer: @observer,
       golden_blue_hour_calculator: @golden_blue_hour_calculator
     ) %>
   </div>
@@ -32,8 +31,7 @@
       "distances",
       sun: @sun,
       next_perihelion: @next_perihelion,
-      next_aphelion: @next_aphelion,
-      observer: @observer
+      next_aphelion: @next_aphelion
     ) %>
 
     <%= render "seasons", upcoming_seasons: @upcoming_seasons %>

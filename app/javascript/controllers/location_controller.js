@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['lat', 'lng', 'utc', 'detectBtn']
+  static targets = ['lat', 'lng', 'detectBtn', 'timeZone']
 
   connect () {
     this.boundCloseOnEscape = this.closeOnEscape.bind(this)
@@ -35,7 +35,7 @@ export default class extends Controller {
             this.latTarget.value = position.coords.latitude.toFixed(4)
             this.lngTarget.value = position.coords.longitude.toFixed(4)
           }
-          this.setTimezoneFromLocation()
+          this.setUserTimeZone()
           this.setDefaultState()
         },
         (_error) => {
@@ -88,34 +88,14 @@ export default class extends Controller {
     }
   }
 
-  setTimezoneFromLocation () {
-    if (!this.hasUtcTarget) return
-
-    const now = new Date()
-    const utcOffsetMinutes = -now.getTimezoneOffset()
-    const hours = Math.floor(Math.abs(utcOffsetMinutes) / 60.0)
-    const minutes = Math.abs(utcOffsetMinutes) % 60
-
-    // Round minutes to nearest 15-minute interval
-    const roundedMinutes = Math.round(minutes / 15.0) * 15
-    const adjustedHours = hours + Math.floor(roundedMinutes / 60.0)
-    const finalMinutes = roundedMinutes % 60
-
-    // Ensure we don't exceed 12 hours
-    const clampedHours = Math.min(adjustedHours, 12)
-
-    const sign = utcOffsetMinutes >= 0 ? '+' : '-'
-    const formattedHours = clampedHours.toString().padStart(2, '0')
-    const formattedMinutes = finalMinutes.toString().padStart(2, '0')
-
-    const timezoneValue = `${sign}${formattedHours}:${formattedMinutes}`
-
-    const select = this.utcTarget
-    for (const option of select.options) {
-      if (option.value === timezoneValue) {
-        option.selected = true
-        break
-      }
+  setUserTimeZone () {
+    if (this.hasTimeZoneTarget) {
+      try {
+        this.timeZoneTarget.value = Intl
+          .DateTimeFormat()
+          .resolvedOptions()
+          .timeZone
+      } catch (_error) {}
     }
   }
 

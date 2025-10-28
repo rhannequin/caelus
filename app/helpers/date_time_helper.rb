@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module DateTimeHelper
-  def nillable_datetime(datetime, utc_offset: "+00:00", format: :default)
+  def nillable_datetime(datetime, format: :default)
     if datetime.nil?
       "∅"
     else
-      I18n.l(datetime.localtime(utc_offset), format: format)
+      I18n.l(datetime.in_time_zone, format: format)
     end
   end
 

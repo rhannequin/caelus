@@ -40,7 +40,10 @@ class HomeController < ApplicationController
       Astronoby::TwilightCalculator.new(
         observer: @observer,
         ephem: SPK.inpop19a
-      ).event_on(Time.zone.today, utc_offset: @observer.utc_offset)
+      ).event_on(
+        Time.zone.today,
+        utc_offset: @observer.time_zone.formatted_offset
+      )
     end
 
     @next_twilight_events = Rails.cache.fetch(

@@ -10,13 +10,11 @@
       <span class="font-mono">
         <%= nillable_datetime(
           twilight_events.evening_astronomical_twilight_time,
-          utc_offset: observer.utc_offset,
           format: :hm
         ) %>
         :
         <%= nillable_datetime(
           next_twilight_events.morning_astronomical_twilight_time,
-          utc_offset: observer.utc_offset,
           format: :hm
         ) %>
       </span>
