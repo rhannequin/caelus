@@ -4,65 +4,63 @@ class HomeController < ApplicationController
   MAXIMUM_DEEP_SKY_OBJECTS = 10
 
   def index
+    @time = Time.current
     @planets = Rails.cache.fetch(
-      "planets/#{observer_cache_key}/#{Date.current}",
+      "planets/#{observer_cache_key}/#{@time.to_date}",
       expires_at: observer_end_of_day
     ) do
       [
-        Mercury.new(observer: @observer),
-        Venus.new(observer: @observer),
-        Mars.new(observer: @observer),
-        Jupiter.new(observer: @observer),
-        Saturn.new(observer: @observer),
-        Uranus.new(observer: @observer),
-        Neptune.new(observer: @observer)
+        Mercury.new(observer: @observer, time: @time),
+        Venus.new(observer: @observer, time: @time),
+        Mars.new(observer: @observer, time: @time),
+        Jupiter.new(observer: @observer, time: @time),
+        Saturn.new(observer: @observer, time: @time),
+        Uranus.new(observer: @observer, time: @time),
+        Neptune.new(observer: @observer, time: @time)
       ]
     end
 
-    @sun = Rails.cache.fetch(
-      "sun/#{observer_cache_key}",
-      expires_in: 1.hour
-    ) do
-      Sun.new(observer: @observer)
+    @sun = Rails.cache.fetch("sun/#{observer_cache_key}", expires_in: 1.hour) do
+      Sun.new(observer: @observer, time: @time)
     end
 
     @moon = Rails.cache.fetch(
       "moon/#{observer_cache_key}",
       expires_in: 1.hour
     ) do
-      Moon.new(observer: @observer)
+      Moon.new(observer: @observer, time: @time)
     end
 
     @twilight_events = Rails.cache.fetch(
-      "twilight_events/#{observer_cache_key}/#{Date.current}",
+      "twilight_events/#{observer_cache_key}/#{@time.to_date}",
       expires_at: observer_end_of_day
     ) do
       Astronoby::TwilightCalculator.new(
         observer: @observer,
         ephem: SPK.inpop19a
       ).event_on(
-        Time.zone.today,
+        @time.to_date,
         utc_offset: @observer.time_zone.formatted_offset
       )
     end
 
     @next_twilight_events = Rails.cache.fetch(
-      "next_twilight_events/#{observer_cache_key}/#{Date.current}",
+      "next_twilight_events/#{observer_cache_key}/#{@time.to_date}",
       expires_at: observer_end_of_day
     ) do
       Astronoby::TwilightCalculator.new(
         observer: @observer,
         ephem: SPK.inpop19a
-      ).event_on(Date.tomorrow)
+      ).event_on(@time.to_date + 1)
     end
 
     @messier_object_positions = Rails.cache.fetch(
-      "messier_object_positions/#{observer_cache_key}/#{Date.current}",
+      "messier_object_positions/#{observer_cache_key}/#{@time.to_date}",
       expires_at: observer_end_of_day
     ) do
       MessierCatalog
         .all
-        .map { |obj| obj.at(Time.current, observer: @observer, use_ephem: true) }
+        .map { |obj| obj.at(@time, observer: @observer, use_ephem: true) }
         .max(MAXIMUM_DEEP_SKY_OBJECTS) do |a, b|
           b.messier_object.magnitude <=> a.messier_object.magnitude
         end

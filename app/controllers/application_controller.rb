@@ -48,11 +48,11 @@ class ApplicationController < ActionController::Base
   end
 
   def observer_end_of_day
-    Time.current.end_of_day
+    (@time || Time.current).end_of_day
   end
 
   def observer_end_of_year
-    Time.current.end_of_year
+    (@time || Time.current).end_of_year
   end
 
   def cookie_consent_given?
