@@ -1,5 +1,23 @@
-<footer class="text-center">
-  <p>
+<footer class="text-center space-y-4">
+  <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200
+    dark:border-blue-800 rounded-lg p-4 max-w-2xl mx-auto">
+    <p class="font-medium text-blue-900 dark:text-blue-100 mb-2">
+      <%= t(".open_source_intro") %>
+    </p>
+    <p class="text-sm text-blue-800 dark:text-blue-200">
+      <%= t(
+        ".open_source_description_html",
+        source_code_link: link_to(
+          t("shared.footer.source_code"),
+          "https://github.com/rhannequin/caelus",
+          class: "link font-medium",
+          target: "_blank",
+          rel: "noopener"
+        )
+      ) %>
+    </p>
+  </div>
+  <p class="text-sm">
     <%= t(
       ".made_with_love_html",
       link: link_to("Astronoby", "https://github.com/rhannequin/astronoby", class: "link"),

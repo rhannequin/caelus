@@ -610,7 +610,11 @@ en:
       enable_cookies: Enable Cookies
       made_with_love_html: "Made with &hearts; by %{author_link}
         using %{link}"
+      open_source_intro: "🌐 Caelus is an open source project 🌐"
+      open_source_description_html: "Contributions and feedback are welcome! •
+        %{source_code_link}"
       privacy_policy: Privacy Policy
+      source_code: Source Code
     location_selector:
       location_modal:
         label: Set your location
