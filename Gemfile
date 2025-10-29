@@ -7,6 +7,7 @@ gem "importmap-rails"
 gem "kamal", require: false
 gem "propshaft"
 gem "puma"
+gem "rack-attack"
 gem "rails"
 gem "solid_cable"
 gem "solid_cache"
