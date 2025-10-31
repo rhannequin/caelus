@@ -16,7 +16,7 @@ class SubSolarObserver
   end
 
   def observer
-    sidereal_time = Astronoby::GreenwichSiderealTime
+    sidereal_time = Astronoby::GreenwichApparentSiderealTime
       .from_utc(@time.utc)
       .time
     longitude = @sun_right_ascension -

@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "astronoby", github: "rhannequin/astronoby"
+gem "astronoby"
 gem "bootsnap", require: false
 gem "bugsnag"
 gem "importmap-rails"
