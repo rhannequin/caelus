@@ -74,6 +74,9 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    appsignal (4.7.5)
+      logger
+      rack (>= 2.0.0)
     ast (2.4.3)
     astronoby (0.9.0)
       ephem (~> 0.3)
@@ -426,6 +429,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  appsignal
   astronoby
   bootsnap
   brakeman
