@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rhannequin/astronoby.git
-  revision: 42c1f89fe254aa3c85e8049df9dde6963f6932fd
+  revision: 5b13cf3a080b60afb57da1c3d3cd589d980aab49
   specs:
     astronoby (0.8.0)
       ephem (~> 0.3)
@@ -417,7 +417,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.7.3)
-    zlib (3.2.1)
+    zlib (3.2.2)
 
 PLATFORMS
   aarch64-linux
