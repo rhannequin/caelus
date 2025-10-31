@@ -1,0 +1,21 @@
+default: &defaults
+  push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
+  name: "Caelus"
+  instrument_net_http: true
+  enable_allocation_tracking: true
+
+test:
+  <<: *defaults
+  active: false
+
+development:
+  <<: *defaults
+  active: false
+
+staging:
+  <<: *defaults
+  active: true
+
+production:
+  <<: *defaults
+  active: true
