@@ -4,7 +4,7 @@ class MoonController < ApplicationController
   MAJOR_MOON_PHASES = 4
 
   # More than Moon orbit period
-  EXTREMUM_LOOKAHEAD = 28.days
+  EXTREMUM_LOOKAHEAD = 30.days
 
   # 3 previous days, today, and 3 next days
   WEEK_RANGE = (-3..3).to_a.freeze
