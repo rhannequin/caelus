@@ -200,6 +200,7 @@ en:
     formats:
       abbreviated_day: "%a"
       full_month_short: "%B %d"
+  description: Open source astronomy dashboard.
   location:
     edit:
       current: "Current: %{latitude}°, %{longitude}°"
