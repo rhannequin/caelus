@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   DEFAULT_TIME_ZONE = "Europe/Paris"
 
   around_action :set_observer
+  around_action :set_breadcrumbs
 
   helper_method :cookie_consent_given?,
     :cookie_consent_chosen?,
@@ -39,6 +40,20 @@ class ApplicationController < ActionController::Base
       time_zone: Time.find_zone(time_zone)
     )
     Time.use_zone(time_zone, &block)
+  end
+
+  def set_breadcrumbs
+    Appsignal.add_breadcrumb(
+      "Context",
+      "Observer",
+      "",
+      {
+        "latitude" => @observer.latitude.degrees.to_s,
+        "longitude" => @observer.longitude.degrees.to_s,
+        "time_zone" => @observer.time_zone.tzinfo.name
+      }
+    )
+    yield
   end
 
   def observer_cache_key
