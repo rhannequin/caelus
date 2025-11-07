@@ -36,6 +36,7 @@ group :test do
 end
 
 group :development, :test do
+  gem "bundler-audit", require: false
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "rspec-rails"
