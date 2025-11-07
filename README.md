@@ -19,7 +19,7 @@ enthusiasts to professionals.
 ## Requirements
 
 - Ruby 3.4+
-- Rails 8.0+
+- Rails 8.1+
 - SQLite3
 
 ## Setup
@@ -46,6 +46,15 @@ Caelus uses RSpec for testing. To run the test suite, use the following command:
 
 ```
 bin/rails spec
+```
+
+## Local CI
+
+For a more accurate representation of the CI environment, you can run CI tasks
+locally:
+
+```
+bin/ci
 ```
 
 ## Production
