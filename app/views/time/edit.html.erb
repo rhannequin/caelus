@@ -1,0 +1,78 @@
+<turbo-frame id="time_modal">
+  <div
+    data-controller="time"
+    data-time-timezone-value="<%= @observer.time_zone.tzinfo.name %>"
+  >
+    <div
+      class="fixed inset-0 bg-black/60 z-40"
+      data-action="click->time#close"
+    ></div>
+
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+      rounded-lg border bg-white dark:bg-gray-900 text-card-foreground shadow-sm
+      z-50 w-full max-w-md p-6">
+      <h2 class="text-xl font-bold mb-4 text-cosmic">
+        <%= t ".title" %>
+      </h2>
+
+      <div class="text-sm text-muted-foreground mb-4">
+        <%= t(
+          ".current",
+          time: l(@time, format: :short),
+          time_zone: @observer.time_zone.tzinfo.name
+        ) %>
+      </div>
+
+      <%= form_with(
+        url: time_path,
+        method: :patch,
+        data: { turbo_frame: "_top" }
+      ) do |f| %>
+        <div class="space-y-4">
+          <div>
+            <%= f.label(
+              :latitude,
+              t(".form.time"),
+              class: "text-sm font-medium"
+            ) %>
+            <div class="flex gap-2">
+              <%= f.datetime_field(
+                :time,
+                value: @time,
+                min: TimeController::TIME_RANGE.min,
+                max: TimeController::TIME_RANGE.max,
+                step: 1,
+                class: "flex-1 rounded-md border bg-transparent p-2 mt-1",
+                required: true,
+                data: { time_target: "timeField" }
+              ) %>
+              <button
+                type="button"
+                class="mt-1 rounded-md border border-input bg-transparent px-3 py-2
+                  hover:bg-accent hover:text-accent-foreground cursor-pointer text-sm"
+                data-action="click->time#setCurrentTime"
+              >
+                Now
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-6">
+          <button
+            type="button"
+            class="rounded-md border border-input bg-transparent px-4 py-2
+              hover:bg-accent hover:text-accent-foreground cursor-pointer"
+            data-action="click->time#cancel"
+          >
+            <%= t ".form.cancel" %>
+          </button>
+          <%= f.submit(
+            t(".form.submit"),
+            class: "cursor-pointer rounded-md bg-primary text-primary-foreground
+              px-4 py-2 hover:bg-primary/90"
+          ) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

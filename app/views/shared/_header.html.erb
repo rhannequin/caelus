@@ -2,6 +2,7 @@
   <%= render "shared/navigation" %>
   <div class="flex items-center gap-4">
     <%= render "shared/location_selector" %>
+    <%= render "shared/time_selector" %>
     <%= render "shared/dark_mode_toggle" %>
   </div>
 </div>
@@ -18,10 +19,10 @@
 <p class="text-muted-foreground">
   <span class="inline sm:inline">
     <%= l(
-      Time.current.to_date,
-      format: :long
+      @time,
+      format: :full
     ) %>
-    UTC<%= Time.zone.formatted_offset %>
+    UTC<%= @time.formatted_offset %>
   </span>
   <span class="block sm:inline sm:ml-2">
     [<%= format_observer_coordinates(@observer) %>]

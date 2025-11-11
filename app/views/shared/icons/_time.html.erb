@@ -1,0 +1,20 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  class="w-6 h-6 fill-current <%= local_assigns[:class] %>">
+  <path
+    fill-rule="evenodd"
+    d="M10 2a8 8 0 100 16 8 8 0 000-16zM10 4a6 6 0 100 12 6 6 0 000-12zm0 2a1 1 0 011 1v3a1 1 0 01-.293.707l-2 2a1 1 0 01-1.414-1.414L9 9.586V7a1 1 0 011-1z"
+    clip-rule="evenodd" />
+  <% if local_assigns[:disabled] %>
+    <line
+      x1="3"
+      y1="3"
+      x2="17"
+      y2="17"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  <% end %>
+</svg>
