@@ -8,7 +8,7 @@ class MessierObjectPosition
   def topocentric
     @topocentric ||= messier_object
       .deep_sky_object
-      .at(instant, ephem: (use_ephem ? SPK.inpop19a : nil))
+      .at(instant, ephem: (use_ephem ? spk : nil))
       .observed_by(observer)
   end
 
@@ -16,7 +16,7 @@ class MessierObjectPosition
     @rts ||= Astronoby::RiseTransitSetCalculator.new(
       body: messier_object.deep_sky_object,
       observer: observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     ).event_on(time.to_date)
   end
 
@@ -32,5 +32,9 @@ class MessierObjectPosition
 
   def instant
     @instant ||= Astronoby::Instant.from_time(time)
+  end
+
+  def spk
+    SPK.for_time(time)
   end
 end

@@ -14,6 +14,7 @@ RSpec.describe DateTimeHelper do
 
     context "when datetime is present" do
       it "formats the datetime using the default format" do
+        Time.zone = "UTC"
         datetime = Time.zone.parse("2024-06-15 14:30:00")
 
         expect(nillable_datetime(datetime))

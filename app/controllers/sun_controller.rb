@@ -10,7 +10,6 @@ class SunController < ApplicationController
   ].freeze
 
   def show
-    @time = Time.current
     @sun = Sun.new(observer: @observer, time: @time)
     @yesterday_sun = Sun.new(observer: @observer, time: @time - 1.day)
     @yearly_elevation = Rails.cache.fetch(
@@ -50,7 +49,7 @@ class SunController < ApplicationController
     Astronoby::ExtremumCalculator.new(
       body: Earth.planet_class,
       primary_body: Sun.planet_class,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
   end
 
@@ -66,7 +65,7 @@ class SunController < ApplicationController
         two_years_seasons << {
           name: season,
           time: Astronoby::EquinoxSolstice
-            .public_send(season, year, SPK.inpop19a)
+            .public_send(season, year, spk)
         }
       end
     end
@@ -78,7 +77,11 @@ class SunController < ApplicationController
   def twilight_calculator
     @twilight_calculator ||= Astronoby::TwilightCalculator.new(
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
+  end
+
+  def spk
+    SPK.for_time(@time)
   end
 end

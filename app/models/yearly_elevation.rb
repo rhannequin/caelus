@@ -56,7 +56,11 @@ class YearlyElevation
 
   def transit_times
     @transit_times ||= Astronoby::RiseTransitSetCalculator
-      .new(body: @body.planet_class, observer: @observer, ephem: SPK.inpop19a)
+      .new(
+        body: @body.planet_class,
+        observer: @observer,
+        ephem: SPK.for_time(Time.utc(@year, 1, 1))
+      )
       .events_between(start_date.to_time, end_date.to_time)
       .transit_times
   end

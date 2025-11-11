@@ -34,7 +34,7 @@ class Visibility
     Astronoby::RiseTransitSetCalculator.new(
       body: astronoby_body,
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
   end
 
@@ -42,14 +42,14 @@ class Visibility
     Astronoby::RiseTransitSetCalculator.new(
       body: Astronoby::Sun,
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
   end
 
   def twilight
     Astronoby::TwilightCalculator.new(
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
   end
 
@@ -111,5 +111,9 @@ class Visibility
       tomorrow_setting_time = tomorrow_rts.setting_time
       (rising_time..tomorrow_setting_time)
     end
+  end
+
+  def spk
+    SPK.for_time(@date.to_time)
   end
 end
