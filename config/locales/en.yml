@@ -547,7 +547,7 @@ en:
                 name: time
                 purpose: Stores your custom date/time setting for astronomical
                   calculations at specific moments
-                duration: Until cleared
+                duration: 1 year
                 type: Cookie
           additional_info: All cookies are first-party cookies and are not
             shared with third parties. Local storage data is stored locally in

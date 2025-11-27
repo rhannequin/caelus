@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe TimeController, type: :request do
   describe "PATCH time" do
     context "when cookie consent is given" do
-      it "updates the observer's time" do
+      it "updates the observer's time, stores it in UTC" do
         post cookie_consent_path
 
         patch(
@@ -14,7 +14,7 @@ RSpec.describe TimeController, type: :request do
         )
         jar = response.request.cookie_jar
 
-        expect(jar.signed[:time]).to eq("2025-12-01T20:49:51")
+        expect(jar.signed[:time]).to eq("2025-12-01T19:49:51Z")
       end
 
       it "ignores invalid time value" do

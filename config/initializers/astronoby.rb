@@ -32,6 +32,9 @@ class SPK
         if File.exist?(file_path)
           Astronoby::Ephem.load(file_path)
         else
+          Rails.logger.warn(
+            "SPK file #{file_path} not found, falling back to full inpop19a SPK"
+          )
           inpop19a
         end
       )
