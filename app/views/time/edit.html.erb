@@ -39,8 +39,14 @@
               <%= f.datetime_field(
                 :time,
                 value: @time,
-                min: TimeController::TIME_RANGE.min,
-                max: TimeController::TIME_RANGE.max,
+                min: TimeController::TIME_RANGE
+                  .begin
+                  .beginning_of_day
+                  .strftime("%Y-%m-%dT%H:%M"),
+                max: TimeController::TIME_RANGE
+                  .end
+                  .end_of_day
+                  .strftime("%Y-%m-%dT%H:%M"),
                 step: 1,
                 class: "flex-1 rounded-md border bg-transparent p-2 mt-1",
                 required: true,
