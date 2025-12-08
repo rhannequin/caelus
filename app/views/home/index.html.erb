@@ -1,6 +1,6 @@
 <div class="lg:col-span-4 space-y-6">
   <%= cache(
-    "tonight_sky/#{observer_cache_key}/#{Date.current}",
+    "tonight_sky/#{observer_cache_key}",
     expires_at: observer_end_of_day
   ) do %>
     <%= render(
@@ -15,7 +15,7 @@
     <%= render "current_moon", moon: @moon %>
   <% end %>
   <%= cache(
-    "sun_moon_times/#{observer_cache_key}/#{Date.current}",
+    "sun_moon_times/#{observer_cache_key}",
     expires_at: observer_end_of_day
   ) do %>
     <%= render(

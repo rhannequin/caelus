@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
   def observer_cache_key
     "#{@observer.latitude.degrees.round(3)}/" \
       "#{@observer.longitude.degrees.round(3)}/" \
-      "#{@observer.time_zone.tzinfo.name}"
+      "#{@observer.time_zone.tzinfo.name}/#{@time.to_date}"
   end
 
   def observer_end_of_day
