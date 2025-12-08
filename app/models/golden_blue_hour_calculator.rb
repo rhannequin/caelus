@@ -82,7 +82,11 @@ class GoldenBlueHourCalculator
   def twilight_calculator
     @twilight_calculator ||= Astronoby::TwilightCalculator.new(
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
+  end
+
+  def spk
+    SPK.for_time(@date.to_time)
   end
 end

@@ -1,0 +1,25 @@
+<div>
+  <% if cookie_consent_given? %>
+    <a
+      href="<%= edit_time_path %>"
+      data-turbo-frame="time_modal"
+      aria-label="<%= t ".time_modal.label" %>"
+      class="text-gray-800 dark:text-gray-100 hover:text-gray-600
+              dark:hover:text-gray-300 transition-colors cursor-pointer"
+      title="<%= t(".time_modal.title") %>"
+    >
+      <%= render "shared/icons/time" %>
+    </a>
+  <% else %>
+    <a
+      href="<%= new_cookie_consent_path %>"
+      data-turbo-frame="cookie_consent_modal"
+      aria-label="<%= t ".cookie_consent_modal.label" %>"
+      class="text-gray-800 dark:text-gray-100 hover:text-gray-600
+              dark:hover:text-gray-300 transition-colors cursor-pointer"
+      title="<%= t(".cookie_consent_modal.title") %>"
+    >
+      <%= render "shared/icons/time", disabled: true %>
+    </a>
+  <% end %>
+</div>

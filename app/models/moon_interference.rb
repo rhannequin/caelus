@@ -46,7 +46,7 @@ class MoonInterference
     Astronoby::RiseTransitSetCalculator.new(
       body: Astronoby::Sun,
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
   end
 
@@ -54,8 +54,12 @@ class MoonInterference
     Astronoby::RiseTransitSetCalculator.new(
       body: Astronoby::Moon,
       observer: @observer,
-      ephem: SPK.inpop19a
+      ephem: spk
     )
+  end
+
+  def spk
+    SPK.for_time(@evening_date.to_time)
   end
 
   def today_sun_rts

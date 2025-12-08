@@ -444,6 +444,7 @@ en:
             store the following information:"
           data_points:
             location: Latitude and longitude
+            time: Custom date and time
             time_zone_html: "Time zone (<abbr title=\"Internet Assigned Numbers
               Authority\">IANA</abbr> identifier, e.g., Europe/Paris)"
           storage_info: This information is stored in a signed cookie on your
@@ -542,6 +543,12 @@ en:
                 purpose: Stores your time zone for accurate date/time display
                 duration: 1 year
                 type: Cookie
+              time:
+                name: time
+                purpose: Stores your custom date/time setting for astronomical
+                  calculations at specific moments
+                duration: 1 year
+                type: Cookie
           additional_info: All cookies are first-party cookies and are not
             shared with third parties. Local storage data is stored locally in
             your browser and is not transmitted to our servers. You can manage
@@ -626,6 +633,13 @@ en:
     navigation:
       moon: Moon
       sun: Sun
+    time_selector:
+      time_modal:
+        label: Set a date & time
+        title: Set a date & time
+      cookie_consent_modal:
+        label: Accept cookies for custom time features
+        title: Accept cookies for custom time features
   sun:
     calendar:
       day_of_year: Day of Year
@@ -706,7 +720,15 @@ en:
       nautical: Nautical
       title: 🌆 Twilight
   time:
+    edit:
+      current: "Current: %{time} (%{time_zone})"
+      form:
+        cancel: Cancel
+        submit: Save
+        time: Date & Time
+      title: Set Date & Time
     formats:
+      full: "%B %d, %Y %H:%M:%S"
       hm: "%H:%M"
       utc_hm: "%H:%M UTC"
   title: Caelus

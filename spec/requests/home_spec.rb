@@ -25,5 +25,18 @@ RSpec.describe HomeController, type: :request do
         end
       end
     end
+
+    context "with a time far from now" do
+      it "returns a successful response" do
+        travel_to Time.utc(2025, 8, 30) do
+          post cookie_consent_path
+          patch time_path, params: {time: "1900-01-01T00:00:00"}
+
+          get root_path
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
   end
 end

@@ -17,6 +17,7 @@ class CookieConsentController < ApplicationController
     cookies.delete(:latitude)
     cookies.delete(:longitude)
     cookies.delete(:time_zone)
+    cookies.delete(:time)
 
     cookies.signed[:cookie_consent] =
       {value: "false", expires: 1.year.from_now}

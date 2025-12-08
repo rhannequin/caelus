@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   DEFAULT_LOCATION = [48.85341, 2.3488] # Paris, France
   DEFAULT_TIME_ZONE = "Europe/Paris"
 
-  around_action :set_observer
+  around_action :set_observer_and_time
   around_action :set_breadcrumbs
 
   helper_method :cookie_consent_given?,
@@ -19,15 +19,23 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_observer(&block)
+  def set_observer_and_time(&block)
     if cookie_consent_given?
       latitude = (cookies.signed[:latitude] || DEFAULT_LOCATION.first).to_f
       longitude = (cookies.signed[:longitude] || DEFAULT_LOCATION.second).to_f
       time_zone = cookies.signed[:time_zone] || DEFAULT_TIME_ZONE
+      Time.zone = time_zone
+      time = if cookies.signed[:time].present?
+        Time.zone.parse(cookies.signed[:time])
+      else
+        Time.current
+      end
     else
       latitude = DEFAULT_LOCATION.first
       longitude = DEFAULT_LOCATION.second
       time_zone = DEFAULT_TIME_ZONE
+      Time.zone = time_zone
+      time = Time.current
     end
 
     astronoby_observer = Astronoby::Observer.new(
@@ -39,6 +47,7 @@ class ApplicationController < ActionController::Base
       astronoby_observer: astronoby_observer,
       time_zone: Time.find_zone(time_zone)
     )
+    @time = time
     Time.use_zone(time_zone, &block)
   end
 
@@ -50,7 +59,8 @@ class ApplicationController < ActionController::Base
       {
         "latitude" => @observer.latitude.degrees.to_s,
         "longitude" => @observer.longitude.degrees.to_s,
-        "time_zone" => @observer.time_zone.tzinfo.name
+        "time_zone" => @observer.time_zone.tzinfo.name,
+        "time" => @time.iso8601
       }
     )
     yield
@@ -63,11 +73,11 @@ class ApplicationController < ActionController::Base
   end
 
   def observer_end_of_day
-    (@time || Time.current).end_of_day
+    Time.current.end_of_day
   end
 
   def observer_end_of_year
-    (@time || Time.current).end_of_year
+    Time.current.end_of_year
   end
 
   def cookie_consent_given?

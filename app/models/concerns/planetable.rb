@@ -46,7 +46,7 @@ module Planetable
       @rts ||= Astronoby::RiseTransitSetCalculator.new(
         body: self.class.planet_class,
         observer: @observer,
-        ephem: SPK.inpop19a
+        ephem: spk
       ).event_on(@time.to_date)
     end
 
@@ -100,16 +100,20 @@ module Planetable
 
     def planet
       @planet ||= self.class.planet_class.new(
-        ephem: SPK.inpop19a,
+        ephem: spk,
         instant: Astronoby::Instant.from_time(@time)
       )
     end
 
     def current_earth_geometric
       @current_earth_geometric ||= Astronoby::Earth.geometric(
-        ephem: SPK.inpop19a,
+        ephem: spk,
         instant: Astronoby::Instant.from_time(@time)
       )
+    end
+
+    def spk
+      SPK.for_time(@time)
     end
   end
 end

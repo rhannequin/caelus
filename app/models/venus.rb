@@ -15,7 +15,7 @@ class Venus
     "♀"
   end
 
-  def initialize(observer:, time: Time.current)
+  def initialize(observer:, time:)
     @observer = observer
     @time = time
   end

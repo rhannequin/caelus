@@ -10,7 +10,6 @@ class MoonController < ApplicationController
   WEEK_RANGE = (-3..3).to_a.freeze
 
   def show
-    @time = Time.current
     @moon = Moon.new(observer: @observer, time: @time)
     @next_apogee = extremum_calculator
       .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
@@ -53,7 +52,7 @@ class MoonController < ApplicationController
     Astronoby::ExtremumCalculator.new(
       body: Moon.planet_class,
       primary_body: Earth.planet_class,
-      ephem: SPK.inpop19a
+      ephem: SPK.for_time(@time)
     )
   end
 end

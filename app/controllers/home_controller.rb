@@ -4,7 +4,6 @@ class HomeController < ApplicationController
   MAXIMUM_DEEP_SKY_OBJECTS = 10
 
   def index
-    @time = Time.current
     @planets = Rails.cache.fetch(
       "planets/#{observer_cache_key}/#{@time.to_date}",
       expires_at: observer_end_of_day
@@ -37,7 +36,7 @@ class HomeController < ApplicationController
     ) do
       Astronoby::TwilightCalculator.new(
         observer: @observer,
-        ephem: SPK.inpop19a
+        ephem: spk
       ).event_on(
         @time.to_date,
         utc_offset: @observer.time_zone.formatted_offset
@@ -50,7 +49,7 @@ class HomeController < ApplicationController
     ) do
       Astronoby::TwilightCalculator.new(
         observer: @observer,
-        ephem: SPK.inpop19a
+        ephem: spk
       ).event_on(@time.to_date + 1)
     end
 
@@ -65,5 +64,11 @@ class HomeController < ApplicationController
           b.messier_object.magnitude <=> a.messier_object.magnitude
         end
     end
+  end
+
+  private
+
+  def spk
+    SPK.for_time(@time)
   end
 end
