@@ -60,7 +60,7 @@ class Moon
       most_recent_passed_new_moon =
         (previous_month_phases + current_month_phases)
           .select do |moon_phase|
-          moon_phase.time <= @time && moon_phase.phase == :new_moon
+            moon_phase.time <= @time && moon_phase.phase == :new_moon
         end.max_by(&:time)
 
       (@time - most_recent_passed_new_moon.time) / SECONDS_PER_DAY
