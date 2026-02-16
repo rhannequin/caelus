@@ -39,7 +39,6 @@ env:
   secret:
     - RAILS_HOSTNAME
     - RAILS_MASTER_KEY
-    - BUGSNAG_API_KEY
     - APPSIGNAL_PUSH_API_KEY
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.

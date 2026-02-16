@@ -3,7 +3,6 @@ source "https://rubygems.org"
 gem "appsignal"
 gem "astronoby"
 gem "bootsnap", require: false
-gem "bugsnag"
 gem "importmap-rails"
 gem "kamal", require: false
 gem "propshaft"
