@@ -79,11 +79,13 @@
 <% unless cookie_consent_chosen? %>
   <%= render "shared/cookie_consent_banner" %>
 <% end %>
-<%= tag.script(
-  src: "https://gc.zgo.at/count.js",
-  async: true,
-  data: { goatcounter: "https://rhannequin.goatcounter.com/count" },
-  nonce: content_security_policy_nonce
-) %>
+<% if Rails.env.production? %>
+  <%= tag.script(
+    src: "https://gc.zgo.at/count.js",
+    async: true,
+    data: { goatcounter: "https://rhannequin.goatcounter.com/count" },
+    nonce: content_security_policy_nonce
+  ) %>
+<% end %>
 </body>
 </html>

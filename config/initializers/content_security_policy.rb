@@ -5,13 +5,20 @@
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
 Rails.application.configure do
+  csp_allowed_connect_src = ENV
+    .fetch("CSP_ALLOWED_CONNECT_SRC", "")
+    .split(",")
+  csp_allowed_script_src = ENV
+    .fetch("CSP_ALLOWED_SCRIPT_SRC", "")
+    .split(",")
+
   config.content_security_policy do |policy|
     policy.default_src :none
-    policy.script_src :self
+    policy.script_src :self, *csp_allowed_script_src
     policy.style_src :self, :unsafe_inline
     policy.img_src :self, :data
     policy.font_src :self
-    policy.connect_src :self
+    policy.connect_src :self, *csp_allowed_connect_src
     policy.form_action :self
     policy.frame_ancestors :none
     policy.object_src :none
