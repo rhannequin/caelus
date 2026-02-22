@@ -51,7 +51,7 @@
       shadow_length_factor: @shadow_length_factor
     ) %>
 
-    <%= cache("sun_elevation_chart/#{observer_cache_key}", expires_at: observer_end_of_year) do %>
+    <%= cache("sun_elevation_chart/#{observer_yearly_cache_key}", expires_at: observer_end_of_year) do %>
       <%= render(
         "elevation_chart",
         yearly_elevation: @yearly_elevation,
