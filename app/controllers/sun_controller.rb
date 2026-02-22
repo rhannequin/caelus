@@ -13,7 +13,7 @@ class SunController < ApplicationController
     @sun = Sun.new(observer: @observer, time: @time)
     @yesterday_sun = Sun.new(observer: @observer, time: @time - 1.day)
     @yearly_elevation = Rails.cache.fetch(
-      "sun_elevation/#{observer_cache_key}",
+      "sun_elevation/#{observer_yearly_cache_key}",
       expires_at: observer_end_of_year
     ) do
       YearlyElevation.new(
