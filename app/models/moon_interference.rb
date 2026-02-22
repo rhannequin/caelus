@@ -43,7 +43,7 @@ class MoonInterference
   private
 
   def sun_rts
-    Astronoby::RiseTransitSetCalculator.new(
+    @sun_rts ||= Astronoby::RiseTransitSetCalculator.new(
       body: Astronoby::Sun,
       observer: @observer,
       ephem: spk
@@ -51,7 +51,7 @@ class MoonInterference
   end
 
   def moon_rts
-    Astronoby::RiseTransitSetCalculator.new(
+    @moon_rts ||= Astronoby::RiseTransitSetCalculator.new(
       body: Astronoby::Moon,
       observer: @observer,
       ephem: spk
@@ -59,27 +59,27 @@ class MoonInterference
   end
 
   def spk
-    SPK.for_time(@evening_date.to_time)
+    @spk ||= SPK.for_time(@evening_date.to_time)
   end
 
   def today_sun_rts
-    sun_rts.event_on(@evening_date)
+    @today_sun_rts ||= sun_rts.event_on(@evening_date)
   end
 
   def tomorrow_sun_rts
-    sun_rts.event_on(@morning_date)
+    @tomorrow_sun_rts ||= sun_rts.event_on(@morning_date)
   end
 
   def today_moon_rts
-    moon_rts.event_on(@evening_date)
+    @today_moon_rts ||= moon_rts.event_on(@evening_date)
   end
 
   def tomorrow_moon_rts
-    moon_rts.event_on(@morning_date)
+    @tomorrow_moon_rts ||= moon_rts.event_on(@morning_date)
   end
 
   def third_day_moon_rts
-    moon_rts.event_on(@day_after_morning_date)
+    @third_day_moon_rts ||= moon_rts.event_on(@day_after_morning_date)
   end
 
   def night_range
