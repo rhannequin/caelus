@@ -31,7 +31,7 @@ class Visibility
   end
 
   def body_rts
-    Astronoby::RiseTransitSetCalculator.new(
+    @body_rts ||= Astronoby::RiseTransitSetCalculator.new(
       body: astronoby_body,
       observer: @observer,
       ephem: spk
@@ -39,7 +39,7 @@ class Visibility
   end
 
   def sun_rts
-    Astronoby::RiseTransitSetCalculator.new(
+    @sun_rts ||= Astronoby::RiseTransitSetCalculator.new(
       body: Astronoby::Sun,
       observer: @observer,
       ephem: spk
@@ -47,43 +47,51 @@ class Visibility
   end
 
   def twilight
-    Astronoby::TwilightCalculator.new(
+    @twilight ||= Astronoby::TwilightCalculator.new(
       observer: @observer,
       ephem: spk
     )
   end
 
   def today_body_rts
-    body_rts.event_on(@date)
+    @today_body_rts ||= body_rts.event_on(@date)
   end
 
   def tomorrow_body_rts
-    body_rts.event_on(@date + 1)
+    @tomorrow_body_rts ||= body_rts.event_on(@date + 1)
   end
 
   def today_sun_rts
-    sun_rts.event_on(@date)
+    @today_sun_rts ||= sun_rts.event_on(@date)
   end
 
   def tomorrow_sun_rts
-    sun_rts.event_on(@date + 1)
+    @tomorrow_sun_rts ||= sun_rts.event_on(@date + 1)
   end
 
   def today_twilight
-    twilight.event_on(@date)
+    @today_twilight ||= twilight.event_on(@date)
   end
 
   def tomorrow_twilight
-    twilight.event_on(@date + 1)
+    @tomorrow_twilight ||= twilight.event_on(@date + 1)
   end
 
   def night
-    unless [
+    return @night if defined?(@night)
+
+    @night = compute_night
+  end
+
+  private
+
+  def compute_night
+    if [
       today_twilight.evening_civil_twilight_time,
       today_twilight.evening_astronomical_twilight_time,
       tomorrow_twilight.morning_civil_twilight_time,
       tomorrow_twilight.morning_astronomical_twilight_time
-    ].all?(&:present?)
+    ].any?(&:nil?)
       return nil
     end
 
@@ -114,6 +122,6 @@ class Visibility
   end
 
   def spk
-    SPK.for_time(@date.to_time)
+    @spk ||= SPK.for_time(@date.to_time)
   end
 end
