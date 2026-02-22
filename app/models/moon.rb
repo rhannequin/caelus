@@ -63,6 +63,8 @@ class Moon
             moon_phase.time <= @time && moon_phase.phase == :new_moon
         end.max_by(&:time)
 
+      return unless most_recent_passed_new_moon
+
       (@time - most_recent_passed_new_moon.time) / SECONDS_PER_DAY
     end
   end
