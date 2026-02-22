@@ -59,10 +59,9 @@ class HomeController < ApplicationController
     ) do
       MessierCatalog
         .all
+        .sort_by(&:magnitude)
+        .first(MAXIMUM_DEEP_SKY_OBJECTS)
         .map { |obj| obj.at(@time, observer: @observer, use_ephem: true) }
-        .max(MAXIMUM_DEEP_SKY_OBJECTS) do |a, b|
-          b.messier_object.magnitude <=> a.messier_object.magnitude
-        end
     end
   end
 
