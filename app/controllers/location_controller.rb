@@ -3,6 +3,12 @@
 class LocationController < ApplicationController
   LATITUDE_RANGE = -90.0..90.0
   LONGITUDE_RANGE = -180.0..180.0
+  VALID_TIME_ZONES = ActiveSupport::TimeZone
+    .all
+    .map { |tz| tz.tzinfo.name }
+    .compact
+    .to_set
+    .freeze
 
   def edit
     @latitude = @observer.latitude.degrees.round(4)
@@ -42,8 +48,6 @@ class LocationController < ApplicationController
   def valid_time_zone?(time_zone)
     return false if time_zone.blank?
 
-    time_zone.in?(
-      ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }.compact
-    )
+    time_zone.in?(VALID_TIME_ZONES)
   end
 end
