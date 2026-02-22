@@ -46,7 +46,7 @@ class SunController < ApplicationController
   private
 
   def extremum_calculator
-    Astronoby::ExtremumCalculator.new(
+    @extremum_calculator ||= Astronoby::ExtremumCalculator.new(
       body: Earth.planet_class,
       primary_body: Sun.planet_class,
       ephem: spk
@@ -82,6 +82,6 @@ class SunController < ApplicationController
   end
 
   def spk
-    SPK.for_time(@time)
+    @spk ||= SPK.for_time(@time)
   end
 end
