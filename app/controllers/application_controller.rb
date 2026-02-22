@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
   helper_method :cookie_consent_given?,
     :cookie_consent_chosen?,
     :observer_cache_key,
+    :observer_daily_cache_key,
+    :observer_yearly_cache_key,
     :observer_end_of_day,
     :observer_end_of_year
 
@@ -67,9 +69,18 @@ class ApplicationController < ActionController::Base
   end
 
   def observer_cache_key
-    "#{@observer.latitude.degrees.round(3)}/" \
-      "#{@observer.longitude.degrees.round(3)}/" \
-      "#{@observer.time_zone.tzinfo.name}/#{@time.to_date}"
+    @observer_cache_key ||=
+      "#{@observer.latitude.degrees.round(3)}/" \
+        "#{@observer.longitude.degrees.round(3)}/" \
+        "#{@observer.time_zone.tzinfo.name}"
+  end
+
+  def observer_daily_cache_key
+    @observer_daily_cache_key ||= "#{observer_cache_key}/#{@time.to_date}"
+  end
+
+  def observer_yearly_cache_key
+    @observer_yearly_cache_key ||= "#{observer_cache_key}/#{@time.year}"
   end
 
   def observer_end_of_day

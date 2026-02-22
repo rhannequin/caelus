@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   def index
     @planets = Rails.cache.fetch(
-      "planets/#{observer_cache_key}/#{@time.to_date}",
+      "planets/#{observer_daily_cache_key}",
       expires_at: observer_end_of_day
     ) do
       [
@@ -19,19 +19,22 @@ class HomeController < ApplicationController
       ]
     end
 
-    @sun = Rails.cache.fetch("sun/#{observer_cache_key}", expires_in: 1.hour) do
+    @sun = Rails.cache.fetch(
+      "sun/#{observer_daily_cache_key}",
+      expires_in: 1.hour
+    ) do
       Sun.new(observer: @observer, time: @time)
     end
 
     @moon = Rails.cache.fetch(
-      "moon/#{observer_cache_key}",
+      "moon/#{observer_daily_cache_key}",
       expires_in: 1.hour
     ) do
       Moon.new(observer: @observer, time: @time)
     end
 
     @twilight_events = Rails.cache.fetch(
-      "twilight_events/#{observer_cache_key}/#{@time.to_date}",
+      "twilight_events/#{observer_daily_cache_key}",
       expires_at: observer_end_of_day
     ) do
       Astronoby::TwilightCalculator.new(
@@ -44,7 +47,7 @@ class HomeController < ApplicationController
     end
 
     @next_twilight_events = Rails.cache.fetch(
-      "next_twilight_events/#{observer_cache_key}/#{@time.to_date}",
+      "next_twilight_events/#{observer_daily_cache_key}",
       expires_at: observer_end_of_day
     ) do
       Astronoby::TwilightCalculator.new(
@@ -54,7 +57,7 @@ class HomeController < ApplicationController
     end
 
     @messier_object_positions = Rails.cache.fetch(
-      "messier_object_positions/#{observer_cache_key}/#{@time.to_date}",
+      "messier_object_positions/#{observer_daily_cache_key}",
       expires_at: observer_end_of_day
     ) do
       MessierCatalog
