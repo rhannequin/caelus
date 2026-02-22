@@ -9,6 +9,8 @@ class MoonInterference
   end
 
   def duration
+    return 0 unless night_range
+
     @duration ||= moon_ranges.sum do |moon_range|
       overlap_start = [night_range.begin, moon_range.begin].max
       overlap_end = [night_range.end, moon_range.end].min
@@ -17,8 +19,12 @@ class MoonInterference
   end
 
   def percentage
+    return 0 unless night_range
+
     @percentage ||= begin
       night_duration = night_range.end - night_range.begin
+      return 0 if night_duration.zero?
+
       ((duration / night_duration.to_f) * 100.0).round
     end
   end
@@ -83,7 +89,11 @@ class MoonInterference
   end
 
   def night_range
-    @night_range ||= today_sun_rts.setting_time..tomorrow_sun_rts.rising_time
+    return @night_range if defined?(@night_range)
+
+    setting = today_sun_rts.setting_time
+    rising = tomorrow_sun_rts.rising_time
+    @night_range = (setting && rising) ? (setting..rising) : nil
   end
 
   def moon_ranges
