@@ -726,6 +726,9 @@ en:
         cancel: Cancel
         submit: Save
         time: Date & Time
+      reset:
+        description: A custom date and time is set. Reset to follow real-time again.
+        submit: Reset to real-time
       title: Set Date & Time
     formats:
       full: "%B %d, %Y %H:%M:%S"

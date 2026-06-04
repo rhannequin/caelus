@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :cookie_consent_given?,
     :cookie_consent_chosen?,
+    :custom_time?,
     :observer_cache_key,
     :observer_daily_cache_key,
     :observer_yearly_cache_key,
@@ -97,5 +98,9 @@ class ApplicationController < ActionController::Base
 
   def cookie_consent_chosen?
     cookies.signed[:cookie_consent].present?
+  end
+
+  def custom_time?
+    cookies.signed[:time].present?
   end
 end

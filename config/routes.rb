@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   resource :location, only: [:edit, :update], controller: :location
-  resource :time, only: [:edit, :update], controller: :time
+  resource :time, only: [:edit, :update, :destroy], controller: :time
 
   resource :moon, only: [:show], controller: :moon
   resource :sun, only: [:show], controller: :sun

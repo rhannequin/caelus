@@ -17,6 +17,12 @@ class TimeController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def destroy
+    cookies.delete(:time) if cookie_consent_given?
+
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def valid_time?(time)

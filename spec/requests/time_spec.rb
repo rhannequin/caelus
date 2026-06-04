@@ -90,4 +90,45 @@ RSpec.describe TimeController, type: :request do
       end
     end
   end
+
+  describe "DELETE time" do
+    context "when cookie consent is given" do
+      it "clears the stored time so it follows real-time again" do
+        post cookie_consent_path
+        patch(time_path, params: {time: "2025-12-01T20:49:51"})
+
+        delete time_path
+        jar = response.request.cookie_jar
+
+        expect(jar.signed[:time]).to be_nil
+      end
+
+      it "redirects to the root path when no referer" do
+        post cookie_consent_path
+
+        delete time_path
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(root_path)
+      end
+
+      it "redirects back to the referring page" do
+        post cookie_consent_path
+
+        delete(time_path, headers: {"HTTP_REFERER" => moon_path})
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(moon_path)
+      end
+    end
+
+    context "when cookie consent is not given" do
+      it "redirects back without changing anything" do
+        delete(time_path, headers: {"HTTP_REFERER" => sun_path})
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(sun_path)
+      end
+    end
+  end
 end
