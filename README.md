@@ -59,18 +59,24 @@ bin/ci
 
 ## Production
 
-I should definetely improve these commands, but for now they work.
-
 ### Deployment
 
 ```
-export $(cat .env | xargs) && bin/kamal deploy
+bin/kamal deploy
 ```
 
 ### Console
 
 ```
-export $(cat .env | xargs) && bin/kamal console
+bin/kamal console
+```
+
+### Running a command on the server
+
+For example, to run database migrations:
+
+```
+bin/kamal app exec "bin/rails db:migrate"
 ```
 
 [caelus.siderealcode.net]: https://caelus.siderealcode.net
