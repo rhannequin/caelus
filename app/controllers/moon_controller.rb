@@ -19,6 +19,8 @@ class MoonController < ApplicationController
       .first
     @upcoming_phases = upcoming_phases
     @week = week_of_moons
+
+    track_page_view("moon")
   end
 
   private

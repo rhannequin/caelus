@@ -66,6 +66,8 @@ class HomeController < ApplicationController
         .first(MAXIMUM_DEEP_SKY_OBJECTS)
         .map { |obj| obj.at(@time, observer: @observer, use_ephem: true) }
     end
+
+    track_page_view("home")
   end
 
   private

@@ -41,6 +41,8 @@ class SunController < ApplicationController
     @zodiac_sign = ZodiacSign.for_date(@time.to_date)
     @sub_solar_observer = SubSolarObserver.from_sun(@sun)
     @shadow_length_factor = 1 / @sun.topocentric.horizontal.altitude.tan
+
+    track_page_view("sun")
   end
 
   private
