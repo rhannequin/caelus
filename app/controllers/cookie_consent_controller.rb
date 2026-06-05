@@ -9,6 +9,8 @@ class CookieConsentController < ApplicationController
     cookies.signed[:cookie_consent] =
       {value: "true", expires: 1.year.from_now}
 
+    track_consent("accepted")
+
     redirect_back(fallback_location: root_path)
   end
 
@@ -21,6 +23,8 @@ class CookieConsentController < ApplicationController
 
     cookies.signed[:cookie_consent] =
       {value: "false", expires: 1.year.from_now}
+
+    track_consent("declined")
 
     redirect_back(fallback_location: root_path)
   end

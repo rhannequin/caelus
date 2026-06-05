@@ -19,13 +19,23 @@ class LocationController < ApplicationController
   def update
     return redirect_back(fallback_location: root_path) unless cookie_consent_given?
 
+    changed = false
+
     if valid_latitude?(params[:latitude]) && valid_longitude?(params[:longitude])
       cookies.permanent.signed[:latitude] = params[:latitude].to_f
       cookies.permanent.signed[:longitude] = params[:longitude].to_f
+      changed = true
     end
 
     if valid_time_zone?(params[:time_zone])
       cookies.permanent.signed[:time_zone] = params[:time_zone]
+      changed = true
+    end
+
+    if changed
+      track_feature("location_change")
+    else
+      track_invalid_submission("location")
     end
 
     redirect_back(fallback_location: root_path)
