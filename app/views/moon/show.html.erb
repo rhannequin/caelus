@@ -17,8 +17,18 @@
   </div>
 
   <div class="space-y-6">
-    <%= render "upcoming_phases", upcoming_phases: @upcoming_phases %>
-    <%= render "this_week", week: @week %>
+    <%= cache(
+      "moon_upcoming_phases/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do %>
+      <%= render "upcoming_phases", upcoming_phases: @upcoming_phases %>
+    <% end %>
+    <%= cache(
+      "moon_this_week/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do %>
+      <%= render "this_week", week: @week %>
+    <% end %>
   </div>
 
   <div class="space-y-6">
