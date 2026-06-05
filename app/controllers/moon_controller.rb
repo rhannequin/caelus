@@ -11,14 +11,34 @@ class MoonController < ApplicationController
 
   def show
     @moon = Moon.new(observer: @observer, time: @time)
-    @next_apogee = extremum_calculator
-      .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
-      .first
-    @next_perigee = extremum_calculator
-      .periapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
-      .first
-    @upcoming_phases = upcoming_phases
-    @week = week_of_moons
+
+    @next_apogee = Rails.cache.fetch(
+      "moon_next_apogee/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      extremum_calculator
+        .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
+        .first
+    end
+
+    @next_perigee = Rails.cache.fetch(
+      "moon_next_perigee/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      extremum_calculator
+        .periapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
+        .first
+    end
+
+    @upcoming_phases = Rails.cache.fetch(
+      "moon_upcoming_phases/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) { upcoming_phases }
+
+    @week = Rails.cache.fetch(
+      "moon_week/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) { week_of_moons }
 
     track_page_view("moon")
   end
