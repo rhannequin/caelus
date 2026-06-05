@@ -10,6 +10,9 @@ AllCops:
 
 Rails/DynamicFindBy:
   Enabled: false
+Rails/SkipsModelValidations:
+  AllowedMethods:
+    - increment_counter
 Rails/TimeZone:
   Exclude:
     - "spec/**/*"
