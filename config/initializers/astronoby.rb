@@ -8,6 +8,10 @@ IERS.configure do |config|
   config.cache_dir = Rails.root.join("storage/iers")
 end
 
+# Parse the IERS finals data at boot so the first request doesn't pay the
+# one-time lazy-parse cost.
+Rails.application.config.after_initialize { IERS::Data.finals_entries }
+
 class SPK
   include Singleton
 
