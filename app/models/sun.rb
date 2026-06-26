@@ -27,4 +27,8 @@ class Sun
       ABSOLUTE_MAGNITUDE +
       5 * (Math.log10(distance_from_earth.au * AU_IN_PARSEC) - 1)
   end
+
+  def shadow_length_factor
+    1 / topocentric.horizontal.altitude.tan
+  end
 end
