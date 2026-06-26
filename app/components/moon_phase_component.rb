@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MoonPhaseSvg
+class MoonPhaseComponent < ViewComponent::Base
   SYNODIC_MONTH_DAYS = 29.530588853
   HALF_SYNODIC_PERIOD = SYNODIC_MONTH_DAYS / 2.0
   DEFAULT_MOON_COLOR = "#faf8f0"
@@ -8,7 +8,7 @@ class MoonPhaseSvg
   DEFAULT_OUTLINE_COLOR = "#666"
   DEFAULT_OUTLINE_WIDTH = 2
 
-  def initialize(moon, size: 200, options: {})
+  def initialize(moon:, size: 200, options: {})
     @phase_angle = moon.phase_angle
     @age = moon.age
     @size = size
@@ -16,35 +16,10 @@ class MoonPhaseSvg
     @is_waxing = @age <= HALF_SYNODIC_PERIOD
   end
 
-  def generate
-    view_box_size = @size * 2
-    <<~SVG
-      <svg
-        width="#{view_box_size}"
-        height="#{view_box_size}"
-        viewBox="0 0 #{view_box_size} #{view_box_size}"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        #{defs}
-        #{moon_base}
-        #{shadow_part}
-      </svg>
-    SVG
-  end
-
-  def draw
-    generate.html_safe # rubocop:disable Rails/OutputSafety
-  end
-
   private
 
-  def default_options
-    {
-      moon_color: DEFAULT_MOON_COLOR,
-      shadow_color: DEFAULT_SHADOW_COLOR,
-      outline_color: DEFAULT_OUTLINE_COLOR,
-      outline_width: DEFAULT_OUTLINE_WIDTH
-    }
+  def view_box_size
+    @size * 2
   end
 
   def center_x
@@ -59,39 +34,33 @@ class MoonPhaseSvg
     (@size * 0.9) - (@options[:outline_width].to_f / 2)
   end
 
-  def defs
-    <<~SVG
-      <defs>
-        <clipPath>
-          <circle cx="#{center_x}" cy="#{center_y}" r="#{radius}"/>
-        </clipPath>
-      </defs>
-    SVG
+  def moon_color
+    @options[:moon_color]
   end
 
-  def moon_base
-    <<~SVG
-      <circle
-        cx="#{center_x}"
-        cy="#{center_y}"
-        r="#{radius}"
-        fill="#{@options[:moon_color]}"
-        stroke="#{@options[:outline_color]}"
-        stroke-width="#{@options[:outline_width]}"
-      />
-    SVG
+  def shadow_color
+    @options[:shadow_color]
   end
 
-  def shadow_part
-    path_d = calculate_shadow_path
-    return "" if path_d.empty?
+  def outline_color
+    @options[:outline_color]
+  end
 
-    <<~SVG
-      <path
-        d="#{path_d}"
-        fill="#{@options[:shadow_color]}"
-      />
-    SVG
+  def outline_width
+    @options[:outline_width]
+  end
+
+  def shadow_path
+    @shadow_path ||= calculate_shadow_path
+  end
+
+  def default_options
+    {
+      moon_color: DEFAULT_MOON_COLOR,
+      shadow_color: DEFAULT_SHADOW_COLOR,
+      outline_color: DEFAULT_OUTLINE_COLOR,
+      outline_width: DEFAULT_OUTLINE_WIDTH
+    }
   end
 
   def calculate_shadow_path
@@ -106,7 +75,8 @@ class MoonPhaseSvg
     crescent_moon = @phase_angle.degrees > 90
     shadow_hemisphere = @is_waxing ? 0 : 1
     shadow_gibbous = crescent_moon ? 1 : 0
-    terminator_direction = crescent_moon ? shadow_hemisphere : (1 - shadow_hemisphere)
+    terminator_direction =
+      crescent_moon ? shadow_hemisphere : (1 - shadow_hemisphere)
 
     top_y = center_y - radius
     bottom_y = center_y + radius

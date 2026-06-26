@@ -18,7 +18,7 @@
             <%= moon.time.to_date.strftime("%-d") %>
           </div>
           <div class="moon-mini">
-            <%= MoonPhaseSvg.new(moon, size: 10).draw %>
+            <%= render(MoonPhaseComponent.new(moon: moon, size: 10)) %>
           </div>
         </div>
       <% end %>

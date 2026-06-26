@@ -1,0 +1,23 @@
+<svg
+  width="<%= view_box_size %>"
+  height="<%= view_box_size %>"
+  viewBox="0 0 <%= view_box_size %> <%= view_box_size %>"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <clipPath>
+      <circle cx="<%= center_x %>" cy="<%= center_y %>" r="<%= radius %>"/>
+    </clipPath>
+  </defs>
+  <circle
+    cx="<%= center_x %>"
+    cy="<%= center_y %>"
+    r="<%= radius %>"
+    fill="<%= moon_color %>"
+    stroke="<%= outline_color %>"
+    stroke-width="<%= outline_width %>"
+  />
+  <% if shadow_path.present? %>
+    <path d="<%= shadow_path %>" fill="<%= shadow_color %>"/>
+  <% end %>
+</svg>

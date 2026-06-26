@@ -1,9 +1,5 @@
 <%
   current_elevation_point = yearly_elevation.current(time)
-  chart_generator = ElevationChartSvg.new(
-    elevations: yearly_elevation,
-    current_position: current_elevation_point
-  )
   min_elevation = yearly_elevation.minimum
   max_elevation = yearly_elevation.maximum
   current_elevation = current_elevation_point.elevation
@@ -14,7 +10,12 @@
     <%= t ".title" %>
   </h3>
   <div class="elevation-chart">
-    <%= chart_generator.draw %>
+    <%= render(
+      ElevationChartComponent.new(
+        elevations: yearly_elevation,
+        current_position: current_elevation_point
+      )
+    ) %>
   </div>
   
   <div class="flex justify-around mt-4 text-sm">
