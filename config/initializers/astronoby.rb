@@ -5,7 +5,7 @@ require "singleton"
 Astronoby.configuration.cache_enabled = true
 
 IERS.configure do |config|
-  config.cache_dir = Rails.root.join("storage", "iers")
+  config.cache_dir = Rails.root.join("storage/iers")
 end
 
 class SPK
