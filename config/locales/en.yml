@@ -358,8 +358,8 @@ en:
       title: 📐 Coordinates
     disc:
       title: The Moon's near side
-      description: "%{phase}, %{percentage}%% illuminated, drawn as it appears
-        in the sky from your location."
+      description: "%{phase}, %{percentage}%% illuminated, %{diameter} across,
+        drawn as it appears in the sky from your location."
       phases:
         new_moon: New moon
         waxing_crescent: Waxing crescent

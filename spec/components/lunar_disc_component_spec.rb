@@ -18,6 +18,7 @@ RSpec.describe LunarDiscComponent, type: :component do
     parallactic_angle: 0,
     phase_name: :first_quarter,
     illuminated_fraction: 0.5,
+    angular_diameter: 0.5181,
     features: [crater("east", 40, 0), crater("west", -40, 0)]
   )
     disc = Lunar::Disc.new(
@@ -36,7 +37,8 @@ RSpec.describe LunarDiscComponent, type: :component do
       Moon,
       lunar_disc: disc,
       current_phase_name: phase_name,
-      illuminated_fraction: illuminated_fraction
+      illuminated_fraction: illuminated_fraction,
+      angular_diameter: Astronoby::Angle.from_degrees(angular_diameter)
     )
   end
 
@@ -63,6 +65,21 @@ RSpec.describe LunarDiscComponent, type: :component do
       result = render_disc
 
       expect(result.css("[clip-path]").first["aria-hidden"]).to eq("true")
+    end
+
+    it "states the apparent diameter in the description" do
+      result = render_disc(angular_diameter: 0.525)
+
+      expect(result.css("desc").text).to include("31.5′")
+    end
+  end
+
+  describe "apparent size" do
+    it "draws a larger disc for a larger angular diameter" do
+      near = render_disc(angular_diameter: 0.55).css("circle").first["r"].to_f
+      far = render_disc(angular_diameter: 0.49).css("circle").first["r"].to_f
+
+      expect(near).to be > far
     end
   end
 

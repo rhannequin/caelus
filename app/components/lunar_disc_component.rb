@@ -10,6 +10,9 @@ class LunarDiscComponent < ViewComponent::Base
   SHADOW_COLOR = "#1a1a1a"
   RAY_OPACITY = 0.22
   OUTLINE_WIDTH = 2
+  REFERENCE_DIAMETER = 0.5181
+  MIN_SCALE = 0.9
+  MAX_SCALE = 1.09
 
   EAST_SIGN = 1
   NORTH_SIGN = -1
@@ -23,6 +26,7 @@ class LunarDiscComponent < ViewComponent::Base
     @disc = moon.lunar_disc
     @phase_name = moon.current_phase_name
     @illuminated_percentage = (moon.illuminated_fraction * 100).round
+    @angular_diameter = moon.angular_diameter
     @size = size
     @colors = default_colors.merge(options)
     @id = SecureRandom.hex(4)
@@ -41,7 +45,11 @@ class LunarDiscComponent < ViewComponent::Base
   end
 
   def radius
-    (size * 0.9) - (OUTLINE_WIDTH / 2.0)
+    (size * 0.9 * disc_scale) - (OUTLINE_WIDTH / 2.0)
+  end
+
+  def disc_scale
+    (@angular_diameter.degrees / REFERENCE_DIAMETER).clamp(MIN_SCALE, MAX_SCALE)
   end
 
   def outline_width
@@ -68,8 +76,13 @@ class LunarDiscComponent < ViewComponent::Base
     t(
       "moon.disc.description",
       phase: t("moon.disc.phases.#{@phase_name}"),
-      percentage: @illuminated_percentage
+      percentage: @illuminated_percentage,
+      diameter: apparent_diameter
     )
+  end
+
+  def apparent_diameter
+    "#{(@angular_diameter.degrees * 60).round(1)}′"
   end
 
   def orientation_transform
