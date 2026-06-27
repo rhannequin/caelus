@@ -16,7 +16,7 @@
         </div>
         <div class="font-mono font-semibold">
           <% if sun.topocentric.horizontal.altitude.positive? %>
-            <%= shadow_length_factor.round(2) %>x
+            <%= sun.shadow_length_factor.round(2) %>x
           <% else %>
             <%= t ".sun_is_set_shadow" %>
           <% end %>

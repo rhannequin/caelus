@@ -2,12 +2,6 @@
 
 class SunController < ApplicationController
   EXTREMUM_LOOKAHEAD = 366.days
-  UPCOMING_SEASONS_COUNT = 4
-  GOLDEN_HOUR_ZENITH_ANGLE = Astronoby::Angle.from_degrees(84)
-  BLUE_HOUR_ZENITH_ANGLES = [
-    Astronoby::Angle.from_degrees(94),
-    Astronoby::Angle.from_degrees(96)
-  ].freeze
 
   def show
     @sun = Sun.new(observer: @observer, time: @time)
@@ -28,14 +22,13 @@ class SunController < ApplicationController
     @next_aphelion = extremum_calculator
       .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
       .first
-    @upcoming_seasons = upcoming_seasons
+    @upcoming_seasons = UpcomingSeasons.new(time: @time)
     @golden_blue_hour_calculator = GoldenBlueHourCalculator.new(
       observer: @observer,
       date: @time.to_date
     )
     @zodiac_sign = ZodiacSign.for_date(@time.to_date)
     @sub_solar_observer = SubSolarObserver.from_sun(@sun)
-    @shadow_length_factor = 1 / @sun.topocentric.horizontal.altitude.tan
 
     track_page_view("sun")
   end
@@ -48,27 +41,6 @@ class SunController < ApplicationController
       primary_body: Sun.planet_class,
       ephem: spk
     )
-  end
-
-  def upcoming_seasons
-    two_years_seasons = []
-    [@time.to_date.year, @time.to_date.year + 1].each do |year|
-      %i[
-        march_equinox
-        june_solstice
-        september_equinox
-        december_solstice
-      ].each do |season|
-        two_years_seasons << {
-          name: season,
-          time: Astronoby::EquinoxSolstice
-            .public_send(season, year, spk)
-        }
-      end
-    end
-    two_years_seasons
-      .select { |season| season[:time] >= @time }
-      .first(UPCOMING_SEASONS_COUNT)
   end
 
   def twilight_calculator

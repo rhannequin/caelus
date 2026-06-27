@@ -8,13 +8,13 @@
         <div class="flex items-center gap-3">
           <div class="flex-1">
             <div class="font-semibold">
-              <%= t "seasons.#{season[:name]}" %>
+              <%= t "seasons.#{season.name}" %>
             </div>
             <div class="text-sm text-muted-foreground">
-              <%= l season[:time].to_date, format: :full_month_short %>
+              <%= l season.time.to_date, format: :full_month_short %>
             </div>
             <div class="text-xs text-accent">
-              <%= l season[:time], format: :utc_hm %>
+              <%= l season.time, format: :utc_hm %>
             </div>
           </div>
         </div>
