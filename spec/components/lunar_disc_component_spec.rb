@@ -113,12 +113,12 @@ RSpec.describe LunarDiscComponent, type: :component do
   end
 
   describe "observer orientation" do
-    it "rotates the disc by the axis and parallactic angles" do
+    it "rotates the disc by the parallactic angle minus the axis angle" do
       result = render_disc(axis_position_angle: 20, parallactic_angle: 10)
 
       transform = result.css("g").first["transform"]
 
-      expect(transform).to match(/rotate\(30(\.0+)? /)
+      expect(transform).to match(/rotate\(-10(\.0+)? /)
     end
   end
 end

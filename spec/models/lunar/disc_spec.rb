@@ -85,14 +85,14 @@ RSpec.describe Lunar::Disc do
   end
 
   describe "#orientation_angle" do
-    it "combines the axis position angle and the parallactic angle" do
+    it "is the parallactic angle minus the axis position angle" do
       disc = build_disc(
         features: [],
         axis_position_angle: 20,
         parallactic_angle: 15
       )
 
-      expect(disc.orientation_angle.degrees).to be_within(1e-6).of(35)
+      expect(disc.orientation_angle.degrees).to be_within(1e-6).of(-5)
     end
   end
 end

@@ -34,7 +34,8 @@ module Lunar
     end
 
     def orientation_angle
-      @orientation_angle ||= sum(@axis_position_angle, @parallactic_angle)
+      @orientation_angle ||=
+        difference(@parallactic_angle, @axis_position_angle)
     end
 
     private
