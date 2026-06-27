@@ -337,4 +337,37 @@ RSpec.describe Moon, type: :model do
       end
     end
   end
+
+  describe "#parallactic_angle" do
+    it "returns an Astronoby::Angle for the observer" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48),
+        longitude: Astronoby::Angle.from_degrees(2)
+      )
+      time = Time.utc(2025, 10, 1, 22)
+
+      angle = described_class
+        .new(observer: observer, time: time)
+        .parallactic_angle
+
+      expect(angle).to be_a(Astronoby::Angle)
+    end
+  end
+
+  describe "#lunar_disc" do
+    it "builds a drawable disc carrying projected features" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48),
+        longitude: Astronoby::Angle.from_degrees(2)
+      )
+      time = Time.utc(2025, 10, 1, 22)
+
+      disc = described_class
+        .new(observer: observer, time: time)
+        .lunar_disc
+
+      expect(disc).to be_a(Lunar::Disc)
+      expect(disc.projected_features).not_to be_empty
+    end
+  end
 end
