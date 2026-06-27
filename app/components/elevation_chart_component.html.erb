@@ -1,0 +1,66 @@
+<svg
+  width="100%"
+  height="<%= height %>"
+  viewBox="0 0 <%= width %> <%= height %>"
+  preserveAspectRatio="xMidYMid meet"
+>
+  <defs>
+    <linearGradient id="elevationGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop
+        offset="0%"
+        style="stop-color:<%= fill_start_color %>;stop-opacity:0.3"
+      />
+      <stop
+        offset="100%"
+        style="stop-color:<%= fill_end_color %>;stop-opacity:0.05"
+      />
+    </linearGradient>
+  </defs>
+
+  <g
+    stroke="<%= grid_color %>"
+    stroke-width="0.5"
+    opacity="<%= grid_opacity %>"
+  >
+    <% horizontal_grid_lines.each do |y| %>
+      <line x1="0" y1="<%= y %>" x2="<%= width %>" y2="<%= y %>"/>
+    <% end %>
+    <% vertical_grid_lines.each do |x| %>
+      <line x1="<%= x %>" y1="0" x2="<%= x %>" y2="<%= height %>"/>
+    <% end %>
+  </g>
+
+  <path
+    d="<%= area_path %>"
+    fill="url(#elevationGradient)"
+    opacity="<%= fill_opacity %>"
+  />
+  <path
+    d="<%= elevation_path %>"
+    stroke="<%= stroke_color %>"
+    stroke-width="<%= stroke_width %>"
+    fill="none"
+  />
+
+  <line
+    x1="<%= current_x %>"
+    y1="0"
+    x2="<%= current_x %>"
+    y2="<%= height %>"
+    stroke="<%= marker_color %>"
+    stroke-width="<%= stroke_width %>"
+    opacity="<%= marker_opacity %>"
+  />
+  <circle
+    cx="<%= current_x %>"
+    cy="<%= current_y %>"
+    r="<%= marker_radius %>"
+    fill="<%= marker_color %>"
+  />
+
+  <% season_labels.each do |label| %>
+    <text x="<%= label[:x] %>" y="195" class="text-xs fill-current opacity-60">
+      <%= label[:text] %>
+    </text>
+  <% end %>
+</svg>
