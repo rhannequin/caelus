@@ -356,6 +356,19 @@ en:
       ecliptic_longitude: Ecliptic Longitude
       right_ascension: Right Ascension
       title: 📐 Coordinates
+    disc:
+      title: The Moon's near side
+      description: "%{phase}, %{percentage}%% illuminated, drawn as it appears
+        in the sky from your location."
+      phases:
+        new_moon: New moon
+        waxing_crescent: Waxing crescent
+        first_quarter: First quarter
+        waxing_gibbous: Waxing gibbous
+        full_moon: Full moon
+        waning_gibbous: Waning gibbous
+        last_quarter: Last quarter
+        waning_crescent: Waning crescent
     distances:
       apogee: Apogee
       perigee: Perigee
@@ -445,8 +458,8 @@ en:
           data_points:
             location: Latitude and longitude
             time: Custom date and time
-            time_zone_html: "Time zone (<abbr title=\"Internet Assigned Numbers
-              Authority\">IANA</abbr> identifier, e.g., Europe/Paris)"
+            time_zone_html: 'Time zone (<abbr title="Internet Assigned Numbers
+              Authority">IANA</abbr> identifier, e.g., Europe/Paris)'
           storage_info: This information is stored in a signed cookie on your
             device. It is not shared with third parties and is not used for
             advertising or tracking.
