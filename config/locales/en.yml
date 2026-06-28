@@ -238,6 +238,9 @@ en:
         right_ascension: "Right Ascension:"
       transit: Transit
       type: Type
+      visibility:
+        not_visible: Not Visible
+        visible: Visible
     index:
       distances_table:
         distance_from_earth: Distance from Earth
