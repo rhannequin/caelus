@@ -24,7 +24,6 @@ module Planetable
 
     delegate :angular_diameter,
       :apparent,
-      :astrometric,
       :approaching_primary?,
       to: :planet
 

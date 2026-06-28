@@ -21,7 +21,6 @@ class ElevationChartComponent < ViewComponent::Base
   }.freeze
 
   def initialize(elevations:, current_position:, options: {})
-    @elevations = elevations
     @elevation_data = elevations.data
     @current_position = current_position
     @options = DEFAULT_OPTIONS.merge(options)
