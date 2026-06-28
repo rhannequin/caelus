@@ -34,8 +34,8 @@ class TimeController < ApplicationController
   def valid_time?(time)
     return false if time.blank?
 
-    parsed_time = Time.iso8601(time)
-    parsed_time.in?(TIME_RANGE)
+    parsed_time = Time.zone.parse(time)
+    parsed_time&.utc&.in?(TIME_RANGE) || false
   rescue ArgumentError, TypeError
     false
   end

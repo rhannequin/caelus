@@ -17,6 +17,18 @@ RSpec.describe TimeController, type: :request do
         expect(jar.signed[:time]).to eq("2025-12-01T19:49:51Z")
       end
 
+      it "accepts the datetime-local format without seconds" do
+        post cookie_consent_path
+
+        patch(
+          time_path,
+          params: {time: "2026-06-30T00:00"}
+        )
+        jar = response.request.cookie_jar
+
+        expect(jar.signed[:time]).to eq("2026-06-29T22:00:00Z")
+      end
+
       it "ignores invalid time value" do
         post cookie_consent_path
 
