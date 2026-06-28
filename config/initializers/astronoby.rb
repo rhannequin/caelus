@@ -15,10 +15,6 @@ Rails.application.config.after_initialize { IERS::Data.finals_entries }
 class SPK
   include Singleton
 
-  def self.inpop19a
-    instance.inpop19a
-  end
-
   def inpop19a
     @inpop19a ||= Astronoby::Ephem.load("lib/astronoby/spk/inpop19a.bsp")
   end

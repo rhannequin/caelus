@@ -38,14 +38,6 @@ class Visibility
     )
   end
 
-  def sun_rts
-    @sun_rts ||= Astronoby::RiseTransitSetCalculator.new(
-      body: Astronoby::Sun,
-      observer: @observer,
-      ephem: spk
-    )
-  end
-
   def twilight
     @twilight ||= Astronoby::TwilightCalculator.new(
       observer: @observer,
@@ -61,14 +53,6 @@ class Visibility
     @tomorrow_body_rts ||= body_rts.event_on(@date + 1)
   end
 
-  def today_sun_rts
-    @today_sun_rts ||= sun_rts.event_on(@date)
-  end
-
-  def tomorrow_sun_rts
-    @tomorrow_sun_rts ||= sun_rts.event_on(@date + 1)
-  end
-
   def today_twilight
     @today_twilight ||= twilight.event_on(@date)
   end
@@ -82,8 +66,6 @@ class Visibility
 
     @night = compute_night
   end
-
-  private
 
   def compute_night
     if [
