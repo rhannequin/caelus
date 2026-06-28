@@ -142,9 +142,9 @@
         </div>
         <div class="text-xs text-muted-foreground">
           Max:
-          <% if transit_altitude %>
+          <% if sun.transit_altitude %>
             <%= format_number(
-              transit_altitude.degrees,
+              sun.transit_altitude.degrees,
               unit: :degree,
               precision: 1
             ) %>
