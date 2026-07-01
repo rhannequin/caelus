@@ -105,4 +105,8 @@ class ApplicationController < ActionController::Base
   def custom_time?
     cookies.signed[:time].present?
   end
+
+  def spk
+    @spk ||= SPK.for_time(@time)
+  end
 end

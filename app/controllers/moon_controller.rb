@@ -74,7 +74,7 @@ class MoonController < ApplicationController
     @extremum_calculator ||= Astronoby::ExtremumCalculator.new(
       body: Moon.planet_class,
       primary_body: Earth.planet_class,
-      ephem: SPK.for_time(@time)
+      ephem: spk
     )
   end
 end
