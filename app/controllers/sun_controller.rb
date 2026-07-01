@@ -12,16 +12,33 @@ class SunController < ApplicationController
       observer: @observer,
       samples: Date.gregorian_leap?(@time.year) ? 366 : 365
     )
-    @twilight_event = twilight_calculator.event_on(
-      @time.to_date,
-      utc_offset: @observer.time_zone.formatted_offset
-    )
-    @next_perihelion = extremum_calculator
-      .periapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
-      .first
-    @next_aphelion = extremum_calculator
-      .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
-      .first
+    @twilight_event = Rails.cache.fetch(
+      "sun_twilight_event/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      twilight_calculator.event_on(
+        @time.to_date,
+        utc_offset: @observer.time_zone.formatted_offset
+      )
+    end
+
+    @next_perihelion = Rails.cache.fetch(
+      "sun_next_perihelion/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      extremum_calculator
+        .periapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
+        .first
+    end
+
+    @next_aphelion = Rails.cache.fetch(
+      "sun_next_aphelion/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      extremum_calculator
+        .apoapsis_events_between(@time, @time + EXTREMUM_LOOKAHEAD)
+        .first
+    end
     @upcoming_seasons = UpcomingSeasons.new(time: @time)
     @golden_blue_hour_calculator = GoldenBlueHourCalculator.new(
       observer: @observer,
