@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class MoonPhaseComponent < ViewComponent::Base
-  SYNODIC_MONTH_DAYS = 29.530588853
-  HALF_SYNODIC_PERIOD = SYNODIC_MONTH_DAYS / 2.0
   DEFAULT_MOON_COLOR = "#faf8f0"
   DEFAULT_SHADOW_COLOR = "#1a1a1a"
   DEFAULT_OUTLINE_COLOR = "#666"
@@ -13,7 +11,7 @@ class MoonPhaseComponent < ViewComponent::Base
     @age = moon.age
     @size = size
     @options = default_options.merge(options)
-    @is_waxing = @age <= HALF_SYNODIC_PERIOD
+    @is_waxing = @age <= Moon::HALF_SYNODIC_PERIOD
   end
 
   private
