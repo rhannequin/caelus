@@ -10,6 +10,8 @@ class LocationController < ApplicationController
     .to_set
     .freeze
 
+  before_action :require_cookie_consent, only: :update
+
   def edit
     @latitude = @observer.latitude.degrees.round(4)
     @longitude = @observer.longitude.degrees.round(4)
@@ -17,8 +19,6 @@ class LocationController < ApplicationController
   end
 
   def update
-    return redirect_back(fallback_location: root_path) unless cookie_consent_given?
-
     changed = false
 
     if valid_latitude?(params[:latitude]) && valid_longitude?(params[:longitude])

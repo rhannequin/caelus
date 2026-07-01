@@ -109,4 +109,8 @@ class ApplicationController < ActionController::Base
   def spk
     @spk ||= SPK.for_time(@time)
   end
+
+  def require_cookie_consent
+    redirect_back(fallback_location: root_path) unless cookie_consent_given?
+  end
 end

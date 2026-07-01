@@ -3,12 +3,12 @@
 class TimeController < ApplicationController
   TIME_RANGE = Time.utc(1900, 1, 1)...Time.utc(2100, 1, 1)
 
+  before_action :require_cookie_consent, only: :update
+
   def edit
   end
 
   def update
-    return redirect_back(fallback_location: root_path) unless cookie_consent_given?
-
     if valid_time?(params[:time])
       cookies.permanent.signed[:time] =
         Time.zone.parse(params[:time]).utc.iso8601
