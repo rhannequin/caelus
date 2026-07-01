@@ -43,7 +43,27 @@ class Moon
     @time = time
   end
 
-  delegate :phase_angle, to: :planet
+  delegate :phase_angle,
+    :illuminated_fraction,
+    :bright_limb_position_angle,
+    :position_angle_of_axis,
+    :libration,
+    to: :planet
+
+  def parallactic_angle
+    planet.parallactic_angle(observer: @observer)
+  end
+
+  def lunar_disc
+    @lunar_disc ||= Lunar::Disc.new(
+      libration: libration,
+      phase_angle: phase_angle,
+      bright_limb_position_angle: bright_limb_position_angle,
+      axis_position_angle: position_angle_of_axis,
+      parallactic_angle: parallactic_angle,
+      catalog: Lunar::FeatureCatalog.default
+    )
+  end
 
   def age
     @age ||= begin

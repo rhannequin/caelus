@@ -1,0 +1,56 @@
+<svg
+  width="<%= view_box_size %>"
+  height="<%= view_box_size %>"
+  viewBox="0 0 <%= view_box_size %> <%= view_box_size %>"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-labelledby="<%= title_id %> <%= description_id %>"
+>
+  <title id="<%= title_id %>"><%= accessible_title %></title>
+  <desc id="<%= description_id %>"><%= accessible_description %></desc>
+
+  <defs>
+    <clipPath id="<%= clip_id %>">
+      <circle cx="<%= center %>" cy="<%= center %>" r="<%= radius %>"/>
+    </clipPath>
+  </defs>
+
+  <g transform="<%= orientation_transform %>">
+    <circle
+      cx="<%= center %>"
+      cy="<%= center %>"
+      r="<%= radius %>"
+      fill="<%= @colors[:highland] %>"
+    />
+
+    <g clip-path="url(#<%= clip_id %>)" aria-hidden="true">
+      <% visible_features.each do |feature| %>
+        <path
+          class="lunar-disc__feature"
+          d="<%= feature[:path] %>"
+          fill="<%= feature[:color] %>"
+          fill-opacity="<%= feature[:opacity] %>"
+        />
+      <% end %>
+
+      <% if shadow_path.present? %>
+        <path
+          class="lunar-disc__shadow"
+          d="<%= shadow_path %>"
+          fill="<%= @colors[:shadow] %>"
+          transform="<%= shadow_transform %>"
+        />
+      <% end %>
+    </g>
+
+    <circle
+      cx="<%= center %>"
+      cy="<%= center %>"
+      r="<%= radius %>"
+      fill="none"
+      stroke="currentColor"
+      stroke-opacity="0.35"
+      stroke-width="<%= outline_width %>"
+    />
+  </g>
+</svg>
