@@ -1,11 +1,10 @@
-import { Controller } from '@hotwired/stimulus'
+import Modal from 'controllers/modal'
 
-export default class extends Controller {
+export default class extends Modal {
   static targets = ['lat', 'lng', 'detectBtn', 'timeZone']
 
   connect () {
-    this.boundCloseOnEscape = this.closeOnEscape.bind(this)
-    document.addEventListener('keydown', this.boundCloseOnEscape)
+    super.connect()
 
     if (this.hasDetectBtnTarget) {
       this.originalButtonText = this.detectBtnTarget.textContent
@@ -13,7 +12,7 @@ export default class extends Controller {
   }
 
   disconnect () {
-    document.removeEventListener('keydown', this.boundCloseOnEscape)
+    super.disconnect()
     this.stopLoadingAnimation()
   }
 
@@ -96,24 +95,6 @@ export default class extends Controller {
           .resolvedOptions()
           .timeZone
       } catch (_error) {}
-    }
-  }
-
-  close () {
-    const modalFrame = document.getElementById('location_modal')
-    if (modalFrame) {
-      modalFrame.innerHTML = ''
-    }
-  }
-
-  cancel (event) {
-    event.preventDefault()
-    this.close()
-  }
-
-  closeOnEscape (event) {
-    if (event.key === 'Escape') {
-      this.close()
     }
   }
 

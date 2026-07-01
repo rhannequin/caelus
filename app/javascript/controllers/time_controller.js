@@ -1,34 +1,8 @@
-import { Controller } from '@hotwired/stimulus'
+import Modal from 'controllers/modal'
 
-export default class extends Controller {
+export default class extends Modal {
   static targets = ['timeField']
   static values = { timezone: String }
-  connect () {
-    this.boundCloseOnEscape = this.closeOnEscape.bind(this)
-    document.addEventListener('keydown', this.boundCloseOnEscape)
-  }
-
-  disconnect () {
-    document.removeEventListener('keydown', this.boundCloseOnEscape)
-  }
-
-  close () {
-    const modalFrame = document.getElementById('time_modal')
-    if (modalFrame) {
-      modalFrame.innerHTML = ''
-    }
-  }
-
-  cancel (event) {
-    event.preventDefault()
-    this.close()
-  }
-
-  closeOnEscape (event) {
-    if (event.key === 'Escape') {
-      this.close()
-    }
-  }
 
   setCurrentTime (event) {
     event.preventDefault()
