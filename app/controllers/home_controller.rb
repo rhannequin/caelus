@@ -49,10 +49,4 @@ class HomeController < ApplicationController
 
     track_page_view("home")
   end
-
-  private
-
-  def spk
-    SPK.for_time(@time)
-  end
 end

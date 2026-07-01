@@ -66,8 +66,4 @@ class SunController < ApplicationController
       ephem: spk
     )
   end
-
-  def spk
-    @spk ||= SPK.for_time(@time)
-  end
 end
