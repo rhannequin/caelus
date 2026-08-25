@@ -1,11 +1,18 @@
 <% content_for :title, "#{t("title")} • #{t(".title")}" %>
 
-<h2><%= t(".list.title", year: Time.current.year) %></h2>
+<%= form_with(url: lunar_eclipses_path, method: :get) do |f| %>
+  <%= f.label :year, t(".form.year") %>
+  <%= f.number_field :year, value: @selected_year %>
+  <%= f.submit t(".form.submit") %>
+<% end %>
+
+<h2><%= t(".list.title", year: @selected_year) %></h2>
 
 <ul>
   <% @lunar_eclipses.each do |eclipse| %>
     <li>
-      <%= l eclipse.instant.to_time.to_date, format: :long %> (<%= eclipse.kind %>)
+      <%= l eclipse.instant.to_time.utc.to_date, format: :long %>
+      (<%= eclipse.kind %>)
     </li>
   <% end %>
 </ul>

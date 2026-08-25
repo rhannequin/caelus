@@ -287,9 +287,12 @@ en:
         planets_visible: "Planets Visible:"
   lunar_eclipses:
     index:
-      title: Lunar Eclipses
+      form:
+        year: Year
+        submit: Compute
       list:
         title: "Lunar Eclipses in %{year}"
+      title: Lunar Eclipses
   messier:
     title: "Messier %{number}"
     tool:
