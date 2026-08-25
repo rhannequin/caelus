@@ -1,0 +1,11 @@
+<% content_for :title, "#{t("title")} • #{t(".title")}" %>
+
+<h2><%= t(".list.title", year: Time.current.year) %></h2>
+
+<ul>
+  <% @lunar_eclipses.each do |eclipse| %>
+    <li>
+      <%= l eclipse.instant.to_time.to_date, format: :long %> (<%= eclipse.kind %>)
+    </li>
+  <% end %>
+</ul>

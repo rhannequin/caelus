@@ -285,6 +285,11 @@ en:
         astronomical_twilight: "Astronomical Twilight:"
         moon_interference: "Moon Interference:"
         planets_visible: "Planets Visible:"
+  lunar_eclipses:
+    index:
+      title: Lunar Eclipses
+      list:
+        title: "Lunar Eclipses in %{year}"
   messier:
     title: "Messier %{number}"
     tool:
@@ -647,6 +652,7 @@ en:
         label: Accept cookies for location features
         title: Accept cookies for location features
     navigation:
+      lunar_eclipses: Lunar Eclipses
       moon: Moon
       sun: Sun
     time_selector:
