@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LunarEclipseDiscComponent < ViewComponent::Base
-  MOON_RADIUS_KM = 1737.4
+  MOON_RADIUS_KM = Astronoby::Constants::IAU_MOON_RADIUS_IN_METERS / 1000.0
 
   MOON_COLOR = "#d4d0c3"
   MOON_EDGE_COLOR = "#f2eee2"
@@ -15,6 +15,8 @@ class LunarEclipseDiscComponent < ViewComponent::Base
   MOON_RADIUS = 1
   MOON_FRAME = 1.25
   LINE_WIDTH = 1.6
+
+  EXTERNAL_TANGENCY_OFFSET = 180
 
   def initialize(lunar_eclipse:, size: 160, detailed: false)
     @lunar_eclipse = lunar_eclipse
@@ -41,68 +43,114 @@ class LunarEclipseDiscComponent < ViewComponent::Base
 
   def view_box
     if detailed?
-      [-half_width, -half_height, view_box_width, view_box_height]
+      [bounds.first, bounds.second, view_box_width, view_box_height]
     else
-      [-MOON_FRAME, moon_y - MOON_FRAME, view_box_width, view_box_height]
+      [
+        moon_x - MOON_FRAME,
+        moon_y - MOON_FRAME,
+        view_box_width,
+        view_box_height
+      ]
     end.map { |value| round(value) }.join(" ")
   end
 
   def view_box_width
-    detailed? ? half_width * 2 : MOON_FRAME * 2
+    detailed? ? bounds.third - bounds.first : MOON_FRAME * 2
   end
 
   def view_box_height
-    detailed? ? half_height * 2 : MOON_FRAME * 2
+    detailed? ? bounds.fourth - bounds.second : MOON_FRAME * 2
   end
 
-  def half_height
-    @half_height ||=
-      [penumbra_radius, axis_distance + MOON_RADIUS].max + MARGIN
-  end
+  # The Moon leaves the shadow further along its path than it entered, so the
+  # figure is framed on what it actually draws rather than on the shadow.
+  def bounds
+    @bounds ||= begin
+      discs = ([moon_position] + ghost_positions).map do |x, y|
+        [
+          x - MOON_RADIUS,
+          y - MOON_RADIUS,
+          x + MOON_RADIUS,
+          y + MOON_RADIUS
+        ]
+      end
+      boxes = discs << [
+        -penumbra_radius,
+        -penumbra_radius,
+        penumbra_radius,
+        penumbra_radius
+      ]
 
-  def half_width
-    @half_width ||= [
-      half_height,
-      contact_offsets.max.to_f + MOON_RADIUS + MARGIN
-    ].max
-  end
-
-  def axis_distance
-    @axis_distance ||= lunar_eclipse.shadow_axis_distance.km / MOON_RADIUS_KM
+      [
+        boxes.map(&:first).min - MARGIN,
+        boxes.map(&:second).min - MARGIN,
+        boxes.map(&:third).max + MARGIN,
+        boxes.map(&:fourth).max + MARGIN
+      ]
+    end
   end
 
   def umbra_radius
-    @umbra_radius ||= shadow_radius(lunar_eclipse.umbral_magnitude)
+    @umbra_radius ||= in_moon_radii(geometry.umbra_radius)
   end
 
   def penumbra_radius
-    @penumbra_radius ||= shadow_radius(lunar_eclipse.penumbral_magnitude)
+    @penumbra_radius ||= in_moon_radii(geometry.penumbra_radius)
   end
 
-  def shadow_radius(magnitude)
-    [2 * magnitude * MOON_RADIUS - MOON_RADIUS + axis_distance, 0].max
+  def geometry
+    lunar_eclipse.geometry
+  end
+
+  def in_moon_radii(distance)
+    distance.km / MOON_RADIUS_KM
+  end
+
+  def moon_position
+    @moon_position ||= position_of(geometry)
+  end
+
+  def moon_x
+    moon_position.first
   end
 
   def moon_y
-    @moon_y ||=
-      lunar_eclipse.gamma.negative? ? axis_distance : -axis_distance
+    moon_position.last
   end
 
-  def contact_offsets
+  def position_of(contact_geometry, external_tangency: false)
+    degrees = contact_geometry.position_angle.degrees
+    degrees += EXTERNAL_TANGENCY_OFFSET if external_tangency
+    angle = Astronoby::Angle.from_degrees(degrees)
+    distance = in_moon_radii(contact_geometry.axis_distance)
+
+    [distance * angle.sin, -distance * angle.cos]
+  end
+
+  def contact_geometries
     return [] unless detailed?
 
-    @contact_offsets ||= [
-      penumbra_radius + MOON_RADIUS,
-      (umbra_radius + MOON_RADIUS if lunar_eclipse.partial),
-      (umbra_radius - MOON_RADIUS if lunar_eclipse.total)
+    umbral = lunar_eclipse.partial
+    totality = lunar_eclipse.total
+
+    [
+      [lunar_eclipse.penumbral.starting_geometry, true],
+      [lunar_eclipse.penumbral.ending_geometry, true],
+      ([umbral.starting_geometry, true] if umbral),
+      ([umbral.ending_geometry, true] if umbral),
+      ([totality.starting_geometry, false] if totality),
+      ([totality.ending_geometry, false] if totality)
     ].compact
-      .filter_map { |distance| half_chord(distance) }
-      .flat_map { |offset| [-offset, offset] }
   end
 
-  def half_chord(distance)
-    squared = distance**2 - axis_distance**2
-    Math.sqrt(squared) if squared.positive?
+  def ghost_positions
+    @ghost_positions ||= contact_geometries.map do |contact, external|
+      position_of(contact, external_tangency: external)
+    end
+  end
+
+  def path_ends
+    ghost_positions.first(2)
   end
 
   def round(value)
@@ -173,7 +221,10 @@ class LunarEclipseDiscComponent < ViewComponent::Base
     t(
       "lunar_eclipses.disc.description",
       kind: t("lunar_eclipses.kinds.#{lunar_eclipse.kind}.name"),
-      distance: helpers.format_number(axis_distance, precision: 2),
+      distance: helpers.format_number(
+        in_moon_radii(geometry.axis_distance),
+        precision: 2
+      ),
       direction: t("lunar_eclipses.disc.#{hemisphere}"),
       umbral: umbral_immersion,
       penumbral: helpers.number_to_percentage(
