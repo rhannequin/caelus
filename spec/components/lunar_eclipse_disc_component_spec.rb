@@ -3,13 +3,78 @@
 require "rails_helper"
 
 RSpec.describe LunarEclipseDiscComponent, type: :component do
-  def phase(from: 0, to: 2)
+  def moon_radius_km
+    LunarEclipseDiscComponent::MOON_RADIUS_KM
+  end
+
+  def build_geometry(
+    axis_distance_km:,
+    position_angle:,
+    umbra_km: 4664,
+    penumbra_km: 8254
+  )
+    Astronoby::LunarEclipseGeometry.new(
+      axis_distance: Astronoby::Distance.from_kilometers(axis_distance_km),
+      position_angle: Astronoby::Angle.from_degrees(position_angle),
+      umbra_radius: Astronoby::Distance.from_kilometers(umbra_km),
+      penumbra_radius: Astronoby::Distance.from_kilometers(penumbra_km),
+      moon_distance: Astronoby::Distance.from_kilometers(400_000)
+    )
+  end
+
+  def build_phase(starting_geometry:, ending_geometry:, from: 0, to: 2)
     Astronoby::EclipsePhase.new(
       starting_instant: Astronoby::Instant.from_time(
         Time.utc(2026, 3, 3, 10) + from.hours
       ),
       ending_instant: Astronoby::Instant.from_time(
         Time.utc(2026, 3, 3, 10) + to.hours
+      ),
+      starting_geometry: starting_geometry,
+      ending_geometry: ending_geometry
+    )
+  end
+
+  def build_penumbral_phase(
+    starting_geometry: build_geometry(
+      axis_distance_km: 9989,
+      position_angle: 104.30
+    ),
+    ending_geometry: build_geometry(
+      axis_distance_km: 9994,
+      position_angle: 312.13
+    )
+  )
+    build_phase(
+      starting_geometry: starting_geometry,
+      ending_geometry: ending_geometry
+    )
+  end
+
+  def build_partial_phase
+    build_phase(
+      starting_geometry: build_geometry(
+        axis_distance_km: 6403,
+        position_angle: 96.19
+      ),
+      ending_geometry: build_geometry(
+        axis_distance_km: 6402,
+        position_angle: 320.26
+      )
+    )
+  end
+
+  def build_total_phase(
+    starting_geometry: build_geometry(
+      axis_distance_km: 2926,
+      position_angle: 243.07
+    )
+  )
+    build_phase(
+      starting_geometry: starting_geometry,
+      ending_geometry: build_geometry(
+        axis_distance_km: 2925,
+        position_angle: 173.39
       )
     )
   end
@@ -19,9 +84,10 @@ RSpec.describe LunarEclipseDiscComponent, type: :component do
     umbral_magnitude: 1.151,
     penumbral_magnitude: 2.184,
     gamma: -0.376,
-    axis_distance_km: 2401,
-    partial: phase,
-    total: phase(from: 0.5, to: 1.5)
+    geometry: build_geometry(axis_distance_km: 2401, position_angle: 208.22),
+    penumbral: build_penumbral_phase,
+    partial: build_partial_phase,
+    total: build_total_phase
   )
     instance_double(
       Astronoby::LunarEclipse,
@@ -29,10 +95,8 @@ RSpec.describe LunarEclipseDiscComponent, type: :component do
       umbral_magnitude: umbral_magnitude,
       penumbral_magnitude: penumbral_magnitude,
       gamma: gamma,
-      shadow_axis_distance: Astronoby::Distance.from_kilometers(
-        axis_distance_km
-      ),
-      penumbral: phase,
+      geometry: geometry,
+      penumbral: penumbral,
       partial: partial,
       total: total,
       penumbral?: kind == :penumbral
@@ -45,7 +109,7 @@ RSpec.describe LunarEclipseDiscComponent, type: :component do
       umbral_magnitude: -0.132,
       penumbral_magnitude: 0.956,
       gamma: 1.061,
-      axis_distance_km: 6767,
+      geometry: build_geometry(axis_distance_km: 6767, position_angle: 8.4),
       partial: nil,
       total: nil
     )
@@ -57,7 +121,7 @@ RSpec.describe LunarEclipseDiscComponent, type: :component do
       umbral_magnitude: 0.93,
       penumbral_magnitude: 1.965,
       gamma: 0.496,
-      axis_distance_km: 3166,
+      geometry: build_geometry(axis_distance_km: 3166, position_angle: 21.5),
       total: nil
     )
   end
@@ -68,105 +132,168 @@ RSpec.describe LunarEclipseDiscComponent, type: :component do
     ).to_html
   end
 
-  def moon_cy(html)
-    html[/<circle cx="0" cy="(-?[\d.]+)" r="1" fill="#d4d0c3"/, 1].to_f
+  def moon_centre(html)
+    match = html.match(
+      /<circle cx="(-?[\d.]+)"\s+cy="(-?[\d.]+)"\s+r="1"\s+fill="#d4d0c3"/m
+    )
+    [match[1].to_f, match[2].to_f]
   end
 
-  def moon_offset(html)
-    moon_cy(html).abs
+  def ghost_centres(html)
+    html
+      .scan(
+        /<circle cx="(-?[\d.]+)" cy="(-?[\d.]+)" r="1" fill="none" stroke="#9c9188"/
+      )
+      .map { |x, y| [x.to_f, y.to_f] }
   end
 
-  def contact_marks(html)
-    html.scan(
-      /<circle cx="-?[\d.]+" cy="-?[\d.]+" r="1" fill="none" stroke="#9c9188"/
-    ).size
+  def shadow_radii(html)
+    html
+      .scan(/<circle\s+cx="0"\s+cy="0"\s+r="([\d.]+)"/m)
+      .flatten
+      .map(&:to_f)
+      .uniq
+      .sort
   end
 
   def view_box(html)
     html[/viewBox="([^"]+)"/, 1].split.map(&:to_f)
   end
 
-  def umbra_radius(html)
-    html
-      .scan(/<circle\s+cx="0"\s+cy="0"\s+r="([\d.]+)"/m)
-      .flatten
-      .map(&:to_f)
-      .min
-  end
-
-  describe "the depth the figure draws the Moon at" do
-    it "puts the whole Moon inside the umbra for a total eclipse" do
-      html = render_disc(build_eclipse, detailed: true)
-
-      expect(umbra_radius(html)).to be >= moon_offset(html) + 1
-    end
-
-    it "straddles the umbra edge for a partial eclipse" do
-      html = render_disc(build_partial_eclipse, detailed: true)
-
-      expect(umbra_radius(html)).to be_between(
-        moon_offset(html) - 1,
-        moon_offset(html) + 1
-      ).exclusive
-    end
-
-    it "keeps the Moon clear of the umbra for a penumbral eclipse" do
-      html = render_disc(build_penumbral_eclipse, detailed: true)
-
-      expect(umbra_radius(html)).to be <= moon_offset(html) - 1
-    end
-
-    it "places the Moon at its distance from the shadow axis" do
-      html = render_disc(build_eclipse(axis_distance_km: 2401), detailed: true)
-
-      expect(moon_offset(html)).to be_within(0.001).of(
-        2401 / LunarEclipseDiscComponent::MOON_RADIUS_KM
+  describe "the shadow it draws" do
+    it "takes both radii from the geometry rather than the magnitudes" do
+      html = render_disc(
+        build_eclipse(
+          geometry: build_geometry(
+            axis_distance_km: 2401,
+            position_angle: 208.22,
+            umbra_km: 2 * moon_radius_km,
+            penumbra_km: 4 * moon_radius_km
+          ),
+          umbral_magnitude: 99,
+          penumbral_magnitude: 99
+        ),
+        detailed: true
       )
+
+      expect(shadow_radii(html)).to eq([2.0, 4.0])
     end
   end
 
-  describe "which side of the axis the Moon passes" do
-    it "draws a Moon north of the axis above it" do
-      html = render_disc(build_eclipse(gamma: 0.348), detailed: true)
+  describe "where it puts the Moon" do
+    it "places it at its distance from the shadow axis" do
+      html = render_disc(build_eclipse, detailed: true)
+      x, y = moon_centre(html)
 
-      expect(moon_cy(html)).to be_negative
+      expect(Math.hypot(x, y)).to be_within(0.001).of(2401 / moon_radius_km)
     end
 
-    it "draws a Moon south of the axis below it" do
-      html = render_disc(build_eclipse(gamma: -0.348), detailed: true)
+    it "reads greatest eclipse as the axis to Moon direction" do
+      html = render_disc(
+        build_eclipse(
+          geometry: build_geometry(axis_distance_km: 2 * moon_radius_km, position_angle: 0)
+        ),
+        detailed: true
+      )
 
-      expect(moon_cy(html)).to be_positive
+      expect(moon_centre(html)).to eq([0.0, -2.0])
+    end
+
+    it "puts a Moon east of the axis to the right" do
+      html = render_disc(
+        build_eclipse(
+          geometry: build_geometry(axis_distance_km: 2 * moon_radius_km, position_angle: 90)
+        ),
+        detailed: true
+      )
+
+      expect(moon_centre(html)).to eq([2.0, 0.0])
     end
   end
 
-  describe "the detailed figure" do
-    it "marks every contact on the Moon's path" do
+  describe "the contact marks" do
+    it "turns an external tangency away from the shadow axis" do
+      html = render_disc(
+        build_eclipse(
+          penumbral: build_penumbral_phase(
+            starting_geometry: build_geometry(
+              axis_distance_km: 2 * moon_radius_km,
+              position_angle: 0
+            )
+          )
+        ),
+        detailed: true
+      )
+
+      expect(ghost_centres(html).first).to eq([0.0, 2.0])
+    end
+
+    it "keeps an internal tangency facing the shadow axis" do
+      html = render_disc(
+        build_eclipse(
+          total: build_total_phase(
+            starting_geometry: build_geometry(
+              axis_distance_km: 2 * moon_radius_km,
+              position_angle: 0
+            )
+          )
+        ),
+        detailed: true
+      )
+
+      expect(ghost_centres(html)).to include([0.0, -2.0])
+    end
+
+    it "marks every contact of a total eclipse" do
       html = render_disc(build_eclipse, detailed: true)
 
-      expect(html.scan("<line ").size).to eq(1)
-      expect(contact_marks(html)).to eq(6)
+      expect(ghost_centres(html).size).to eq(6)
     end
 
     it "marks only the penumbral contacts when there is no umbral phase" do
       html = render_disc(build_penumbral_eclipse, detailed: true)
 
-      expect(contact_marks(html)).to eq(2)
+      expect(ghost_centres(html).size).to eq(2)
     end
 
     it "marks the umbral but not the totality contacts for a partial" do
       html = render_disc(build_partial_eclipse, detailed: true)
 
-      expect(contact_marks(html)).to eq(4)
+      expect(ghost_centres(html).size).to eq(4)
+    end
+
+    it "lies on the path drawn between the penumbral contacts" do
+      html = render_disc(build_eclipse, detailed: true)
+      ends = ghost_centres(html).first(2)
+      line = html.match(
+        /<line\s+x1="(-?[\d.]+)"\s+y1="(-?[\d.]+)"\s+x2="(-?[\d.]+)"\s+y2="(-?[\d.]+)"/m
+      )
+
+      expect([[line[1].to_f, line[2].to_f], [line[3].to_f, line[4].to_f]])
+        .to eq(ends)
+    end
+
+    it "keeps every contact on that path" do
+      html = render_disc(build_eclipse, detailed: true)
+      first, last = ghost_centres(html).first(2)
+      run = [last.first - first.first, last.last - first.last]
+
+      ghost_centres(html).drop(2).each do |x, y|
+        cross = run.first * (y - first.last) - run.last * (x - first.first)
+        expect(cross.abs / Math.hypot(*run)).to be < 0.05
+      end
     end
   end
 
   describe "the compact figure" do
     it "frames the Moon in a square viewBox" do
       html = render_disc(build_eclipse)
-      _x, y, width, height = view_box(html)
+      x, y, width, height = view_box(html)
+      moon_x, moon_y = moon_centre(html)
 
       expect(width).to eq(height)
-      expect(y + height / 2).to be_within(0.001).of(moon_cy(html))
+      expect(x + width / 2).to be_within(0.001).of(moon_x)
+      expect(y + height / 2).to be_within(0.001).of(moon_y)
     end
 
     it "renders as tall as it is wide" do

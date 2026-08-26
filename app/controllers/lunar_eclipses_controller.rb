@@ -3,6 +3,10 @@
 class LunarEclipsesController < ApplicationController
   SUPPORTED_YEARS = (1900..2100)
 
+  ASTRONOBY_BUILD = File.basename(
+    Gem.loaded_specs.fetch("astronoby").full_gem_path
+  )
+
   helper_method :lunar_eclipse_cache_key
 
   def index
@@ -43,7 +47,7 @@ class LunarEclipsesController < ApplicationController
   end
 
   def lunar_eclipse_cache_key(scope)
-    "lunar_eclipses/#{Astronoby::VERSION}/#{scope}"
+    "lunar_eclipses/#{ASTRONOBY_BUILD}/#{scope}"
   end
 
   def selected_year

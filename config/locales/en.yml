@@ -382,6 +382,11 @@ en:
         u4:
           description: The Moon leaves the umbra and the partial eclipse ends.
           name: Fourth umbral contact (U4)
+      position_angle: "PA %{angle}"
+      position_angle_note:
+        The position angle is measured on the Moon's limb from celestial north
+        through east, the convention IMCCE and NASA publish, so these values
+        can be compared with a published table directly.
       time_zone: "Times in %{zone}, with UTC underneath."
       title: 🕐 Contacts
     show:

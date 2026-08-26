@@ -35,7 +35,11 @@
     </radialGradient>
 
     <clipPath id="<%= moon_clip_id %>">
-      <circle cx="0" cy="<%= round(moon_y) %>" r="<%= moon_radius %>"/>
+      <circle
+        cx="<%= round(moon_x) %>"
+        cy="<%= round(moon_y) %>"
+        r="<%= moon_radius %>"
+      />
     </clipPath>
   </defs>
 
@@ -75,19 +79,19 @@
       />
 
       <line
-        x1="<%= round(-half_width) %>"
-        y1="<%= round(moon_y) %>"
-        x2="<%= round(half_width) %>"
-        y2="<%= round(moon_y) %>"
+        x1="<%= round(path_ends.first.first) %>"
+        y1="<%= round(path_ends.first.last) %>"
+        x2="<%= round(path_ends.last.first) %>"
+        y2="<%= round(path_ends.last.last) %>"
         stroke="<%= ghost_color %>"
         stroke-opacity="0.5"
         stroke-width="<%= stroke_width %>"
         stroke-dasharray="0.25 0.2"
       />
-      <% contact_offsets.each do |offset| %>
+      <% ghost_positions.each do |x, y| %>
         <circle
-          cx="<%= round(offset) %>"
-          cy="<%= round(moon_y) %>"
+          cx="<%= round(x) %>"
+          cy="<%= round(y) %>"
           r="<%= moon_radius %>"
           fill="none"
           stroke="<%= ghost_color %>"
@@ -98,7 +102,7 @@
     <% end %>
 
     <circle
-      cx="0"
+      cx="<%= round(moon_x) %>"
       cy="<%= round(moon_y) %>"
       r="<%= moon_radius %>"
       fill="<%= moon_color %>"
@@ -127,7 +131,7 @@
       />
     </g>
     <circle
-      cx="0"
+      cx="<%= round(moon_x) %>"
       cy="<%= round(moon_y) %>"
       r="<%= moon_radius %>"
       fill="none"
