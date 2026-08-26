@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/rhannequin/astronoby.git
+  revision: 85e9b3866d58beb1a9ac02865ba0d908ccfb44db
+  branch: main
+  specs:
+    astronoby (0.10.0)
+      ephem (~> 0.5)
+      iers (~> 0.1)
+      matrix (~> 0.4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -81,10 +91,6 @@ GEM
       logger
       rack (>= 2.0.0)
     ast (2.4.3)
-    astronoby (0.10.0)
-      ephem (~> 0.5)
-      iers (~> 0.1)
-      matrix (~> 0.4.2)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.1.2)
@@ -139,7 +145,7 @@ GEM
       activesupport (>= 6.1)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
-    iers (0.1.0)
+    iers (0.2.0)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -439,7 +445,7 @@ PLATFORMS
 
 DEPENDENCIES
   appsignal
-  astronoby
+  astronoby!
   bootsnap
   brakeman
   bundler-audit

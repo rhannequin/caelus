@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "appsignal"
-gem "astronoby"
+gem "astronoby", github: "rhannequin/astronoby", branch: "main"
 gem "bootsnap", require: false
 gem "importmap-rails"
 gem "kamal", require: false
