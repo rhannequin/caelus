@@ -28,7 +28,25 @@ RSpec.describe LunarEclipsesController, type: :request do
         travel_to Time.utc(2026, 8, 25) do
           get lunar_eclipses_path
 
-          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("Lunar Eclipses in 2026")
+        end
+      end
+    end
+
+    context "with a malformed year parameter" do
+      it "falls back to the current year" do
+        travel_to Time.utc(2026, 8, 25) do
+          get lunar_eclipses_path(year: "abc")
+
+          expect(response.body).to include("Lunar Eclipses in 2026")
+        end
+      end
+
+      it "does not accept a year with trailing characters" do
+        travel_to Time.utc(2026, 8, 25) do
+          get lunar_eclipses_path(year: "1900nonsense")
+
+          expect(response.body).to include("Lunar Eclipses in 2026")
         end
       end
     end

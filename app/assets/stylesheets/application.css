@@ -450,7 +450,7 @@ h1, h2, h3 {
 .eclipse-badge--total {
   border-color: rgba(156, 69, 38, 0.6);
   background: rgba(156, 69, 38, 0.15);
-  color: #b1512e;
+  color: #8a3a22;
 }
 
 .dark .eclipse-badge--total {
@@ -460,12 +460,20 @@ h1, h2, h3 {
 .eclipse-badge--partial {
   border-color: hsl(var(--accent) / 0.5);
   background: hsl(var(--accent) / 0.12);
-  color: hsl(var(--accent));
+  color: hsl(280 55% 42%);
+}
+
+.dark .eclipse-badge--partial {
+  color: hsl(280 90% 80%);
 }
 
 .eclipse-badge--penumbral {
-  color: hsl(var(--muted-foreground));
+  color: hsl(220 18% 38%);
   background: hsl(var(--muted-foreground) / 0.1);
+}
+
+.dark .eclipse-badge--penumbral {
+  color: hsl(var(--muted-foreground));
 }
 
 .eclipse-year-nav {

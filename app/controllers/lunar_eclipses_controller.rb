@@ -47,7 +47,8 @@ class LunarEclipsesController < ApplicationController
   end
 
   def selected_year
-    year = params[:year].presence&.to_i || Time.current.year
-    year.clamp(SUPPORTED_YEARS.first, SUPPORTED_YEARS.last)
+    year = Integer(params[:year].to_s, 10, exception: false)
+    (year || Time.current.year)
+      .clamp(SUPPORTED_YEARS.first, SUPPORTED_YEARS.last)
   end
 end
