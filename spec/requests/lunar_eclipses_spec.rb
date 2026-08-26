@@ -114,4 +114,35 @@ RSpec.describe LunarEclipsesController, type: :request do
       end
     end
   end
+
+  describe "caching" do
+    it "computes a year of eclipses once for the list and the details" do
+      allow(Rails).to receive(:cache).and_return(
+        ActiveSupport::Cache::MemoryStore.new
+      )
+      allow(Astronoby::Moon).to receive(:eclipse_events).and_call_original
+
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2026)
+        get lunar_eclipses_path(year: 2026)
+        get lunar_eclipse_path(id: "2026-03-03")
+
+        expect(Astronoby::Moon).to have_received(:eclipse_events).once
+      end
+    end
+
+    it "computes each year separately" do
+      allow(Rails).to receive(:cache).and_return(
+        ActiveSupport::Cache::MemoryStore.new
+      )
+      allow(Astronoby::Moon).to receive(:eclipse_events).and_call_original
+
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2026)
+        get lunar_eclipses_path(year: 2027)
+
+        expect(Astronoby::Moon).to have_received(:eclipse_events).twice
+      end
+    end
+  end
 end

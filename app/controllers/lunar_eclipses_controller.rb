@@ -3,15 +3,12 @@
 class LunarEclipsesController < ApplicationController
   SUPPORTED_YEARS = (1900..2100)
 
+  helper_method :lunar_eclipse_cache_key
+
   def index
     @selected_year = selected_year
     @supported_years = SUPPORTED_YEARS
-    start_time = Time.utc(@selected_year)
-    @lunar_eclipses = Astronoby::Moon.eclipse_events(
-      ephem: SPK.for_time(start_time),
-      start_time: start_time,
-      end_time: start_time.end_of_year
-    )
+    @lunar_eclipses = lunar_eclipses(@selected_year)
 
     track_page_view("lunar_eclipses")
   end
@@ -21,12 +18,9 @@ class LunarEclipsesController < ApplicationController
 
     raise Caelus::NotFound unless SUPPORTED_YEARS.cover?(@date.year)
 
-    time_utc = Time.utc(@date.year, @date.month, @date.day)
-    @lunar_eclipse = Astronoby::Moon.eclipse_events(
-      ephem: SPK.for_time(time_utc),
-      start_time: time_utc.beginning_of_day,
-      end_time: time_utc.end_of_day
-    ).first
+    @lunar_eclipse = lunar_eclipses(@date.year).find do |lunar_eclipse|
+      helpers.lunar_eclipse_date(lunar_eclipse) == @date
+    end
 
     raise Caelus::NotFound if @lunar_eclipse.nil?
 
@@ -36,6 +30,21 @@ class LunarEclipsesController < ApplicationController
   end
 
   private
+
+  def lunar_eclipses(year)
+    Rails.cache.fetch(lunar_eclipse_cache_key(year)) do
+      start_time = Time.utc(year)
+      Astronoby::Moon.eclipse_events(
+        ephem: SPK.for_time(start_time),
+        start_time: start_time,
+        end_time: start_time.end_of_year
+      )
+    end
+  end
+
+  def lunar_eclipse_cache_key(scope)
+    "lunar_eclipses/#{Astronoby::VERSION}/#{scope}"
+  end
 
   def selected_year
     year = params[:year].presence&.to_i || Time.current.year
