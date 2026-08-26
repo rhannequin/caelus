@@ -25,7 +25,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "standard"
+  gem "standard", ">= 1.35.1"
   gem "web-console"
 end
 
