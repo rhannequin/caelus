@@ -1,0 +1,173 @@
+<% content_for :title, "#{t("title")} • #{t(".title", date: @date)}" %>
+
+<h2><%= t(".#{@lunar_eclipse.kind}.title") %></h2>
+
+<%= t ".#{@lunar_eclipse.kind}.description" %>
+
+<h3><%= t(".characteristics") %></h3>
+
+<ul>
+  <li>
+    <%= t ".greatest_eclipse" %>:
+    <%= nillable_datetime(
+      @lunar_eclipse.greatest_eclipse.to_time,
+      format: :long)
+    %>
+  </li>
+  <li>
+    <%= t ".penumbral_magnitude" %>:
+    <%= format_number(@lunar_eclipse.penumbral_magnitude, precision: 3) %>
+  </li>
+  <li>
+    <%= t ".umbral_magnitude" %>:
+    <%= format_number(@lunar_eclipse.umbral_magnitude, precision: 3) %>
+  </li>
+</ul>
+
+<h3><%= t(".phases.title") %></h3>
+
+<% if @lunar_eclipse.total? %>
+  <ol>
+    <li>
+      <%= t(
+        ".phases.p1",
+        time: nillable_datetime(
+          @lunar_eclipse.penumbral.starting_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.u1",
+        time: nillable_datetime(
+          @lunar_eclipse.partial.starting_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.u2",
+        time: nillable_datetime(
+          @lunar_eclipse.total.starting_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.greatest",
+        time: nillable_datetime(
+          @lunar_eclipse.instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.u3",
+        time: nillable_datetime(
+          @lunar_eclipse.total.ending_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.u4",
+        time: nillable_datetime(
+          @lunar_eclipse.partial.ending_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.p4",
+        time: nillable_datetime(
+          @lunar_eclipse.penumbral.ending_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+  </ol>
+<% elsif @lunar_eclipse.partial? %>
+  <ol>
+    <li>
+      <%= t(
+        ".phases.p1",
+        time: nillable_datetime(
+          @lunar_eclipse.penumbral.starting_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.u1",
+        time: nillable_datetime(
+          @lunar_eclipse.partial.starting_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.greatest",
+        time: nillable_datetime(
+          @lunar_eclipse.instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.u4",
+        time: nillable_datetime(
+          @lunar_eclipse.partial.ending_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.p4",
+        time: nillable_datetime(
+          @lunar_eclipse.penumbral.ending_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+  </ol>
+<% else %>
+<ol>
+    <li>
+      <%= t(
+        ".phases.p1",
+        time: nillable_datetime(
+          @lunar_eclipse.penumbral.starting_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.greatest",
+        time: nillable_datetime(
+          @lunar_eclipse.instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+    <li>
+      <%= t(
+        ".phases.p4",
+        time: nillable_datetime(
+          @lunar_eclipse.penumbral.ending_instant.to_time,
+          format: :long
+        )
+      ) %>
+    </li>
+  </ol>
+<% end %>

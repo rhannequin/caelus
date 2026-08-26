@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resource :location, only: [:edit, :update], controller: :location
   resource :time, only: [:edit, :update, :destroy], controller: :time
 
-  resources :lunar_eclipses, only: [:index]
+  resources :lunar_eclipses, only: [:index, :show]
   resource :moon, only: [:show], controller: :moon
   resource :sun, only: [:show], controller: :sun
 

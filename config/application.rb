@@ -37,5 +37,7 @@ module Caelus
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.middleware.use Rack::Attack
+
+    config.action_dispatch.rescue_responses["Caelus::NotFound"] = :not_found
   end
 end

@@ -11,7 +11,9 @@
 <ul>
   <% @lunar_eclipses.each do |eclipse| %>
     <li>
-      <%= l eclipse.instant.to_time.utc.to_date, format: :long %>
+      <%= link_to lunar_eclipse_path(id: l(eclipse.instant.to_time.utc.to_date)) do %>
+        <%= l eclipse.instant.to_time.utc.to_date, format: :long %>
+      <% end %>
       (<%= eclipse.kind %>)
     </li>
   <% end %>

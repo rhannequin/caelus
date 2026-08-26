@@ -293,6 +293,44 @@ en:
       list:
         title: "Lunar Eclipses in %{year}"
       title: Lunar Eclipses
+    show:
+      characteristics: Characteristics
+      greatest_eclipse: Greatest instant of the eclipse
+      partial:
+        description:
+          A partial lunar eclipse occurs when the Earth passes between
+          the Sun and the Moon, but they are not perfectly aligned. This causes
+          only a portion of the Moon to be covered by the Earth's shadow,
+          resulting in a partial darkening of the Moon's surface.
+        title: Partial Lunar Eclipse
+      penumbral:
+        description:
+          A penumbral lunar eclipse occurs when the Moon passes through the
+          Earth's penumbral shadow. This type of eclipse is subtle and often
+          hard to observe, as the Moon only slightly darkens. It is not as
+          dramatic as a partial or total lunar eclipse, but it is still an
+          interesting astronomical event.
+        title: Penumbral Lunar Eclipse
+      penumbral_magnitude: Penumbral Magnitude
+      phases:
+        greatest: "Greatest Eclipse: %{time}"
+        p1: "Penumbral Eclipse Begins (P1): %{time}"
+        p4: "Penumbral Eclipse Ends (P4): %{time}"
+        title: Phases
+        u1: "Partial Eclipse Begins (U1): %{time}"
+        u2: "Total Eclipse Begins (U2): %{time}"
+        u3: "Total Eclipse Ends (U3): %{time}"
+        u4: "Partial Eclipse Ends (U4): %{time}"
+      title: Lunar Eclipse on %{date}
+      total:
+        description:
+          A total lunar eclipse occurs when the Earth passes directly between
+          the Sun and the Moon, causing the Earth's shadow to completely cover
+          the Moon. During a total lunar eclipse, the Moon can take on a
+          reddish color due to the scattering of sunlight through the Earth's
+          atmosphere, often referred to as a "Blood Moon."
+        title: Total Lunar Eclipse
+      umbral_magnitude: Umbral Magnitude
   messier:
     title: "Messier %{number}"
     tool:
