@@ -286,23 +286,56 @@ en:
         moon_interference: "Moon Interference:"
         planets_visible: "Planets Visible:"
   lunar_eclipses:
+    about:
+      geocentric:
+        A lunar eclipse is a geocentric event. The contacts and magnitudes on
+        this page are the same for every observer who can see the Moon at that
+        moment.
+      title: 🌍 About This Eclipse
+    disc:
+      description: "%{kind}: at greatest eclipse the Moon's centre passes
+        %{distance} Moon radii %{direction} of the axis of Earth's shadow, with
+        %{umbral} of its diameter inside the umbra and %{penumbral} inside the
+        penumbra."
+      north: north
+      outside_umbra: none
+      south: south
+      title: The Moon in Earth's shadow
+    durations:
+      title: ⏳ Durations
+    hero:
+      duration_hint: first to last penumbral contact
+      gamma_hint: "%{distance} %{direction} of the axis"
+      legend:
+        moon: Moon
+        penumbra: Penumbra
+        umbra: Umbra
+      penumbral_magnitude_hint: of the diameter in the penumbra
+      titles:
+        deepest_phase: Deepest Phase
+        duration: Duration
+        gamma: Gamma
+        greatest_eclipse: Greatest Eclipse
+        penumbral_magnitude: Penumbral Magnitude
+        umbral_magnitude: Umbral Magnitude
+      umbral_magnitude_hint: of the diameter in the umbra
     index:
-      form:
-        year: Year
-        submit: Compute
       list:
+        count:
+          one: 1 eclipse
+          other: "%{count} eclipses"
+          zero: No eclipse
+        empty: No lunar eclipse takes place in %{year}.
         title: "Lunar Eclipses in %{year}"
       title: Lunar Eclipses
-    show:
-      characteristics: Characteristics
-      greatest_eclipse: Greatest instant of the eclipse
+    kinds:
       partial:
         description:
           A partial lunar eclipse occurs when the Earth passes between
           the Sun and the Moon, but they are not perfectly aligned. This causes
           only a portion of the Moon to be covered by the Earth's shadow,
           resulting in a partial darkening of the Moon's surface.
-        title: Partial Lunar Eclipse
+        name: Partial Lunar Eclipse
       penumbral:
         description:
           A penumbral lunar eclipse occurs when the Moon passes through the
@@ -310,18 +343,7 @@ en:
           hard to observe, as the Moon only slightly darkens. It is not as
           dramatic as a partial or total lunar eclipse, but it is still an
           interesting astronomical event.
-        title: Penumbral Lunar Eclipse
-      penumbral_magnitude: Penumbral Magnitude
-      phases:
-        greatest: "Greatest Eclipse: %{time}"
-        p1: "Penumbral Eclipse Begins (P1): %{time}"
-        p4: "Penumbral Eclipse Ends (P4): %{time}"
-        title: Phases
-        u1: "Partial Eclipse Begins (U1): %{time}"
-        u2: "Total Eclipse Begins (U2): %{time}"
-        u3: "Total Eclipse Ends (U3): %{time}"
-        u4: "Partial Eclipse Ends (U4): %{time}"
-      title: Lunar Eclipse on %{date}
+        name: Penumbral Lunar Eclipse
       total:
         description:
           A total lunar eclipse occurs when the Earth passes directly between
@@ -329,8 +351,47 @@ en:
           the Moon. During a total lunar eclipse, the Moon can take on a
           reddish color due to the scattering of sunlight through the Earth's
           atmosphere, often referred to as a "Blood Moon."
-        title: Total Lunar Eclipse
-      umbral_magnitude: Umbral Magnitude
+        name: Total Lunar Eclipse
+    phase_names:
+      partial: Partial phase
+      penumbral: Penumbral phase
+      total: Totality
+    phases:
+      contacts:
+        greatest:
+          description: The Moon's centre is least distant from the axis of
+            Earth's shadow.
+          name: Greatest eclipse
+        p1:
+          description: The Moon touches Earth's penumbra and starts to dim.
+          name: First penumbral contact (P1)
+        p4:
+          description: The Moon leaves Earth's penumbra and the eclipse ends.
+          name: Last penumbral contact (P4)
+        u1:
+          description: The Moon reaches the umbra and the partial eclipse
+            begins.
+          name: First umbral contact (U1)
+        u2:
+          description: The Moon is entirely inside the umbra and totality
+            begins.
+          name: Second umbral contact (U2)
+        u3:
+          description: The Moon starts leaving the umbra and totality ends.
+          name: Third umbral contact (U3)
+        u4:
+          description: The Moon leaves the umbra and the partial eclipse ends.
+          name: Fourth umbral contact (U4)
+      time_zone: "Times in %{zone}, with UTC underneath."
+      title: 🕐 Contacts
+    show:
+      back: "All eclipses in %{year}"
+      title: Lunar Eclipse on %{date}
+    year_selector:
+      next: "Eclipses in %{year}"
+      previous: "Eclipses in %{year}"
+      submit: Show
+      year: Year
   messier:
     title: "Messier %{number}"
     tool:

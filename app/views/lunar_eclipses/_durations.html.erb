@@ -1,0 +1,21 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm
+  cosmic-card">
+  <h3 class="text-xl font-bold mb-4 text-primary">
+    <%= t ".title" %>
+  </h3>
+
+  <div class="space-y-4">
+    <% lunar_eclipse_phases(lunar_eclipse).each do |name, phase| %>
+      <div class="eclipse-duration-row">
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground">
+            <%= t "lunar_eclipses.phase_names.#{name}" %>
+          </span>
+          <span class="font-mono">
+            <%= duration_to_human(phase.duration.seconds) %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

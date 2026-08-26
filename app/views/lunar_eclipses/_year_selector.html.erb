@@ -1,0 +1,43 @@
+<div class="flex items-center gap-2">
+  <% if supported_years.cover?(selected_year - 1) %>
+    <%= link_to(
+      lunar_eclipses_path(year: selected_year - 1),
+      class: "eclipse-year-nav",
+      title: t(".previous", year: selected_year - 1),
+      "aria-label": t(".previous", year: selected_year - 1)
+    ) do %>
+      &lsaquo;
+    <% end %>
+  <% end %>
+
+  <%= form_with(
+    url: lunar_eclipses_path,
+    method: :get,
+    class: "flex items-center gap-2"
+  ) do |f| %>
+    <%= f.label :year, t(".year"), class: "sr-only" %>
+    <%= f.number_field(
+      :year,
+      value: selected_year,
+      min: supported_years.first,
+      max: supported_years.last,
+      class: "w-24 rounded-md border bg-transparent p-2 text-center font-mono"
+    ) %>
+    <%= f.submit(
+      t(".submit"),
+      class: "rounded-md bg-primary text-primary-foreground px-4 py-2
+        hover:bg-primary/90 cursor-pointer"
+    ) %>
+  <% end %>
+
+  <% if supported_years.cover?(selected_year + 1) %>
+    <%= link_to(
+      lunar_eclipses_path(year: selected_year + 1),
+      class: "eclipse-year-nav",
+      title: t(".next", year: selected_year + 1),
+      "aria-label": t(".next", year: selected_year + 1)
+    ) do %>
+      &rsaquo;
+    <% end %>
+  <% end %>
+</div>

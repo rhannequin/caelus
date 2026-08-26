@@ -41,6 +41,24 @@ RSpec.describe LunarEclipsesController, type: :request do
           expect(response).to have_http_status(:ok)
         end
       end
+
+      it "returns lunar eclipses for a year far from the current one" do
+        travel_to Time.utc(2026, 8, 25) do
+          get lunar_eclipses_path(year: 1999)
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("Lunar Eclipses in 1999")
+        end
+      end
+
+      it "clamps a year outside the supported range" do
+        travel_to Time.utc(2026, 8, 25) do
+          get lunar_eclipses_path(year: 3000)
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("Lunar Eclipses in 2100")
+        end
+      end
     end
   end
 
@@ -66,10 +84,30 @@ RSpec.describe LunarEclipsesController, type: :request do
       end
     end
 
+    context "with a date in another year" do
+      it "returns a successful response" do
+        travel_to Time.utc(2026, 8, 25) do
+          get lunar_eclipse_path(id: "1999-07-28")
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+
     context "with an invalid date" do
       it "returns a 404 response" do
         travel_to Time.utc(2026, 8, 25) do
           get lunar_eclipse_path(id: "2026-08-29")
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    context "with a date outside the supported range" do
+      it "returns a 404 response" do
+        travel_to Time.utc(2026, 8, 25) do
+          get lunar_eclipse_path(id: "1850-01-01")
 
           expect(response).to have_http_status(:not_found)
         end

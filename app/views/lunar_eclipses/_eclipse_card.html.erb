@@ -1,0 +1,29 @@
+<%= link_to(
+  lunar_eclipse_path(id: lunar_eclipse_date(lunar_eclipse).iso8601),
+  class: "rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card
+    eclipse-card flex items-center gap-4"
+) do %>
+  <div class="shrink-0 eclipse-card-disc">
+    <%= render(
+      LunarEclipseDiscComponent.new(lunar_eclipse: lunar_eclipse, size: 84)
+    ) %>
+  </div>
+
+  <div class="min-w-0">
+    <span class="eclipse-badge eclipse-badge--<%= lunar_eclipse.kind %>">
+      <%= t "lunar_eclipses.kinds.#{lunar_eclipse.kind}.name" %>
+    </span>
+
+    <div class="text-lg font-bold mt-2 leading-tight">
+      <%= l lunar_eclipse_date(lunar_eclipse), format: :long %>
+    </div>
+
+    <div class="text-sm font-mono text-muted-foreground">
+      <%= l lunar_eclipse.instant.to_time.in_time_zone, format: :hm %>
+    </div>
+
+    <div class="text-xs text-accent mt-1">
+      <%= duration_to_human(lunar_eclipse.penumbral.duration.seconds) %>
+    </div>
+  </div>
+<% end %>
