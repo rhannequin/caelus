@@ -1,0 +1,26 @@
+<% content_for :title,
+  "#{t("title")} • #{t(".title", date: l(@date, format: :long))}" %>
+
+<%= link_to(
+  lunar_eclipses_path(year: @date.year),
+  class: "link text-sm inline-flex items-center gap-1"
+) do %>
+  &lsaquo; <%= t ".back", year: @date.year %>
+<% end %>
+
+<%= cache(
+  lunar_eclipse_cache_key("details/#{@date.iso8601}/#{time_zone_cache_key}")
+) do %>
+  <%= render "hero", lunar_eclipse: @lunar_eclipse, date: @date %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <%= render "phases", lunar_eclipse: @lunar_eclipse %>
+    </div>
+
+    <div class="space-y-6">
+      <%= render "durations", lunar_eclipse: @lunar_eclipse %>
+      <%= render "about", lunar_eclipse: @lunar_eclipse %>
+    </div>
+  </div>
+<% end %>

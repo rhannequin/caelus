@@ -21,4 +21,15 @@
     ) %>
     <span class="text-sm font-medium"><%= t ".moon" %></span>
   <% end %>
+  <%= link_to(
+    lunar_eclipses_path,
+    class: "flex items-center gap-2 text-gray-800 dark:text-gray-100
+      hover:text-cosmic dark:hover:text-cosmic transition-colors group"
+  ) do %>
+    <%= render(
+      "shared/icons/lunar_eclipse",
+      class: "w-5 h-5 fill-current group-hover:scale-110 transition-transform"
+    ) %>
+    <span class="text-sm font-medium"><%= t ".lunar_eclipses" %></span>
+  <% end %>
 </nav>

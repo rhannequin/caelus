@@ -20,7 +20,8 @@ class ApplicationController < ActionController::Base
     :observer_daily_cache_key,
     :observer_yearly_cache_key,
     :observer_end_of_day,
-    :observer_end_of_year
+    :observer_end_of_year,
+    :time_zone_cache_key
 
   private
 
@@ -80,6 +81,10 @@ class ApplicationController < ActionController::Base
 
   def observer_daily_cache_key
     @observer_daily_cache_key ||= "#{observer_cache_key}/#{@time.to_date}"
+  end
+
+  def time_zone_cache_key
+    @time_zone_cache_key ||= @observer.time_zone.tzinfo.name
   end
 
   def observer_yearly_cache_key

@@ -1,0 +1,40 @@
+<% content_for :title, "#{t("title")} • #{t(".title")}" %>
+
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm
+  cosmic-card">
+  <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h2 class="text-2xl font-bold text-cosmic">
+        <%= t ".list.title", year: @selected_year %>
+      </h2>
+      <p class="text-sm text-muted-foreground mt-1">
+        <%= t ".list.count", count: @lunar_eclipses.size %>
+      </p>
+    </div>
+
+    <%= render(
+      "year_selector",
+      selected_year: @selected_year,
+      supported_years: @supported_years
+    ) %>
+  </div>
+</div>
+
+<% if @lunar_eclipses.any? %>
+  <%= cache(
+    lunar_eclipse_cache_key("list/#{@selected_year}/#{time_zone_cache_key}")
+  ) do %>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <% @lunar_eclipses.each do |lunar_eclipse| %>
+        <%= render "eclipse_card", lunar_eclipse: lunar_eclipse %>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm
+    cosmic-card text-center py-10">
+    <p class="text-muted-foreground">
+      <%= t ".list.empty", year: @selected_year %>
+    </p>
+  </div>
+<% end %>

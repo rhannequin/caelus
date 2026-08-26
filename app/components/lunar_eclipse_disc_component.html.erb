@@ -1,0 +1,139 @@
+<svg
+  width="<%= width %>"
+  height="<%= height %>"
+  viewBox="<%= view_box %>"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-labelledby="<%= title_id %> <%= description_id %>"
+>
+  <title id="<%= title_id %>"><%= accessible_title %></title>
+  <desc id="<%= description_id %>"><%= accessible_description %></desc>
+
+  <defs>
+    <radialGradient
+      id="<%= penumbra_gradient_id %>"
+      gradientUnits="userSpaceOnUse"
+      cx="0"
+      cy="0"
+      r="<%= round(penumbra_radius) %>"
+    >
+      <stop
+        offset="0%"
+        stop-color="<%= penumbra_color %>"
+        stop-opacity="0.95"
+      />
+      <stop
+        offset="70%"
+        stop-color="<%= penumbra_color %>"
+        stop-opacity="0.55"
+      />
+      <stop
+        offset="100%"
+        stop-color="<%= penumbra_color %>"
+        stop-opacity="0"
+      />
+    </radialGradient>
+
+    <clipPath id="<%= moon_clip_id %>">
+      <circle cx="0" cy="<%= round(moon_y) %>" r="<%= moon_radius %>"/>
+    </clipPath>
+  </defs>
+
+  <g aria-hidden="true">
+    <% if detailed? %>
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(penumbra_radius) %>"
+        fill="url(#<%= penumbra_gradient_id %>)"
+      />
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(penumbra_radius) %>"
+        fill="none"
+        stroke="currentColor"
+        stroke-opacity="0.25"
+        stroke-width="<%= stroke_width %>"
+        stroke-dasharray="0.22 0.18"
+      />
+
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(umbra_radius) %>"
+        fill="<%= umbra_color %>"
+      />
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(umbra_radius) %>"
+        fill="none"
+        stroke="<%= umbra_edge_color %>"
+        stroke-opacity="0.75"
+        stroke-width="<%= stroke_width %>"
+      />
+
+      <line
+        x1="<%= round(-half_width) %>"
+        y1="<%= round(moon_y) %>"
+        x2="<%= round(half_width) %>"
+        y2="<%= round(moon_y) %>"
+        stroke="<%= ghost_color %>"
+        stroke-opacity="0.5"
+        stroke-width="<%= stroke_width %>"
+        stroke-dasharray="0.25 0.2"
+      />
+      <% contact_offsets.each do |offset| %>
+        <circle
+          cx="<%= round(offset) %>"
+          cy="<%= round(moon_y) %>"
+          r="<%= moon_radius %>"
+          fill="none"
+          stroke="<%= ghost_color %>"
+          stroke-opacity="0.55"
+          stroke-width="<%= stroke_width %>"
+        />
+      <% end %>
+    <% end %>
+
+    <circle
+      cx="0"
+      cy="<%= round(moon_y) %>"
+      r="<%= moon_radius %>"
+      fill="<%= moon_color %>"
+    />
+    <g clip-path="url(#<%= moon_clip_id %>)">
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(penumbra_radius) %>"
+        fill="url(#<%= penumbra_gradient_id %>)"
+      />
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(umbra_radius) %>"
+        fill="<%= umbra_moon_color %>"
+      />
+      <circle
+        cx="0"
+        cy="0"
+        r="<%= round(umbra_radius) %>"
+        fill="none"
+        stroke="<%= umbra_edge_color %>"
+        stroke-opacity="0.8"
+        stroke-width="<%= stroke_width %>"
+      />
+    </g>
+    <circle
+      cx="0"
+      cy="<%= round(moon_y) %>"
+      r="<%= moon_radius %>"
+      fill="none"
+      stroke="<%= moon_edge_color %>"
+      stroke-opacity="0.8"
+      stroke-width="<%= moon_stroke_width %>"
+    />
+  </g>
+</svg>

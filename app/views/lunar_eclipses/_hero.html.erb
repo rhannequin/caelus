@@ -1,0 +1,133 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card
+  p-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+    <div class="flex flex-col items-center">
+      <div class="eclipse-hero-container mb-4">
+        <%= render(
+          LunarEclipseDiscComponent.new(
+            lunar_eclipse: lunar_eclipse,
+            size: 340,
+            detailed: true
+          )
+        ) %>
+      </div>
+
+      <h2 class="text-2xl font-bold text-cosmic mb-1 text-center">
+        <%= t "lunar_eclipses.kinds.#{lunar_eclipse.kind}.name" %>
+      </h2>
+
+      <div class="text-sm text-muted-foreground">
+        <%= l date, format: :long %>
+      </div>
+
+      <div class="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs
+        text-muted-foreground">
+        <span class="flex items-center gap-1.5">
+          <span class="eclipse-legend-swatch eclipse-legend-swatch--umbra">
+          </span>
+          <%= t ".legend.umbra" %>
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="eclipse-legend-swatch eclipse-legend-swatch--penumbra">
+          </span>
+          <%= t ".legend.penumbra" %>
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="eclipse-legend-swatch eclipse-legend-swatch--moon">
+          </span>
+          <%= t ".legend.moon" %>
+        </span>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="eclipse-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.greatest_eclipse" %>
+        </div>
+        <div class="text-xl font-semibold font-mono">
+          <%= nillable_datetime(
+            lunar_eclipse.instant.to_time,
+            format: :hm
+          ) %>
+        </div>
+        <div class="text-xs text-accent">
+          <%= l lunar_eclipse.instant.to_time, format: :utc_hm %>
+        </div>
+      </div>
+
+      <div class="eclipse-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.duration" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= duration_to_human(lunar_eclipse.penumbral.duration.seconds) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= t ".duration_hint" %>
+        </div>
+      </div>
+
+      <div class="eclipse-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.deepest_phase" %>
+        </div>
+        <% deepest_phase = lunar_eclipse.total ||
+          lunar_eclipse.partial ||
+          lunar_eclipse.penumbral %>
+        <div class="text-xl font-semibold">
+          <%= duration_to_human(deepest_phase.duration.seconds) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= t "lunar_eclipses.phase_names.#{lunar_eclipse.kind}" %>
+        </div>
+      </div>
+
+      <div class="eclipse-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.umbral_magnitude" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(lunar_eclipse.umbral_magnitude, precision: 3) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= t ".umbral_magnitude_hint" %>
+        </div>
+      </div>
+
+      <div class="eclipse-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.penumbral_magnitude" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(lunar_eclipse.penumbral_magnitude, precision: 3) %>
+        </div>
+        <div class="text-xs text-muted-foreground">
+          <%= t ".penumbral_magnitude_hint" %>
+        </div>
+      </div>
+
+      <div class="eclipse-stat-card">
+        <div class="text-xs text-muted-foreground mb-1">
+          <%= t ".titles.gamma" %>
+        </div>
+        <div class="text-xl font-semibold">
+          <%= format_number(lunar_eclipse.gamma, precision: 3) %>
+        </div>
+        <div class="text-xs text-accent">
+          <%= t(
+            ".gamma_hint",
+            distance: format_number(
+              lunar_eclipse.shadow_axis_distance.km,
+              unit: :km,
+              precision: 0
+            ),
+            direction: t(
+              "lunar_eclipses.disc.#{lunar_eclipse.gamma.negative? ? :south : :north}"
+            )
+          ) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
