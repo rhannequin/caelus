@@ -55,7 +55,9 @@ class DeepSkyRanking
     asterism: :other,
     double_star: :other
   }.freeze
-  MAXIMUM_PER_FAMILY = 3
+  MAXIMUM_FAMILY_SHARE = 0.5
+  ANCHOR_COUNT = 2
+  ROTATION_POOL_SIZE = 24
 
   ALTITUDE_WEIGHT = 0.34
   SUSTAINED_WEIGHT = 0.14
@@ -75,10 +77,21 @@ class DeepSkyRanking
     @deep_sky_objects = deep_sky_objects
   end
 
-  def best(limit)
-    varied = varied_selection(limit)
+  def self.maximum_per_family(limit)
+    (limit * MAXIMUM_FAMILY_SHARE).ceil
+  end
 
-    varied + (placements - varied).first(limit - varied.size)
+  def best(limit)
+    counts = Hash.new(0)
+    selection = []
+    cap = self.class.maximum_per_family(limit)
+
+    add_within_cap(anchors(limit), selection, counts, limit, cap)
+    add_within_cap(rotating_pool(selection), selection, counts, limit, cap)
+    add_within_cap(placements, selection, counts, limit, cap)
+    selection.concat((placements - selection).first(limit - selection.size))
+
+    selection
   end
 
   def placements
@@ -89,14 +102,24 @@ class DeepSkyRanking
 
   private
 
-  def varied_selection(limit)
-    counts = Hash.new(0)
+  def anchors(limit)
+    placements.first([ANCHOR_COUNT, limit].min)
+  end
 
-    placements.each_with_object([]) do |placement, selection|
-      return selection if selection.size == limit
+  def rotating_pool(selection)
+    pool = (placements - selection).first(ROTATION_POOL_SIZE)
+    return pool if pool.empty?
+
+    pool.rotate(@night.date.yday % pool.size)
+  end
+
+  def add_within_cap(candidates, selection, counts, limit, cap)
+    candidates.each do |placement|
+      break if selection.size == limit
+      next if selection.include?(placement)
 
       family = family_of(placement.deep_sky_object)
-      next if counts[family] >= MAXIMUM_PER_FAMILY
+      next if counts[family] >= cap
 
       counts[family] += 1
       selection << placement

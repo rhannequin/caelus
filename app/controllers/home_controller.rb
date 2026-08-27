@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  MAXIMUM_DEEP_SKY_OBJECTS = 6
+  MAXIMUM_DEEP_SKY_OBJECTS = 8
 
   def index
     @planets = [

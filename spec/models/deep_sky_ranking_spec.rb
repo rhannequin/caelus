@@ -117,7 +117,7 @@ RSpec.describe DeepSkyRanking, type: :model do
       end
 
       expect(families.tally.values.max)
-        .to be <= described_class::MAXIMUM_PER_FAMILY
+        .to be <= described_class.maximum_per_family(6)
     end
 
     it "still returns the requested number of objects" do
@@ -136,6 +136,118 @@ RSpec.describe DeepSkyRanking, type: :model do
       expect(best.size).to eq(6)
       expect(best.map { |placement| placement.deep_sky_object.number }.uniq.size)
         .to eq(6)
+    end
+  end
+
+  describe "rotation" do
+    it "always keeps the best-placed object of the night" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      ranking = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        )
+      )
+
+      expect(ranking.best(6).first).to eq(ranking.placements.first)
+    end
+
+    it "shows different objects from one night to the next" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      nights = (0..2).map do |offset|
+        described_class.new(
+          night: ObservingNight.new(
+            observer: observer,
+            date: Date.new(2026, 3, 15) + offset
+          )
+        ).best(6).map { |placement| placement.deep_sky_object.designation }
+      end
+
+      expect(nights[0]).not_to match_array(nights[1])
+      expect(nights.flatten.uniq.size).to be > 6
+    end
+
+    it "gives the same list every time for the same night" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      night = ObservingNight.new(
+        observer: observer,
+        date: Date.new(2026, 3, 15)
+      )
+
+      first = described_class.new(night: night).best(6)
+      second = described_class.new(night: night).best(6)
+
+      expect(first.map { |placement| placement.deep_sky_object.designation })
+        .to eq(second.map { |placement| placement.deep_sky_object.designation })
+    end
+
+    it "keeps the family cap across the whole list, anchors included" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      [6, 8].each do |limit|
+        (0..20).each do |offset|
+          best = described_class.new(
+            night: ObservingNight.new(
+              observer: observer,
+              date: Date.new(2026, 3, 1) + offset
+            )
+          ).best(limit)
+
+          families = best.map do |placement|
+            described_class::FAMILIES.fetch(
+              placement.deep_sky_object.type,
+              :other
+            )
+          end
+
+          expect(families.tally.values.max)
+            .to be <= described_class.maximum_per_family(limit)
+        end
+      end
+    end
+
+    it "keeps the family cap at a southern latitude where one family dominates" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(-33.87),
+        longitude: Astronoby::Angle.from_degrees(151.21)
+      )
+
+      (0..14).each do |offset|
+        best = described_class.new(
+          night: ObservingNight.new(
+            observer: observer,
+            date: Date.new(2026, 4, 1) + offset
+          )
+        ).best(8)
+
+        families = best.map do |placement|
+          described_class::FAMILIES.fetch(placement.deep_sky_object.type, :other)
+        end
+
+        expect(best.size).to eq(8)
+        expect(families.tally.values.max)
+          .to be <= described_class.maximum_per_family(8)
+      end
+    end
+  end
+
+  describe ".maximum_per_family" do
+    it "lets no family take more than half the list" do
+      expect(described_class.maximum_per_family(6)).to eq(3)
+      expect(described_class.maximum_per_family(8)).to eq(4)
     end
   end
 
