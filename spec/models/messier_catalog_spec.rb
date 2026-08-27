@@ -28,6 +28,19 @@ RSpec.describe MessierCatalog do
     end
   end
 
+  describe ".instrument" do
+    it "rates difficulty by how the object actually looks, not its magnitude" do
+      expect(MessierCatalog.instrument(45)).to eq(:naked_eye)
+      expect(MessierCatalog.instrument(13)).to eq(:binoculars)
+      expect(MessierCatalog.instrument(51)).to eq(:small_telescope)
+      expect(MessierCatalog.instrument(74)).to eq(:large_telescope)
+    end
+
+    it "gives every catalogued object an instrument" do
+      expect(MessierCatalog.all.map(&:instrument)).to all(be_present)
+    end
+  end
+
   describe ".find_by_number" do
     it "returns the correct MessierObject for a given number" do
       messier_object = MessierCatalog.find_by_number(31)

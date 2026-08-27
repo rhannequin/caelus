@@ -26,6 +26,38 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    context "when the night never gets dark" do
+      it "says so instead of listing deep-sky objects" do
+        travel_to Time.utc(2026, 6, 21, 12) do
+          post cookie_consent_path
+          patch location_path,
+            params: {latitude: "69.65", longitude: "18.96"}
+
+          get root_path
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(
+            I18n.t("home.deep_sky_objects.night.none")
+          )
+        end
+      end
+    end
+
+    context "when the night only reaches nautical twilight" do
+      it "says the sky never gets fully dark and still lists objects" do
+        travel_to Time.utc(2026, 6, 21, 12) do
+          post cookie_consent_path
+          patch location_path,
+            params: {latitude: "48.85", longitude: "2.35"}
+
+          get root_path
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("Never fully dark tonight")
+        end
+      end
+    end
+
     context "with a time far from now" do
       it "returns a successful response" do
         travel_to Time.utc(2025, 8, 30) do

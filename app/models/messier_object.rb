@@ -3,11 +3,11 @@
 class MessierObject
   include ActiveModel::Model
 
-  NAKED_EYE_MAGNITUDE_LIMIT = 4
-  BINOCULARS_MAGNITUDE_LIMIT = 6
+  DEFAULT_INSTRUMENT = :small_telescope
 
   attr_accessor :number,
     :notability,
+    :instrument,
     :ngc_number,
     :name,
     :type,
@@ -37,12 +37,6 @@ class MessierObject
   end
 
   def visible_with
-    if magnitude <= NAKED_EYE_MAGNITUDE_LIMIT
-      I18n.t("messier.tool.naked_eye")
-    elsif magnitude >= BINOCULARS_MAGNITUDE_LIMIT
-      I18n.t("messier.tool.telescope")
-    else
-      I18n.t("messier.tool.binoculars")
-    end
+    I18n.t("messier.tool.#{instrument || DEFAULT_INSTRUMENT}")
   end
 end

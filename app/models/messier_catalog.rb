@@ -18,6 +18,23 @@ class MessierCatalog
     91, 95, 96, 98, 99, 100, 102, 108, 109
   ].freeze
 
+  NAKED_EYE = [
+    6, 7, 8, 24, 25, 31, 39, 41, 42, 44, 45, 47, 48
+  ].freeze
+
+  BINOCULARS = [
+    2, 3, 4, 5, 10, 11, 12, 13, 15, 16,
+    17, 18, 20, 21, 22, 23, 26, 27, 29, 33,
+    34, 35, 36, 37, 38, 46, 50, 52, 55, 62,
+    67, 71, 79, 80, 92, 93, 103
+  ].freeze
+
+  LARGE_TELESCOPE = [
+    58, 59, 60, 61, 68, 72, 74, 76, 77, 84,
+    85, 86, 87, 88, 89, 90, 91, 95, 96, 98,
+    99, 100, 102, 108, 109
+  ].freeze
+
   MESSIER_OBJECTS = [
     {
       number: 1,
@@ -1362,10 +1379,19 @@ class MessierCatalog
     :ordinary
   end
 
+  def self.instrument(number)
+    return :naked_eye if NAKED_EYE.include?(number)
+    return :binoculars if BINOCULARS.include?(number)
+    return :large_telescope if LARGE_TELESCOPE.include?(number)
+
+    :small_telescope
+  end
+
   def self.messier_object_from_catalog_data(data)
     MessierObject.new(
       number: data[:number],
       notability: notability(data[:number]),
+      instrument: instrument(data[:number]),
       ngc_number: data[:ngc],
       name: data[:name],
       type: data[:type],

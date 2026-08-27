@@ -98,6 +98,47 @@ RSpec.describe DeepSkyRanking, type: :model do
     end
   end
 
+  describe "variety" do
+    it "does not fill the list with objects of one family" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      best = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        )
+      ).best(6)
+
+      families = best.map do |placement|
+        described_class::FAMILIES.fetch(placement.messier_object.type, :other)
+      end
+
+      expect(families.tally.values.max)
+        .to be <= described_class::MAXIMUM_PER_FAMILY
+    end
+
+    it "still returns the requested number of objects" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      best = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        )
+      ).best(6)
+
+      expect(best.size).to eq(6)
+      expect(best.map { |placement| placement.messier_object.number }.uniq.size)
+        .to eq(6)
+    end
+  end
+
   describe "moonlight" do
     it "demotes a galaxy below a cluster of similar standing under a bright Moon" do
       observer = Astronoby::Observer.new(

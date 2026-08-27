@@ -86,4 +86,54 @@ RSpec.describe MessierObjectPosition, type: :model do
       expect(position.highest_altitude_time).to eq(night.range.begin)
     end
   end
+
+  describe "#moon_separation" do
+    it "is nil when the Moon is below the horizon at culmination" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      night = ObservingNight.new(observer: observer, date: Date.new(2026, 1, 15))
+
+      position = MessierCatalog.find_by_number(45).at(
+        Time.utc(2026, 1, 15, 23),
+        observer: observer,
+        night: night
+      )
+
+      expect(position.moon_separation).to be_nil
+    end
+
+    it "is nil when there is no night to observe" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(69.65),
+        longitude: Astronoby::Angle.from_degrees(18.96)
+      )
+      night = ObservingNight.new(observer: observer, date: Date.new(2026, 6, 21))
+
+      position = MessierCatalog.find_by_number(13).at(
+        Time.utc(2026, 6, 21, 23),
+        observer: observer,
+        night: night
+      )
+
+      expect(position.moon_separation).to be_nil
+    end
+
+    it "measures how close the Moon is when the object is highest" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      night = ObservingNight.new(observer: observer, date: Date.new(2026, 9, 30))
+
+      position = MessierCatalog.find_by_number(45).at(
+        Time.utc(2026, 9, 30, 23),
+        observer: observer,
+        night: night
+      )
+
+      expect(position.moon_separation.degrees).to be_within(1).of(5.4)
+    end
+  end
 end

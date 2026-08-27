@@ -3,7 +3,7 @@
 class MessierObjectPosition
   include ActiveModel::Model
 
-  Culmination = Data.define(:altitude, :time)
+  Culmination = Data.define(:position, :time)
 
   attr_accessor :messier_object, :time, :observer, :use_ephem, :night
 
@@ -19,11 +19,21 @@ class MessierObjectPosition
   end
 
   def highest_altitude
-    culmination&.altitude
+    culmination&.position&.horizontal&.altitude
   end
 
   def highest_altitude_time
     culmination&.time
+  end
+
+  def moon_separation
+    return unless culmination
+    return unless moon_at_culmination.horizontal.altitude.positive?
+
+    @moon_separation ||= AngularSeparation.between(
+      culmination.position.equatorial,
+      moon_at_culmination.equatorial
+    )
   end
 
   private
@@ -32,8 +42,14 @@ class MessierObjectPosition
     return if candidate_times.empty?
 
     @culmination ||= candidate_times
-      .map { |candidate| Culmination.new(altitude_at(candidate), candidate) }
-      .max_by(&:altitude)
+      .map { |candidate| Culmination.new(position_at(candidate), candidate) }
+      .max_by { |candidate| candidate.position.horizontal.altitude }
+  end
+
+  def moon_at_culmination
+    @moon_at_culmination ||= Astronoby::Moon
+      .new(instant: Astronoby::Instant.from_time(culmination.time), ephem: spk)
+      .observed_by(observer)
   end
 
   def candidate_times
@@ -53,13 +69,11 @@ class MessierObjectPosition
     @next_day_rts ||= rts_calculator.event_on(time.to_date + 1)
   end
 
-  def altitude_at(moment)
+  def position_at(moment)
     messier_object
       .deep_sky_object
       .at(Astronoby::Instant.from_time(moment), ephem: spk)
       .observed_by(observer)
-      .horizontal
-      .altitude
   end
 
   def rts_calculator

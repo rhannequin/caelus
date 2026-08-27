@@ -34,6 +34,24 @@ class DeepSkyRanking
   }.freeze
   DEFAULT_MOONLIGHT_SENSITIVITY = 0.5
 
+  FAMILIES = {
+    spiral_galaxy: :galaxy,
+    elliptical_galaxy: :galaxy,
+    irregular_galaxy: :galaxy,
+    lenticular_galaxy: :galaxy,
+    nebula: :nebula,
+    nebula_with_cluster: :nebula,
+    reflection_nebula: :nebula,
+    planetary_nebula: :nebula,
+    supernova_remnant: :nebula,
+    globular_cluster: :cluster,
+    open_cluster: :cluster,
+    star_cloud: :other,
+    asterism: :other,
+    double_star: :other
+  }.freeze
+  MAXIMUM_PER_FAMILY = 3
+
   ALTITUDE_WEIGHT = 0.34
   SUSTAINED_WEIGHT = 0.14
   BRIGHTNESS_WEIGHT = 0.16
@@ -53,7 +71,9 @@ class DeepSkyRanking
   end
 
   def best(limit)
-    placements.first(limit)
+    varied = varied_selection(limit)
+
+    varied + (placements - varied).first(limit - varied.size)
   end
 
   def placements
@@ -63,6 +83,24 @@ class DeepSkyRanking
   end
 
   private
+
+  def varied_selection(limit)
+    counts = Hash.new(0)
+
+    placements.each_with_object([]) do |placement, selection|
+      return selection if selection.size == limit
+
+      family = family_of(placement.messier_object)
+      next if counts[family] >= MAXIMUM_PER_FAMILY
+
+      counts[family] += 1
+      selection << placement
+    end
+  end
+
+  def family_of(messier_object)
+    FAMILIES.fetch(messier_object.type, :other)
+  end
 
   def place(messier_object)
     return unless @night.dark?
@@ -132,7 +170,10 @@ class DeepSkyRanking
   end
 
   def proximity(position, moon)
-    separation = angular_separation(position.equatorial, moon.equatorial)
+    separation = AngularSeparation.between(
+      position.equatorial,
+      moon.equatorial
+    )
     nearness = clamp(
       (MOON_SEPARATION_REACH.degrees - separation.degrees) /
         MOON_SEPARATION_REACH.degrees
@@ -141,21 +182,7 @@ class DeepSkyRanking
     0.35 + 0.65 * nearness
   end
 
-  def angular_separation(first, second)
-    first_declination = first.declination.radians
-    second_declination = second.declination.radians
-    right_ascension_difference =
-      first.right_ascension.radians - second.right_ascension.radians
-
-    cosine = Math.sin(first_declination) * Math.sin(second_declination) +
-      Math.cos(first_declination) *
-        Math.cos(second_declination) *
-        Math.cos(right_ascension_difference)
-
-    Astronoby::Angle.from_radians(Math.acos(clamp(cosine, minimum: -1.0)))
-  end
-
-  def clamp(value, minimum: 0.0, maximum: 1.0)
-    value.clamp(minimum, maximum)
+  def clamp(value)
+    value.clamp(0.0, 1.0)
   end
 end

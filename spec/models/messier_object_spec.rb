@@ -30,17 +30,29 @@ RSpec.describe MessierObject do
   end
 
   describe "#visible_with" do
-    it "returns the correct visibility method based on magnitude" do
-      naked_eye_object = MessierObject.new(magnitude: 3.5)
-      binoculars_object = MessierObject.new(magnitude: 5.0)
-      telescope_object = MessierObject.new(magnitude: 7.0)
-
-      expect(naked_eye_object.visible_with)
+    it "names the instrument the object is catalogued for" do
+      expect(MessierCatalog.find_by_number(45).visible_with)
         .to eq(I18n.t("messier.tool.naked_eye"))
-      expect(binoculars_object.visible_with)
+      expect(MessierCatalog.find_by_number(13).visible_with)
         .to eq(I18n.t("messier.tool.binoculars"))
-      expect(telescope_object.visible_with)
-        .to eq(I18n.t("messier.tool.telescope"))
+      expect(MessierCatalog.find_by_number(51).visible_with)
+        .to eq(I18n.t("messier.tool.small_telescope"))
+      expect(MessierCatalog.find_by_number(74).visible_with)
+        .to eq(I18n.t("messier.tool.large_telescope"))
+    end
+
+    it "does not judge difficulty by magnitude alone" do
+      hard_but_bright = MessierCatalog.find_by_number(33)
+      easy_but_faint = MessierCatalog.find_by_number(57)
+
+      expect(hard_but_bright.magnitude).to be < easy_but_faint.magnitude
+      expect(hard_but_bright.instrument).to eq(:binoculars)
+      expect(easy_but_faint.instrument).to eq(:small_telescope)
+    end
+
+    it "falls back to a small telescope when the object is not catalogued" do
+      expect(MessierObject.new(number: 999).visible_with)
+        .to eq(I18n.t("messier.tool.small_telescope"))
     end
   end
 end

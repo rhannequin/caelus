@@ -1,7 +1,43 @@
 <div>
-  <h2 class="text-2xl font-bold mb-4 text-cosmic">
+  <h2 class="text-2xl font-bold mb-2 text-cosmic">
     <%= t ".title" %>
   </h2>
+
+  <% if night.dark? %>
+    <p class="text-sm text-muted-foreground mb-4 flex flex-wrap gap-x-2">
+      <span>
+        <%= t(
+          ".night.#{night.darkness}",
+          from: nillable_datetime(night.range.begin, format: :hm),
+          to: nillable_datetime(night.range.end, format: :hm)
+        ) %>
+      </span>
+      <span aria-hidden="true">·</span>
+      <span>
+        <%= t(
+          ".night.moon",
+          percentage: (night.moon_illuminated_fraction * 100).round
+        ) %>
+      </span>
+      <% if night.moonless_range %>
+        <span aria-hidden="true">·</span>
+        <span>
+          <%= t(
+            ".night.moonless",
+            hours: format_number(
+              (night.moonless_range.end - night.moonless_range.begin) / 3600.0,
+              precision: 1
+            )
+          ) %>
+        </span>
+      <% end %>
+    </p>
+  <% else %>
+    <p class="text-sm text-muted-foreground mb-4">
+      <%= t ".night.none" %>
+    </p>
+  <% end %>
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <% messier_object_positions.each do |messier_object_position| %>
       <div class="rounded-lg border bg-card text-card-foreground shadow-sm
@@ -59,6 +95,23 @@
                 </span>
               </div>
             <% end %>
+            <% if near_moon?(messier_object_position) %>
+              <div
+                class="inline-flex items-center rounded-full border
+                  border-transparent px-2.5 py-0.5 text-xs font-semibold
+                  text-amber-600 dark:text-amber-400"
+                title="<%= t ".moon_distance" %>"
+              >
+                <%= t(
+                  ".near_moon",
+                  separation: format_number(
+                    messier_object_position.moon_separation.degrees,
+                    unit: :degree,
+                    precision: 0
+                  )
+                ) %>
+              </div>
+            <% end %>
             <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold
               transition-colors focus:outline-none focus:ring-2 focus:ring-ring
               focus:ring-offset-2 border-transparent">
@@ -66,6 +119,15 @@
             </div>
           </div>
         </div>
+
+        <% look_for = messier_look_for(
+          messier_object_position.messier_object
+        ) %>
+        <% if look_for %>
+          <p class="text-sm text-muted-foreground mb-3">
+            <%= look_for %>
+          </p>
+        <% end %>
 
         <details class="text-xs mt-1">
           <summary class="cursor-pointer text-muted-foreground

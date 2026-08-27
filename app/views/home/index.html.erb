@@ -42,6 +42,7 @@
 ) do %>
   <%= render(
     "deep_sky_objects",
-    messier_object_positions: @messier_object_positions
+    messier_object_positions: @messier_object_positions,
+    night: @observing_night
   ) %>
 <% end %>
