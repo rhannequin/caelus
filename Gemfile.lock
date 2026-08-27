@@ -219,7 +219,7 @@ GEM
       racc (~> 1.4)
     ostruct (0.6.3)
     parallel (2.1.0)
-    parser (3.3.11.1)
+    parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
     pp (0.6.4)
@@ -467,7 +467,7 @@ DEPENDENCIES
   solid_cache
   solid_queue
   sqlite3
-  standard
+  standard (>= 1.35.1)
   stimulus-rails
   tailwindcss-rails
   thruster
