@@ -46,8 +46,8 @@ class HomeController < ApplicationController
       date: @time.to_date
     )
 
-    @messier_object_positions = best_messier_numbers.map do |number|
-      MessierCatalog.find_by_number(number).at(
+    @deep_sky_object_positions = best_designations.map do |designation|
+      DeepSkyObjectsCatalog.find_by_designation(designation).at(
         @time,
         observer: @observer,
         use_ephem: true,
@@ -60,7 +60,7 @@ class HomeController < ApplicationController
 
   private
 
-  def best_messier_numbers
+  def best_designations
     Rails.cache.fetch(
       "deep_sky_ranking/#{observer_daily_cache_key}",
       expires_at: observer_end_of_day
@@ -68,7 +68,7 @@ class HomeController < ApplicationController
       DeepSkyRanking
         .new(night: @observing_night)
         .best(MAXIMUM_DEEP_SKY_OBJECTS)
-        .map { |placement| placement.messier_object.number }
+        .map { |placement| placement.deep_sky_object.designation }
     end
   end
 end

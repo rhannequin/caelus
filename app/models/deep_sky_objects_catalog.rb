@@ -1,38 +1,46 @@
 # frozen_string_literal: true
 
-class MessierCatalog
+class DeepSkyObjectsCatalog
   SHOWPIECES = [
-    6, 7, 8, 11, 13, 17, 22, 27, 31, 35,
-    37, 42, 44, 45, 51, 57, 81, 82, 101, 104
+    "M6", "M7", "M8", "M11", "M13", "M17", "M22", "M27", "M31", "M35",
+    "M37", "M42", "M44", "M45", "M51", "M57", "M81", "M82", "M101", "M104",
+    "NGC 104", "NGC 253", "NGC 869", "NGC 3372", "NGC 3532", "NGC 4755",
+    "NGC 5128", "NGC 5139", "NGC 6231", "NGC 6752"
   ].freeze
 
   NOTABLE = [
-    1, 2, 3, 4, 5, 10, 12, 15, 16, 20,
-    23, 24, 25, 33, 34, 36, 38, 39, 41, 46,
-    47, 48, 50, 52, 53, 55, 63, 64, 65, 66,
-    71, 78, 92, 93, 97, 103, 105, 106, 110
+    "M1", "M2", "M3", "M4", "M5", "M10", "M12", "M15", "M16", "M20",
+    "M23", "M24", "M25", "M33", "M34", "M36", "M38", "M39", "M41", "M46",
+    "M47", "M48", "M50", "M52", "M53", "M55", "M63", "M64", "M65", "M66",
+    "M71", "M78", "M92", "M93", "M97", "M103", "M105", "M106", "M110",
+    "NGC 884", "NGC 2070", "NGC 2516", "NGC 3766", "NGC 4945", "NGC 6397"
   ].freeze
 
   FAINT = [
-    40, 43, 68, 72, 73, 74, 76, 77, 89,
-    91, 95, 96, 98, 99, 100, 102, 108, 109
+    "M40", "M43", "M68", "M72", "M73", "M74", "M76", "M77", "M89",
+    "M91", "M95", "M96", "M98", "M99", "M100", "M102", "M108", "M109"
   ].freeze
 
   NAKED_EYE = [
-    6, 7, 8, 24, 25, 31, 39, 41, 42, 44, 45, 47, 48
+    "M6", "M7", "M8", "M24", "M25", "M31", "M39", "M41", "M42", "M44",
+    "M45", "M47", "M48",
+    "NGC 104", "NGC 869", "NGC 884", "NGC 2516", "NGC 3372", "NGC 3532",
+    "NGC 4755", "NGC 5139", "NGC 6231"
   ].freeze
 
   BINOCULARS = [
-    2, 3, 4, 5, 10, 11, 12, 13, 15, 16,
-    17, 18, 20, 21, 22, 23, 26, 27, 29, 33,
-    34, 35, 36, 37, 38, 46, 50, 52, 55, 62,
-    67, 71, 79, 80, 92, 93, 103
+    "M2", "M3", "M4", "M5", "M10", "M11", "M12", "M13", "M15", "M16",
+    "M17", "M18", "M20", "M21", "M22", "M23", "M26", "M27", "M29", "M33",
+    "M34", "M35", "M36", "M37", "M38", "M46", "M50", "M52", "M55", "M62",
+    "M67", "M71", "M79", "M80", "M92", "M93", "M103",
+    "NGC 253", "NGC 3766", "NGC 5128", "NGC 6397", "NGC 6752", "NGC 7000"
   ].freeze
 
   LARGE_TELESCOPE = [
-    58, 59, 60, 61, 68, 72, 74, 76, 77, 84,
-    85, 86, 87, 88, 89, 90, 91, 95, 96, 98,
-    99, 100, 102, 108, 109
+    "M58", "M59", "M60", "M61", "M68", "M72", "M74", "M76", "M77", "M84",
+    "M85", "M86", "M87", "M88", "M89", "M90", "M91", "M95", "M96", "M98",
+    "M99", "M100", "M102", "M108", "M109",
+    "NGC 891"
   ].freeze
 
   MESSIER_OBJECTS = [
@@ -43,7 +51,7 @@ class MessierCatalog
       type: :supernova_remnant,
       constellation: :tau,
       magnitude: 8.4,
-      size: "6' × 4'",
+      size: {major_arcminutes: 6, minor_arcminutes: 4},
       distance_ly: 6500,
       ra: {h: 5, m: 34, s: 31.94},
       dec: {d: 22, m: 0, s: 52.2}
@@ -55,7 +63,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :aqr,
       magnitude: 6.3,
-      size: "16'",
+      size: {major_arcminutes: 16},
       distance_ly: 37500,
       ra: {h: 21, m: 33, s: 27.02},
       dec: {d: -0, m: 49, s: 23.7}
@@ -67,7 +75,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :cvn,
       magnitude: 6.2,
-      size: "18'",
+      size: {major_arcminutes: 18},
       distance_ly: 33900,
       ra: {h: 13, m: 42, s: 11.62},
       dec: {d: 28, m: 22, s: 38.2}
@@ -79,7 +87,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sco,
       magnitude: 5.9,
-      size: "36'",
+      size: {major_arcminutes: 36},
       distance_ly: 7200,
       ra: {h: 16, m: 23, s: 35.22},
       dec: {d: -26, m: 31, s: 32.7}
@@ -91,7 +99,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :ser,
       magnitude: 5.7,
-      size: "23'",
+      size: {major_arcminutes: 23},
       distance_ly: 24500,
       ra: {h: 15, m: 18, s: 33.22},
       dec: {d: 2, m: 4, s: 51.7}
@@ -103,7 +111,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sco,
       magnitude: 4.2,
-      size: "25'",
+      size: {major_arcminutes: 25},
       distance_ly: 1600,
       ra: {h: 17, m: 40, s: 20.0},
       dec: {d: -32, m: 15, s: 12.0}
@@ -115,7 +123,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sco,
       magnitude: 3.3,
-      size: "80'",
+      size: {major_arcminutes: 80},
       distance_ly: 800,
       ra: {h: 17, m: 53, s: 51.0},
       dec: {d: -34, m: 47, s: 36.0}
@@ -127,7 +135,7 @@ class MessierCatalog
       type: :nebula_with_cluster,
       constellation: :sgr,
       magnitude: 5.8,
-      size: "90' × 40'",
+      size: {major_arcminutes: 90, minor_arcminutes: 40},
       distance_ly: 5200,
       ra: {h: 18, m: 3, s: 37.0},
       dec: {d: -24, m: 23, s: 12.0}
@@ -139,7 +147,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 7.7,
-      size: "12'",
+      size: {major_arcminutes: 12},
       distance_ly: 25800,
       ra: {h: 17, m: 19, s: 11.78},
       dec: {d: -18, m: 30, s: 58.5}
@@ -151,7 +159,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 6.4,
-      size: "20'",
+      size: {major_arcminutes: 20},
       distance_ly: 14300,
       ra: {h: 16, m: 57, s: 8.92},
       dec: {d: -4, m: 5, s: 58.0}
@@ -163,7 +171,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sct,
       magnitude: 5.8,
-      size: "14'",
+      size: {major_arcminutes: 14},
       distance_ly: 6000,
       ra: {h: 18, m: 51, s: 5.0},
       dec: {d: -6, m: 16, s: 12.0}
@@ -175,7 +183,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 6.1,
-      size: "16'",
+      size: {major_arcminutes: 16},
       distance_ly: 16000,
       ra: {h: 16, m: 47, s: 14.18},
       dec: {d: -1, m: 56, s: 54.7}
@@ -187,7 +195,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :her,
       magnitude: 5.8,
-      size: "20'",
+      size: {major_arcminutes: 20},
       distance_ly: 25100,
       ra: {h: 16, m: 41, s: 41.24},
       dec: {d: 36, m: 27, s: 35.5}
@@ -199,7 +207,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 7.6,
-      size: "11.7'",
+      size: {major_arcminutes: 11.7},
       distance_ly: 30300,
       ra: {h: 17, m: 37, s: 36.10},
       dec: {d: -3, m: 14, s: 45.3}
@@ -211,7 +219,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :peg,
       magnitude: 6.2,
-      size: "18'",
+      size: {major_arcminutes: 18},
       distance_ly: 33600,
       ra: {h: 21, m: 29, s: 58.33},
       dec: {d: 12, m: 10, s: 1.2}
@@ -223,7 +231,7 @@ class MessierCatalog
       type: :nebula_with_cluster,
       constellation: :ser,
       magnitude: 6.0,
-      size: "7'",
+      size: {major_arcminutes: 7},
       distance_ly: 7000,
       ra: {h: 18, m: 18, s: 48.0},
       dec: {d: -13, m: 48, s: 24.0}
@@ -235,7 +243,7 @@ class MessierCatalog
       type: :nebula_with_cluster,
       constellation: :sgr,
       magnitude: 6.0,
-      size: "11'",
+      size: {major_arcminutes: 11},
       distance_ly: 5000,
       ra: {h: 18, m: 20, s: 47.0},
       dec: {d: -16, m: 10, s: 18.0}
@@ -247,7 +255,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sgr,
       magnitude: 6.9,
-      size: "9'",
+      size: {major_arcminutes: 9},
       distance_ly: 4900,
       ra: {h: 18, m: 19, s: 58.0},
       dec: {d: -17, m: 6, s: 6.0}
@@ -259,7 +267,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 6.8,
-      size: "17'",
+      size: {major_arcminutes: 17},
       distance_ly: 28000,
       ra: {h: 17, m: 2, s: 37.69},
       dec: {d: -26, m: 16, s: 4.6}
@@ -271,7 +279,7 @@ class MessierCatalog
       type: :nebula_with_cluster,
       constellation: :sgr,
       magnitude: 6.3,
-      size: "28'",
+      size: {major_arcminutes: 28},
       distance_ly: 5200,
       ra: {h: 18, m: 2, s: 23.0},
       dec: {d: -23, m: 1, s: 48.0}
@@ -283,7 +291,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sgr,
       magnitude: 5.9,
-      size: "13'",
+      size: {major_arcminutes: 13},
       distance_ly: 4250,
       ra: {h: 18, m: 4, s: 13.0},
       dec: {d: -22, m: 29, s: 24.0}
@@ -295,7 +303,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 5.1,
-      size: "32'",
+      size: {major_arcminutes: 32},
       distance_ly: 10400,
       ra: {h: 18, m: 36, s: 23.94},
       dec: {d: -23, m: 54, s: 17.1}
@@ -307,7 +315,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sgr,
       magnitude: 5.5,
-      size: "27'",
+      size: {major_arcminutes: 27},
       distance_ly: 2150,
       ra: {h: 17, m: 56, s: 54.0},
       dec: {d: -19, m: 1, s: 0.0}
@@ -319,7 +327,7 @@ class MessierCatalog
       type: :star_cloud,
       constellation: :sgr,
       magnitude: 4.6,
-      size: "90'",
+      size: {major_arcminutes: 90},
       distance_ly: 10000,
       ra: {h: 18, m: 16, s: 32.0},
       dec: {d: -18, m: 29, s: 12.0}
@@ -331,7 +339,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sgr,
       magnitude: 4.6,
-      size: "40'",
+      size: {major_arcminutes: 40},
       distance_ly: 2000,
       ra: {h: 18, m: 31, s: 47.0},
       dec: {d: -19, m: 6, s: 48.0}
@@ -343,7 +351,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :sct,
       magnitude: 8.0,
-      size: "15'",
+      size: {major_arcminutes: 15},
       distance_ly: 5000,
       ra: {h: 18, m: 45, s: 18.0},
       dec: {d: -9, m: 23, s: 60.0}
@@ -355,7 +363,7 @@ class MessierCatalog
       type: :planetary_nebula,
       constellation: :vul,
       magnitude: 7.5,
-      size: "8' × 5.7'",
+      size: {major_arcminutes: 8, minor_arcminutes: 5.7},
       distance_ly: 1360,
       ra: {h: 19, m: 59, s: 36.34},
       dec: {d: 22, m: 43, s: 16.1}
@@ -367,7 +375,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 6.8,
-      size: "11.2'",
+      size: {major_arcminutes: 11.2},
       distance_ly: 18300,
       ra: {h: 18, m: 24, s: 32.89},
       dec: {d: -24, m: 52, s: 11.4}
@@ -379,7 +387,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cyg,
       magnitude: 6.6,
-      size: "7'",
+      size: {major_arcminutes: 7},
       distance_ly: 4000,
       ra: {h: 20, m: 23, s: 56.0},
       dec: {d: 38, m: 31, s: 24.0}
@@ -391,7 +399,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :cap,
       magnitude: 7.5,
-      size: "12'",
+      size: {major_arcminutes: 12},
       distance_ly: 26100,
       ra: {h: 21, m: 40, s: 22.12},
       dec: {d: -23, m: 10, s: 47.5}
@@ -403,7 +411,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :and,
       magnitude: 3.4,
-      size: "3.2° × 1°",
+      size: {major_arcminutes: 192, minor_arcminutes: 60},
       distance_ly: 2540000,
       ra: {h: 0, m: 42, s: 44.3},
       dec: {d: 41, m: 16, s: 9.0}
@@ -415,7 +423,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :and,
       magnitude: 8.1,
-      size: "8' × 6'",
+      size: {major_arcminutes: 8, minor_arcminutes: 6},
       distance_ly: 2490000,
       ra: {h: 0, m: 42, s: 41.8},
       dec: {d: 40, m: 51, s: 55.0}
@@ -427,7 +435,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :tri,
       magnitude: 5.7,
-      size: "70' × 42'",
+      size: {major_arcminutes: 70, minor_arcminutes: 42},
       distance_ly: 2730000,
       ra: {h: 1, m: 33, s: 50.9},
       dec: {d: 30, m: 39, s: 36.7}
@@ -439,7 +447,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :per,
       magnitude: 5.2,
-      size: "35'",
+      size: {major_arcminutes: 35},
       distance_ly: 1400,
       ra: {h: 2, m: 42, s: 5.0},
       dec: {d: 42, m: 45, s: 42.0}
@@ -451,7 +459,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :gem,
       magnitude: 5.1,
-      size: "28'",
+      size: {major_arcminutes: 28},
       distance_ly: 2800,
       ra: {h: 6, m: 9, s: 0.0},
       dec: {d: 24, m: 21, s: 0.0}
@@ -463,7 +471,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :aur,
       magnitude: 6.0,
-      size: "12'",
+      size: {major_arcminutes: 12},
       distance_ly: 4100,
       ra: {h: 5, m: 36, s: 18.0},
       dec: {d: 34, m: 8, s: 24.0}
@@ -475,7 +483,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :aur,
       magnitude: 5.6,
-      size: "24'",
+      size: {major_arcminutes: 24},
       distance_ly: 4400,
       ra: {h: 5, m: 52, s: 18.0},
       dec: {d: 32, m: 33, s: 12.0}
@@ -487,7 +495,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :aur,
       magnitude: 6.4,
-      size: "21'",
+      size: {major_arcminutes: 21},
       distance_ly: 4200,
       ra: {h: 5, m: 28, s: 42.0},
       dec: {d: 35, m: 51, s: 18.0}
@@ -499,7 +507,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cyg,
       magnitude: 4.6,
-      size: "32'",
+      size: {major_arcminutes: 32},
       distance_ly: 825,
       ra: {h: 21, m: 32, s: 12.0},
       dec: {d: 48, m: 26, s: 0.0}
@@ -511,7 +519,7 @@ class MessierCatalog
       type: :double_star,
       constellation: :uma,
       magnitude: 9.6,
-      size: "0.8'",
+      size: {major_arcminutes: 0.8},
       distance_ly: 510,
       ra: {h: 12, m: 22, s: 12.5},
       dec: {d: 58, m: 4, s: 59.0}
@@ -523,7 +531,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cma,
       magnitude: 4.5,
-      size: "38'",
+      size: {major_arcminutes: 38},
       distance_ly: 2300,
       ra: {h: 6, m: 46, s: 0.0},
       dec: {d: -20, m: 45, s: 24.0}
@@ -535,7 +543,7 @@ class MessierCatalog
       type: :nebula,
       constellation: :ori,
       magnitude: 4.0,
-      size: "85' × 60'",
+      size: {major_arcminutes: 85, minor_arcminutes: 60},
       distance_ly: 1344,
       ra: {h: 5, m: 35, s: 17.3},
       dec: {d: -5, m: 23, s: 28.0}
@@ -547,7 +555,7 @@ class MessierCatalog
       type: :nebula,
       constellation: :ori,
       magnitude: 9.0,
-      size: "20' × 15'",
+      size: {major_arcminutes: 20, minor_arcminutes: 15},
       distance_ly: 1600,
       ra: {h: 5, m: 35, s: 31.0},
       dec: {d: -5, m: 16, s: 3.0}
@@ -559,7 +567,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cnc,
       magnitude: 3.1,
-      size: "95'",
+      size: {major_arcminutes: 95},
       distance_ly: 577,
       ra: {h: 8, m: 40, s: 24.0},
       dec: {d: 19, m: 40, s: 0.0}
@@ -571,7 +579,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :tau,
       magnitude: 1.6,
-      size: "110'",
+      size: {major_arcminutes: 110},
       distance_ly: 444,
       ra: {h: 3, m: 47, s: 24.0},
       dec: {d: 24, m: 7, s: 0.0}
@@ -583,7 +591,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :pup,
       magnitude: 6.1,
-      size: "27'",
+      size: {major_arcminutes: 27},
       distance_ly: 5400,
       ra: {h: 7, m: 41, s: 46.0},
       dec: {d: -14, m: 48, s: 36.0}
@@ -595,7 +603,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :pup,
       magnitude: 4.4,
-      size: "30'",
+      size: {major_arcminutes: 30},
       distance_ly: 1600,
       ra: {h: 7, m: 36, s: 35.0},
       dec: {d: -14, m: 28, s: 58.0}
@@ -607,7 +615,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :hya,
       magnitude: 5.8,
-      size: "54'",
+      size: {major_arcminutes: 54},
       distance_ly: 1500,
       ra: {h: 8, m: 13, s: 43.0},
       dec: {d: -5, m: 45, s: 0.0}
@@ -619,7 +627,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :vir,
       magnitude: 8.4,
-      size: "10' × 8'",
+      size: {major_arcminutes: 10, minor_arcminutes: 8},
       distance_ly: 55900000,
       ra: {h: 12, m: 29, s: 46.7},
       dec: {d: 8, m: 0, s: 2.0}
@@ -631,7 +639,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :mon,
       magnitude: 5.9,
-      size: "16'",
+      size: {major_arcminutes: 16},
       distance_ly: 3200,
       ra: {h: 7, m: 2, s: 42.0},
       dec: {d: -8, m: 23, s: 24.0}
@@ -643,7 +651,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :cvn,
       magnitude: 8.4,
-      size: "11' × 8'",
+      size: {major_arcminutes: 11, minor_arcminutes: 8},
       distance_ly: 23000000,
       ra: {h: 13, m: 29, s: 52.7},
       dec: {d: 47, m: 11, s: 43.0}
@@ -655,7 +663,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cas,
       magnitude: 6.9,
-      size: "13'",
+      size: {major_arcminutes: 13},
       distance_ly: 5000,
       ra: {h: 23, m: 24, s: 48.0},
       dec: {d: 61, m: 35, s: 36.0}
@@ -667,7 +675,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :com,
       magnitude: 7.7,
-      size: "13'",
+      size: {major_arcminutes: 13},
       distance_ly: 58000,
       ra: {h: 13, m: 12, s: 55.25},
       dec: {d: 18, m: 10, s: 9.0}
@@ -679,7 +687,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 7.7,
-      size: "12'",
+      size: {major_arcminutes: 12},
       distance_ly: 87400,
       ra: {h: 18, m: 55, s: 3.33},
       dec: {d: -30, m: 28, s: 47.5}
@@ -691,7 +699,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 6.3,
-      size: "19'",
+      size: {major_arcminutes: 19},
       distance_ly: 17600,
       ra: {h: 19, m: 39, s: 59.71},
       dec: {d: -30, m: 57, s: 53.1}
@@ -703,7 +711,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :lyr,
       magnitude: 8.3,
-      size: "8.8'",
+      size: {major_arcminutes: 8.8},
       distance_ly: 32900,
       ra: {h: 19, m: 16, s: 35.57},
       dec: {d: 30, m: 11, s: 0.5}
@@ -715,7 +723,7 @@ class MessierCatalog
       type: :planetary_nebula,
       constellation: :lyr,
       magnitude: 8.8,
-      size: "1.4' × 1'",
+      size: {major_arcminutes: 1.4, minor_arcminutes: 1},
       distance_ly: 2300,
       ra: {h: 18, m: 53, s: 35.08},
       dec: {d: 33, m: 1, s: 45.0}
@@ -727,7 +735,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :vir,
       magnitude: 9.7,
-      size: "5.5' × 4.5'",
+      size: {major_arcminutes: 5.5, minor_arcminutes: 4.5},
       distance_ly: 62000000,
       ra: {h: 12, m: 37, s: 43.5},
       dec: {d: 11, m: 49, s: 5.0}
@@ -739,7 +747,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :vir,
       magnitude: 9.6,
-      size: "5' × 3.5'",
+      size: {major_arcminutes: 5, minor_arcminutes: 3.5},
       distance_ly: 60000000,
       ra: {h: 12, m: 42, s: 2.3},
       dec: {d: 11, m: 38, s: 49.0}
@@ -751,7 +759,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :vir,
       magnitude: 8.8,
-      size: "7' × 6'",
+      size: {major_arcminutes: 7, minor_arcminutes: 6},
       distance_ly: 55000000,
       ra: {h: 12, m: 43, s: 39.6},
       dec: {d: 11, m: 33, s: 9.0}
@@ -763,7 +771,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :vir,
       magnitude: 9.7,
-      size: "6' × 5.5'",
+      size: {major_arcminutes: 6, minor_arcminutes: 5.5},
       distance_ly: 52500000,
       ra: {h: 12, m: 21, s: 54.9},
       dec: {d: 4, m: 28, s: 25.0}
@@ -775,7 +783,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 6.4,
-      size: "15'",
+      size: {major_arcminutes: 15},
       distance_ly: 22500,
       ra: {h: 17, m: 1, s: 12.60},
       dec: {d: -30, m: 6, s: 44.5}
@@ -787,7 +795,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :cvn,
       magnitude: 8.6,
-      size: "12.6' × 7.2'",
+      size: {major_arcminutes: 12.6, minor_arcminutes: 7.2},
       distance_ly: 37000000,
       ra: {h: 13, m: 15, s: 49.3},
       dec: {d: 42, m: 1, s: 45.0}
@@ -799,7 +807,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :com,
       magnitude: 8.5,
-      size: "10' × 5'",
+      size: {major_arcminutes: 10, minor_arcminutes: 5},
       distance_ly: 24000000,
       ra: {h: 12, m: 56, s: 43.7},
       dec: {d: 21, m: 40, s: 58.0}
@@ -811,7 +819,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :leo,
       magnitude: 9.3,
-      size: "10' × 3'",
+      size: {major_arcminutes: 10, minor_arcminutes: 3},
       distance_ly: 35000000,
       ra: {h: 11, m: 18, s: 55.9},
       dec: {d: 13, m: 5, s: 32.0}
@@ -823,7 +831,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :leo,
       magnitude: 8.9,
-      size: "9' × 4'",
+      size: {major_arcminutes: 9, minor_arcminutes: 4},
       distance_ly: 35000000,
       ra: {h: 11, m: 20, s: 15.0},
       dec: {d: 12, m: 59, s: 30.0}
@@ -835,7 +843,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cnc,
       magnitude: 6.9,
-      size: "30'",
+      size: {major_arcminutes: 30},
       distance_ly: 2700,
       ra: {h: 8, m: 51, s: 18.0},
       dec: {d: 11, m: 48, s: 0.0}
@@ -847,7 +855,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :hya,
       magnitude: 7.8,
-      size: "11'",
+      size: {major_arcminutes: 11},
       distance_ly: 33300,
       ra: {h: 12, m: 39, s: 27.98},
       dec: {d: -26, m: 44, s: 38.6}
@@ -859,7 +867,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 7.6,
-      size: "9.8'",
+      size: {major_arcminutes: 9.8},
       distance_ly: 29700,
       ra: {h: 18, m: 31, s: 23.10},
       dec: {d: -32, m: 20, s: 53.1}
@@ -871,7 +879,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 8.0,
-      size: "8'",
+      size: {major_arcminutes: 8},
       distance_ly: 29400,
       ra: {h: 18, m: 43, s: 12.76},
       dec: {d: -32, m: 17, s: 31.6}
@@ -883,7 +891,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sge,
       magnitude: 8.2,
-      size: "7.2'",
+      size: {major_arcminutes: 7.2},
       distance_ly: 13000,
       ra: {h: 19, m: 53, s: 46.49},
       dec: {d: 18, m: 46, s: 45.1}
@@ -895,7 +903,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :aqr,
       magnitude: 9.3,
-      size: "6.6'",
+      size: {major_arcminutes: 6.6},
       distance_ly: 53400,
       ra: {h: 20, m: 53, s: 27.70},
       dec: {d: -12, m: 32, s: 13.3}
@@ -907,7 +915,7 @@ class MessierCatalog
       type: :asterism,
       constellation: :aqr,
       magnitude: 9.0,
-      size: "2.8'",
+      size: {major_arcminutes: 2.8},
       distance_ly: 2500,
       ra: {h: 20, m: 58, s: 56.0},
       dec: {d: -12, m: 38, s: 0.0}
@@ -919,7 +927,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :psc,
       magnitude: 9.4,
-      size: "10.5' × 9.5'",
+      size: {major_arcminutes: 10.5, minor_arcminutes: 9.5},
       distance_ly: 30000000,
       ra: {h: 1, m: 36, s: 41.8},
       dec: {d: 15, m: 47, s: 0.0}
@@ -931,7 +939,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sgr,
       magnitude: 8.5,
-      size: "6'",
+      size: {major_arcminutes: 6},
       distance_ly: 67500,
       ra: {h: 20, m: 6, s: 4.75},
       dec: {d: -21, m: 55, s: 16.9}
@@ -943,7 +951,7 @@ class MessierCatalog
       type: :planetary_nebula,
       constellation: :per,
       magnitude: 10.1,
-      size: "2.7' × 1.8'",
+      size: {major_arcminutes: 2.7, minor_arcminutes: 1.8},
       distance_ly: 2500,
       ra: {h: 1, m: 42, s: 19.69},
       dec: {d: 51, m: 34, s: 31.7}
@@ -955,7 +963,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :cet,
       magnitude: 8.9,
-      size: "7' × 6'",
+      size: {major_arcminutes: 7, minor_arcminutes: 6},
       distance_ly: 47000000,
       ra: {h: 2, m: 42, s: 40.7},
       dec: {d: -0, m: 0, s: 48.0}
@@ -967,7 +975,7 @@ class MessierCatalog
       type: :reflection_nebula,
       constellation: :ori,
       magnitude: 8.3,
-      size: "8' × 6'",
+      size: {major_arcminutes: 8, minor_arcminutes: 6},
       distance_ly: 1600,
       ra: {h: 5, m: 46, s: 45.8},
       dec: {d: 0, m: 4, s: 45.0}
@@ -979,7 +987,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :lep,
       magnitude: 7.7,
-      size: "9.6'",
+      size: {major_arcminutes: 9.6},
       distance_ly: 42100,
       ra: {h: 5, m: 24, s: 10.59},
       dec: {d: -24, m: 31, s: 27.3}
@@ -991,7 +999,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :sco,
       magnitude: 7.3,
-      size: "10'",
+      size: {major_arcminutes: 10},
       distance_ly: 32600,
       ra: {h: 16, m: 17, s: 2.41},
       dec: {d: -22, m: 58, s: 33.9}
@@ -1003,7 +1011,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :uma,
       magnitude: 6.9,
-      size: "26' × 14'",
+      size: {major_arcminutes: 26, minor_arcminutes: 14},
       distance_ly: 11800000,
       ra: {h: 9, m: 55, s: 33.2},
       dec: {d: 69, m: 3, s: 55.0}
@@ -1015,7 +1023,7 @@ class MessierCatalog
       type: :irregular_galaxy,
       constellation: :uma,
       magnitude: 8.4,
-      size: "11' × 4.3'",
+      size: {major_arcminutes: 11, minor_arcminutes: 4.3},
       distance_ly: 11500000,
       ra: {h: 9, m: 55, s: 52.2},
       dec: {d: 69, m: 40, s: 47.0}
@@ -1027,7 +1035,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :hya,
       magnitude: 7.6,
-      size: "13' × 12'",
+      size: {major_arcminutes: 13, minor_arcminutes: 12},
       distance_ly: 15000000,
       ra: {h: 13, m: 37, s: 0.9},
       dec: {d: -29, m: 51, s: 57.0}
@@ -1039,7 +1047,7 @@ class MessierCatalog
       type: :lenticular_galaxy,
       constellation: :vir,
       magnitude: 9.1,
-      size: "6.5' × 5.6'",
+      size: {major_arcminutes: 6.5, minor_arcminutes: 5.6},
       distance_ly: 60000000,
       ra: {h: 12, m: 25, s: 3.7},
       dec: {d: 12, m: 53, s: 13.0}
@@ -1051,7 +1059,7 @@ class MessierCatalog
       type: :lenticular_galaxy,
       constellation: :com,
       magnitude: 9.1,
-      size: "7.1' × 5.5'",
+      size: {major_arcminutes: 7.1, minor_arcminutes: 5.5},
       distance_ly: 60000000,
       ra: {h: 12, m: 25, s: 24.0},
       dec: {d: 18, m: 11, s: 28.0}
@@ -1063,7 +1071,7 @@ class MessierCatalog
       type: :lenticular_galaxy,
       constellation: :vir,
       magnitude: 8.9,
-      size: "8.9' × 5.8'",
+      size: {major_arcminutes: 8.9, minor_arcminutes: 5.8},
       distance_ly: 52000000,
       ra: {h: 12, m: 26, s: 11.7},
       dec: {d: 12, m: 56, s: 46.0}
@@ -1075,7 +1083,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :vir,
       magnitude: 8.6,
-      size: "8.3' × 6.6'",
+      size: {major_arcminutes: 8.3, minor_arcminutes: 6.6},
       distance_ly: 53500000,
       ra: {h: 12, m: 30, s: 49.4},
       dec: {d: 12, m: 23, s: 28.0}
@@ -1087,7 +1095,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :com,
       magnitude: 9.6,
-      size: "7' × 4'",
+      size: {major_arcminutes: 7, minor_arcminutes: 4},
       distance_ly: 47000000,
       ra: {h: 12, m: 32, s: 0.0},
       dec: {d: 14, m: 25, s: 13.0}
@@ -1099,7 +1107,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :vir,
       magnitude: 9.8,
-      size: "5.1' × 4.7'",
+      size: {major_arcminutes: 5.1, minor_arcminutes: 4.7},
       distance_ly: 50000000,
       ra: {h: 12, m: 35, s: 39.8},
       dec: {d: 12, m: 33, s: 23.0}
@@ -1111,7 +1119,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :vir,
       magnitude: 9.5,
-      size: "9.5' × 4.7'",
+      size: {major_arcminutes: 9.5, minor_arcminutes: 4.7},
       distance_ly: 58700000,
       ra: {h: 12, m: 36, s: 49.8},
       dec: {d: 13, m: 9, s: 46.0}
@@ -1123,7 +1131,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :com,
       magnitude: 10.2,
-      size: "5.4' × 4.4'",
+      size: {major_arcminutes: 5.4, minor_arcminutes: 4.4},
       distance_ly: 63000000,
       ra: {h: 12, m: 35, s: 26.4},
       dec: {d: 14, m: 29, s: 47.0}
@@ -1135,7 +1143,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :her,
       magnitude: 6.3,
-      size: "14'",
+      size: {major_arcminutes: 14},
       distance_ly: 26700,
       ra: {h: 17, m: 17, s: 7.39},
       dec: {d: 43, m: 8, s: 9.4}
@@ -1147,7 +1155,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :pup,
       magnitude: 6.2,
-      size: "22'",
+      size: {major_arcminutes: 22},
       distance_ly: 3600,
       ra: {h: 7, m: 44, s: 30.0},
       dec: {d: -23, m: 51, s: 24.0}
@@ -1159,7 +1167,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :cvn,
       magnitude: 8.2,
-      size: "11' × 9'",
+      size: {major_arcminutes: 11, minor_arcminutes: 9},
       distance_ly: 16000000,
       ra: {h: 12, m: 50, s: 53.1},
       dec: {d: 41, m: 7, s: 14.0}
@@ -1171,7 +1179,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :leo,
       magnitude: 9.7,
-      size: "7.4' × 5'",
+      size: {major_arcminutes: 7.4, minor_arcminutes: 5},
       distance_ly: 32600000,
       ra: {h: 10, m: 43, s: 57.7},
       dec: {d: 11, m: 42, s: 14.0}
@@ -1183,7 +1191,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :leo,
       magnitude: 9.2,
-      size: "7.6' × 5.2'",
+      size: {major_arcminutes: 7.6, minor_arcminutes: 5.2},
       distance_ly: 31000000,
       ra: {h: 10, m: 46, s: 45.7},
       dec: {d: 11, m: 49, s: 12.0}
@@ -1195,7 +1203,7 @@ class MessierCatalog
       type: :planetary_nebula,
       constellation: :uma,
       magnitude: 9.9,
-      size: "3.4' × 3.3'",
+      size: {major_arcminutes: 3.4, minor_arcminutes: 3.3},
       distance_ly: 2030,
       ra: {h: 11, m: 14, s: 47.73},
       dec: {d: 55, m: 1, s: 8.5}
@@ -1207,7 +1215,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :com,
       magnitude: 10.1,
-      size: "9.5' × 3.2'",
+      size: {major_arcminutes: 9.5, minor_arcminutes: 3.2},
       distance_ly: 44400000,
       ra: {h: 12, m: 13, s: 48.3},
       dec: {d: 14, m: 54, s: 1.0}
@@ -1219,7 +1227,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :com,
       magnitude: 9.9,
-      size: "5.4' × 4.8'",
+      size: {major_arcminutes: 5.4, minor_arcminutes: 4.8},
       distance_ly: 55000000,
       ra: {h: 12, m: 18, s: 49.6},
       dec: {d: 14, m: 25, s: 0.0}
@@ -1231,7 +1239,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :com,
       magnitude: 9.3,
-      size: "7.4' × 6.3'",
+      size: {major_arcminutes: 7.4, minor_arcminutes: 6.3},
       distance_ly: 55000000,
       ra: {h: 12, m: 22, s: 54.9},
       dec: {d: 15, m: 49, s: 21.0}
@@ -1243,7 +1251,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :uma,
       magnitude: 7.9,
-      size: "29' × 27'",
+      size: {major_arcminutes: 29, minor_arcminutes: 27},
       distance_ly: 21000000,
       ra: {h: 14, m: 3, s: 12.6},
       dec: {d: 54, m: 20, s: 57.0}
@@ -1255,7 +1263,7 @@ class MessierCatalog
       type: :lenticular_galaxy,
       constellation: :dra,
       magnitude: 9.9,
-      size: "5.8' × 3.1'",
+      size: {major_arcminutes: 5.8, minor_arcminutes: 3.1},
       distance_ly: 50000000,
       ra: {h: 15, m: 6, s: 29.5},
       dec: {d: 55, m: 45, s: 48.0}
@@ -1267,7 +1275,7 @@ class MessierCatalog
       type: :open_cluster,
       constellation: :cas,
       magnitude: 7.4,
-      size: "6'",
+      size: {major_arcminutes: 6},
       distance_ly: 8500,
       ra: {h: 1, m: 33, s: 23.0},
       dec: {d: 60, m: 39, s: 0.0}
@@ -1279,7 +1287,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :vir,
       magnitude: 8.0,
-      size: "8.7' × 3.5'",
+      size: {major_arcminutes: 8.7, minor_arcminutes: 3.5},
       distance_ly: 29350000,
       ra: {h: 12, m: 39, s: 59.4},
       dec: {d: -11, m: 37, s: 23.0}
@@ -1291,7 +1299,7 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :leo,
       magnitude: 9.3,
-      size: "5.4' × 4.8'",
+      size: {major_arcminutes: 5.4, minor_arcminutes: 4.8},
       distance_ly: 32000000,
       ra: {h: 10, m: 47, s: 49.6},
       dec: {d: 12, m: 34, s: 54.0}
@@ -1303,7 +1311,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :cvn,
       magnitude: 8.4,
-      size: "19' × 8'",
+      size: {major_arcminutes: 19, minor_arcminutes: 8},
       distance_ly: 23500000,
       ra: {h: 12, m: 18, s: 57.5},
       dec: {d: 47, m: 18, s: 14.0}
@@ -1315,7 +1323,7 @@ class MessierCatalog
       type: :globular_cluster,
       constellation: :oph,
       magnitude: 7.9,
-      size: "13'",
+      size: {major_arcminutes: 13},
       distance_ly: 20900,
       ra: {h: 16, m: 32, s: 31.86},
       dec: {d: -13, m: 3, s: 13.6}
@@ -1327,7 +1335,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :uma,
       magnitude: 10.0,
-      size: "8.7' × 2.2'",
+      size: {major_arcminutes: 8.7, minor_arcminutes: 2.2},
       distance_ly: 45000000,
       ra: {h: 11, m: 11, s: 31.0},
       dec: {d: 55, m: 40, s: 27.0}
@@ -1339,7 +1347,7 @@ class MessierCatalog
       type: :spiral_galaxy,
       constellation: :uma,
       magnitude: 9.8,
-      size: "7.6' × 4.7'",
+      size: {major_arcminutes: 7.6, minor_arcminutes: 4.7},
       distance_ly: 83500000,
       ra: {h: 11, m: 57, s: 36.0},
       dec: {d: 53, m: 22, s: 28.0}
@@ -1351,53 +1359,265 @@ class MessierCatalog
       type: :elliptical_galaxy,
       constellation: :and,
       magnitude: 8.1,
-      size: "21.9' × 11'",
+      size: {major_arcminutes: 21.9, minor_arcminutes: 11},
       distance_ly: 2690000,
       ra: {h: 0, m: 40, s: 22.1},
       dec: {d: 41, m: 41, s: 7.0}
     }
   ].freeze
 
+  NGC_OBJECTS = [
+    {
+      number: 104,
+      name: "47 Tucanae",
+      type: :globular_cluster,
+      constellation: :tuc,
+      magnitude: 4.09,
+      size: {major_arcminutes: 43.8},
+      distance_ly: 13000,
+      ra: {h: 0, m: 24, s: 5.4},
+      dec: {d: -72, m: 4, s: 53.2}
+    },
+    {
+      number: 253,
+      name: "Sculptor Galaxy",
+      type: :spiral_galaxy,
+      constellation: :scl,
+      magnitude: 7.2,
+      size: {major_arcminutes: 27, minor_arcminutes: 5.89},
+      distance_ly: 11400000,
+      ra: {h: 0, m: 47, s: 33.1},
+      dec: {d: -25, m: 17, s: 19.7}
+    },
+    {
+      number: 869,
+      name: "Double Cluster",
+      type: :open_cluster,
+      constellation: :per,
+      magnitude: 5.3,
+      size: {major_arcminutes: 16.3},
+      distance_ly: 7500,
+      ra: {h: 2, m: 18, s: 57.8},
+      dec: {d: 57, m: 8, s: 2.0}
+    },
+    {
+      number: 884,
+      name: nil,
+      type: :open_cluster,
+      constellation: :per,
+      magnitude: 6.1,
+      size: {major_arcminutes: 15},
+      distance_ly: 7600,
+      ra: {h: 2, m: 22, s: 20.2},
+      dec: {d: 57, m: 8, s: 56.0}
+    },
+    {
+      number: 891,
+      name: nil,
+      type: :spiral_galaxy,
+      constellation: :and,
+      magnitude: 10.0,
+      size: {major_arcminutes: 13.5, minor_arcminutes: 3.03},
+      distance_ly: 30000000,
+      ra: {h: 2, m: 22, s: 33.4},
+      dec: {d: 42, m: 20, s: 57.0}
+    },
+    {
+      number: 2070,
+      name: "Tarantula Nebula",
+      type: :nebula_with_cluster,
+      constellation: :dor,
+      magnitude: 7.25,
+      size: {major_arcminutes: 40, minor_arcminutes: 25},
+      distance_ly: 160000,
+      ra: {h: 5, m: 38, s: 42.0},
+      dec: {d: -69, m: 6, s: 0.0}
+    },
+    {
+      number: 2516,
+      name: nil,
+      type: :open_cluster,
+      constellation: :car,
+      magnitude: 3.8,
+      size: {major_arcminutes: 30},
+      distance_ly: 1340,
+      ra: {h: 7, m: 58, s: 4.0},
+      dec: {d: -60, m: 45, s: 12.0}
+    },
+    {
+      number: 3372,
+      name: "Carina Nebula",
+      type: :nebula_with_cluster,
+      constellation: :car,
+      magnitude: 1.0,
+      size: {major_arcminutes: 120, minor_arcminutes: 120},
+      distance_ly: 7500,
+      ra: {h: 10, m: 45, s: 8.5},
+      dec: {d: -59, m: 52, s: 4.0}
+    },
+    {
+      number: 3532,
+      name: "Wishing Well Cluster",
+      type: :open_cluster,
+      constellation: :car,
+      magnitude: 3.0,
+      size: {major_arcminutes: 55},
+      distance_ly: 1320,
+      ra: {h: 11, m: 5, s: 40.1},
+      dec: {d: -58, m: 42, s: 25.0}
+    },
+    {
+      number: 3766,
+      name: "Pearl Cluster",
+      type: :open_cluster,
+      constellation: :cen,
+      magnitude: 5.3,
+      size: {major_arcminutes: 12},
+      distance_ly: 5500,
+      ra: {h: 11, m: 36, s: 14.6},
+      dec: {d: -61, m: 36, s: 58.0}
+    },
+    {
+      number: 4755,
+      name: "Jewel Box",
+      type: :open_cluster,
+      constellation: :cru,
+      magnitude: 4.2,
+      size: {major_arcminutes: 10},
+      distance_ly: 6400,
+      ra: {h: 12, m: 53, s: 39.6},
+      dec: {d: -60, m: 22, s: 16.0}
+    },
+    {
+      number: 4945,
+      name: nil,
+      type: :spiral_galaxy,
+      constellation: :cen,
+      magnitude: 8.7,
+      size: {major_arcminutes: 20, minor_arcminutes: 4},
+      distance_ly: 11700000,
+      ra: {h: 13, m: 5, s: 27.3},
+      dec: {d: -49, m: 28, s: 4.4}
+    },
+    {
+      number: 5128,
+      name: "Centaurus A",
+      type: :elliptical_galaxy,
+      constellation: :cen,
+      magnitude: 6.8,
+      size: {major_arcminutes: 25, minor_arcminutes: 20},
+      distance_ly: 12000000,
+      ra: {h: 13, m: 25, s: 27.6},
+      dec: {d: -43, m: 1, s: 9.0}
+    },
+    {
+      number: 5139,
+      name: "Omega Centauri",
+      type: :globular_cluster,
+      constellation: :cen,
+      magnitude: 3.9,
+      size: {major_arcminutes: 36},
+      distance_ly: 15800,
+      ra: {h: 13, m: 26, s: 47.3},
+      dec: {d: -47, m: 28, s: 46.1}
+    },
+    {
+      number: 6231,
+      name: nil,
+      type: :open_cluster,
+      constellation: :sco,
+      magnitude: 2.6,
+      size: {major_arcminutes: 14},
+      distance_ly: 5900,
+      ra: {h: 16, m: 54, s: 10.0},
+      dec: {d: -41, m: 49, s: 30.0}
+    },
+    {
+      number: 6397,
+      name: nil,
+      type: :globular_cluster,
+      constellation: :ara,
+      magnitude: 5.17,
+      size: {major_arcminutes: 25.7},
+      distance_ly: 7800,
+      ra: {h: 17, m: 40, s: 42.1},
+      dec: {d: -53, m: 40, s: 27.6}
+    },
+    {
+      number: 6752,
+      name: nil,
+      type: :globular_cluster,
+      constellation: :pav,
+      magnitude: 5.4,
+      size: {major_arcminutes: 20.4},
+      distance_ly: 13000,
+      ra: {h: 19, m: 10, s: 52.1},
+      dec: {d: -59, m: 59, s: 4.4}
+    },
+    {
+      number: 7000,
+      name: "North America Nebula",
+      type: :nebula,
+      constellation: :cyg,
+      magnitude: 4.0,
+      size: {major_arcminutes: 120, minor_arcminutes: 100},
+      distance_ly: 2200,
+      ra: {h: 20, m: 58, s: 47.0},
+      dec: {d: 44, m: 19, s: 48.0}
+    }
+  ].freeze
+
   def self.all
-    MESSIER_OBJECTS.map do |data|
-      messier_object_from_catalog_data(data)
-    end
+    MESSIER_OBJECTS.map { |data| build(data, :messier) } +
+      NGC_OBJECTS.map { |data| build(data, :ngc) }
   end
 
-  def self.find_by_number(number)
-    data = MESSIER_OBJECTS.find { |obj| obj[:number] == number }
-    return unless data
-
-    messier_object_from_catalog_data(data)
+  def self.find_by_designation(designation)
+    all.find { |object| object.designation == designation }
   end
 
-  def self.notability(number)
-    return :showpiece if SHOWPIECES.include?(number)
-    return :notable if NOTABLE.include?(number)
-    return :faint if FAINT.include?(number)
+  def self.designation_for(catalog, number)
+    (catalog == :ngc) ? "NGC #{number}" : "M#{number}"
+  end
+
+  def self.notability(designation)
+    return :showpiece if SHOWPIECES.include?(designation)
+    return :notable if NOTABLE.include?(designation)
+    return :faint if FAINT.include?(designation)
 
     :ordinary
   end
 
-  def self.instrument(number)
-    return :naked_eye if NAKED_EYE.include?(number)
-    return :binoculars if BINOCULARS.include?(number)
-    return :large_telescope if LARGE_TELESCOPE.include?(number)
+  def self.instrument(designation)
+    return :naked_eye if NAKED_EYE.include?(designation)
+    return :binoculars if BINOCULARS.include?(designation)
+    return :large_telescope if LARGE_TELESCOPE.include?(designation)
 
     :small_telescope
   end
 
-  def self.messier_object_from_catalog_data(data)
-    MessierObject.new(
+  def self.arcminutes(value)
+    Astronoby::Angle.from_degrees(value / 60.0)
+  end
+
+  def self.build(data, catalog)
+    designation = designation_for(catalog, data[:number])
+
+    DeepSkyObject.new(
       number: data[:number],
-      notability: notability(data[:number]),
-      instrument: instrument(data[:number]),
-      ngc_number: data[:ngc],
+      catalog: catalog,
+      notability: notability(designation),
+      instrument: instrument(designation),
+      ngc_number: (catalog == :ngc) ? data[:number] : data[:ngc],
       name: data[:name],
       type: data[:type],
       constellation: Constellation.find_by_abbreviation(data[:constellation]),
       magnitude: data[:magnitude],
-      size: data[:size],
+      major_axis: arcminutes(data.dig(:size, :major_arcminutes)),
+      minor_axis: arcminutes(
+        data.dig(:size, :minor_arcminutes) ||
+          data.dig(:size, :major_arcminutes)
+      ),
       j2000_coordinates: Astronoby::Coordinates::Equatorial.new(
         right_ascension: Astronoby::Angle.from_hms(
           data.dig(:ra, :h),

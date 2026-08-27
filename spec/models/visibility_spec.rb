@@ -11,7 +11,7 @@ RSpec.describe Visibility, type: :model do
           longitude: Astronoby::Angle.from_degrees(2.1)
         )
         visibility = described_class.new(
-          body: MessierCatalog.find_by_number(81),
+          body: DeepSkyObjectsCatalog.find_by_designation("M81"),
           observer: observer,
           date: Date.new(2026, 1, 15)
         )
@@ -27,7 +27,7 @@ RSpec.describe Visibility, type: :model do
           longitude: Astronoby::Angle.from_degrees(18.96)
         )
         visibility = described_class.new(
-          body: MessierCatalog.find_by_number(13),
+          body: DeepSkyObjectsCatalog.find_by_designation("M13"),
           observer: observer,
           date: Date.new(2026, 6, 21)
         )
@@ -43,7 +43,7 @@ RSpec.describe Visibility, type: :model do
           longitude: Astronoby::Angle.from_degrees(2.1)
         )
         visibility = described_class.new(
-          body: MessierCatalog.find_by_number(13),
+          body: DeepSkyObjectsCatalog.find_by_designation("M13"),
           observer: observer,
           date: Date.new(2026, 6, 21)
         )
@@ -201,14 +201,14 @@ RSpec.describe Visibility, type: :model do
         latitude: Astronoby::Angle.from_degrees(34.0),
         longitude: Astronoby::Angle.from_degrees(-118.0)
       )
-      messier_object = MessierObject.new(
+      deep_sky_object = DeepSkyObject.new(
         j2000_coordinates: Astronoby::Coordinates::Equatorial.new(
           right_ascension: Astronoby::Angle.zero,
           declination: Astronoby::Angle.zero
         )
       )
       visibility = described_class.new(
-        body: messier_object,
+        body: deep_sky_object,
         observer: observer,
         date: date
       )

@@ -248,6 +248,7 @@ en:
         declination: "Declination:"
         distance: "Distance:"
         right_ascension: "Right Ascension:"
+        surface_brightness: "Surface Brightness:"
       transit: Transit
       type: Type
     index:
@@ -406,43 +407,66 @@ en:
       previous: "Eclipses in %{year}"
       submit: Show
       year: Year
-  messier:
+  deep_sky:
     look_for:
-      "6": The orange star at one edge is BM Scorpii, a variable.
-      "7": Very low from Europe. Catch it due south or not at all.
-      "8": Sweep it with binoculars first. The dark lane splitting the glow is
+      "NGC 104": Second only to Omega Centauri, and bright enough to show as a
+        fuzzy star without optics.
+      "NGC 253": Bright but low from the north. A long, even glow with a
+        mottled core.
+      "NGC 869": The pair fills a low-power field. Sweep between the two
+        centres.
+      "NGC 2070": The brightest nebula outside our own galaxy, sitting inside
+        the Large Magellanic Cloud.
+      "NGC 3372": Larger and brighter than Orion. Look for the dark Keyhole
+        near the middle.
+      "NGC 3532": Nearly a degree across and very rich. Use the lowest power
+        you have.
+      "NGC 4755": Small, tight, and noticeably colourful, with one red
+        supergiant among the blue.
+      "NGC 5128": The dust lane splitting the galaxy shows in a small scope.
+      "NGC 5139": The finest globular in the sky. It resolves into stars at
+        almost any magnification.
+      "NGC 6231": A tight knot of hot blue stars at the tail of Scorpius.
+      "NGC 6397": One of the closest globulars, and loose enough to resolve
+        easily.
+      "NGC 6752": Bright, large, and often overlooked because of where it sits.
+      "NGC 7000": Needs a dark sky and a wide field. The Gulf of Mexico is the
+        easiest part to see.
+      "M6": The orange star at one edge is BM Scorpii, a variable.
+      "M7": Very low from Europe. Catch it due south or not at all.
+      "M8": Sweep it with binoculars first. The dark lane splitting the glow is
         the lagoon.
-      "11": A wedge of stars with one brighter star at the apex.
-      "13": Averted vision breaks the outer edge into individual stars.
-      "16": The cluster is easy. The pillars are photographic, not visual.
-      "17": The bar is obvious. The fainter hook curling off it needs a dark
+      "M11": A wedge of stars with one brighter star at the apex.
+      "M13": Averted vision breaks the outer edge into individual stars.
+      "M16": The cluster is easy. The pillars are photographic, not visual.
+      "M17": The bar is obvious. The fainter hook curling off it needs a dark
         sky.
-      "20": The three-way dust lane needs a dark night and some aperture.
-      "22": Larger and brighter than M13, but it never climbs high from Europe.
-      "27": Low power shows the two lobes. It takes magnification well.
-      "31": A smudge to the naked eye. In binoculars, look for M32 and M110
+      "M20": The three-way dust lane needs a dark night and some aperture.
+      "M22": Larger and brighter than M13, but it never climbs high from Europe.
+      "M27": Low power shows the two lobes. It takes magnification well.
+      "M31": A smudge to the naked eye. In binoculars, look for M32 and M110
         either side of it.
-      "33": Very low surface brightness. It needs a dark sky more than
+      "M33": Very low surface brightness. It needs a dark sky more than
         aperture.
-      "35": Look for the smaller, tighter NGC 2158 just off one corner.
-      "37": The richest of the three Auriga clusters, with a red star near the
+      "M35": Look for the smaller, tighter NGC 2158 just off one corner.
+      "M37": The richest of the three Auriga clusters, with a red star near the
         middle.
-      "42": The four Trapezium stars sit inside the brightest part. The green
+      "M42": The four Trapezium stars sit inside the brightest part. The green
         tint is real.
-      "44": Too large for a telescope. Use binoculars, or just your eyes.
-      "45": Six or seven stars unaided, dozens in binoculars. The nebulosity
+      "M44": Too large for a telescope. Use binoculars, or just your eyes.
+      "M45": Six or seven stars unaided, dozens in binoculars. The nebulosity
         needs a dark sky.
-      "51": The companion galaxy and the bridge between them need a moonless
+      "M51": The companion galaxy and the bridge between them need a moonless
         night.
-      "57": A small grey ring. The hole in the middle opens up around 100x.
-      "64": The dark dust patch across the core gives it its name.
-      "81": M81 and M82 fit in the same low-power field.
-      "82": Look for the mottling along its length.
-      "92": Overshadowed by M13 in the same constellation, but worth its own
+      "M57": A small grey ring. The hole in the middle opens up around 100x.
+      "M64": The dark dust patch across the core gives it its name.
+      "M81": M81 and M82 fit in the same low-power field.
+      "M82": Look for the mottling along its length.
+      "M92": Overshadowed by M13 in the same constellation, but worth its own
         stop.
-      "101": Very low surface brightness. Only worth it on a moonless night.
-      "104": The dust lane cutting across the bulge is the whole point.
-    title: "Messier %{number}"
+      "M101": Very low surface brightness. Only worth it on a moonless night.
+      "M104": The dust lane cutting across the bulge is the whole point.
+    surface_brightness_value: "%{value} mag/arcsec²"
     tool:
       binoculars: Binoculars
       large_telescope: Large telescope

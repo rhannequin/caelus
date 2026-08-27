@@ -43,14 +43,14 @@ class Visibility
   end
 
   def declination
-    return unless @body.is_a?(MessierObject)
+    return unless @body.is_a?(DeepSkyObject)
 
     @body.j2000_coordinates.declination
   end
 
   def astronoby_body
-    if @body.is_a?(MessierObject)
-      @body.deep_sky_object
+    if @body.is_a?(DeepSkyObject)
+      @body.astronoby_deep_sky_object
     else
       @body.planet_class
     end

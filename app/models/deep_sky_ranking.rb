@@ -7,7 +7,12 @@ class DeepSkyRanking
   MOONLIT_ALTITUDE = Astronoby::Angle.from_degrees(10)
   MOON_SEPARATION_REACH = Astronoby::Angle.from_degrees(90)
 
-  FAINTEST_MAGNITUDE = 11.0
+  EASE_WEIGHTS = {
+    naked_eye: 1.0,
+    binoculars: 0.8,
+    small_telescope: 0.5,
+    large_telescope: 0.2
+  }.freeze
 
   NOTABILITY_WEIGHTS = {
     showpiece: 1.0,
@@ -54,20 +59,20 @@ class DeepSkyRanking
 
   ALTITUDE_WEIGHT = 0.34
   SUSTAINED_WEIGHT = 0.14
-  BRIGHTNESS_WEIGHT = 0.16
+  EASE_WEIGHT = 0.16
   NOTABILITY_WEIGHT = 0.36
   MOONLIGHT_WEIGHT = 0.55
 
   Placement = Data.define(
-    :messier_object,
+    :deep_sky_object,
     :score,
     :highest_altitude,
     :highest_altitude_time
   )
 
-  def initialize(night:, messier_objects: MessierCatalog.all)
+  def initialize(night:, deep_sky_objects: DeepSkyObjectsCatalog.all)
     @night = night
-    @messier_objects = messier_objects
+    @deep_sky_objects = deep_sky_objects
   end
 
   def best(limit)
@@ -77,8 +82,8 @@ class DeepSkyRanking
   end
 
   def placements
-    @placements ||= @messier_objects
-      .filter_map { |messier_object| place(messier_object) }
+    @placements ||= @deep_sky_objects
+      .filter_map { |deep_sky_object| place(deep_sky_object) }
       .sort_by { |placement| -placement.score }
   end
 
@@ -90,7 +95,7 @@ class DeepSkyRanking
     placements.each_with_object([]) do |placement, selection|
       return selection if selection.size == limit
 
-      family = family_of(placement.messier_object)
+      family = family_of(placement.deep_sky_object)
       next if counts[family] >= MAXIMUM_PER_FAMILY
 
       counts[family] += 1
@@ -98,32 +103,32 @@ class DeepSkyRanking
     end
   end
 
-  def family_of(messier_object)
-    FAMILIES.fetch(messier_object.type, :other)
+  def family_of(deep_sky_object)
+    FAMILIES.fetch(deep_sky_object.type, :other)
   end
 
-  def place(messier_object)
+  def place(deep_sky_object)
     return unless @night.dark?
 
-    positions = @night.track(messier_object.deep_sky_object)
+    positions = @night.track(deep_sky_object.astronoby_deep_sky_object)
     altitudes = positions.map { |position| position.horizontal.altitude }
     highest = altitudes.max
     return if highest < MINIMUM_ALTITUDE
 
     Placement.new(
-      messier_object: messier_object,
-      score: score(messier_object, positions, altitudes, highest),
+      deep_sky_object: deep_sky_object,
+      score: score(deep_sky_object, positions, altitudes, highest),
       highest_altitude: highest,
       highest_altitude_time: @night.times[altitudes.index(highest)]
     )
   end
 
-  def score(messier_object, positions, altitudes, highest)
+  def score(deep_sky_object, positions, altitudes, highest)
     ALTITUDE_WEIGHT * altitude_term(highest) +
       SUSTAINED_WEIGHT * sustained_term(altitudes) +
-      BRIGHTNESS_WEIGHT * brightness_term(messier_object) +
-      NOTABILITY_WEIGHT * notability_term(messier_object) -
-      MOONLIGHT_WEIGHT * moonlight_penalty(messier_object, positions, altitudes)
+      EASE_WEIGHT * ease_term(deep_sky_object) +
+      NOTABILITY_WEIGHT * notability_term(deep_sky_object) -
+      MOONLIGHT_WEIGHT * moonlight_penalty(deep_sky_object, positions, altitudes)
   end
 
   def altitude_term(highest)
@@ -136,21 +141,17 @@ class DeepSkyRanking
     sustained / altitudes.size.to_f
   end
 
-  def brightness_term(messier_object)
-    brightest = @messier_objects.map(&:magnitude).min
-    span = FAINTEST_MAGNITUDE - brightest
-    return 0.0 if span.zero?
-
-    clamp((FAINTEST_MAGNITUDE - messier_object.magnitude) / span)
+  def ease_term(deep_sky_object)
+    EASE_WEIGHTS.fetch(deep_sky_object.instrument, 0.5)
   end
 
-  def notability_term(messier_object)
-    NOTABILITY_WEIGHTS.fetch(messier_object.notability, 0.0)
+  def notability_term(deep_sky_object)
+    NOTABILITY_WEIGHTS.fetch(deep_sky_object.notability, 0.0)
   end
 
-  def moonlight_penalty(messier_object, positions, altitudes)
+  def moonlight_penalty(deep_sky_object, positions, altitudes)
     sensitivity = MOONLIGHT_SENSITIVITY.fetch(
-      messier_object.type,
+      deep_sky_object.type,
       DEFAULT_MOONLIGHT_SENSITIVITY
     )
 

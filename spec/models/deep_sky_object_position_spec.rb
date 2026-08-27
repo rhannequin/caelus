@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe MessierObjectPosition, type: :model do
+RSpec.describe DeepSkyObjectPosition, type: :model do
   describe "#highest_altitude" do
     it "is nil when no night is given" do
       observer = Astronoby::Observer.new(
@@ -10,7 +10,7 @@ RSpec.describe MessierObjectPosition, type: :model do
         longitude: Astronoby::Angle.from_degrees(2.3)
       )
 
-      position = MessierCatalog.find_by_number(31).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M31").at(
         Time.utc(2026, 1, 15, 22),
         observer: observer
       )
@@ -26,7 +26,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 6, 21))
 
-      position = MessierCatalog.find_by_number(13).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M13").at(
         Time.utc(2026, 6, 21, 23),
         observer: observer,
         night: night
@@ -42,7 +42,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 1, 15))
 
-      position = MessierCatalog.find_by_number(31).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M31").at(
         Time.utc(2026, 1, 15, 22),
         observer: observer,
         night: night
@@ -59,7 +59,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 1, 15))
 
-      position = MessierCatalog.find_by_number(45).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M45").at(
         Time.utc(2026, 1, 15, 22),
         observer: observer,
         night: night
@@ -76,7 +76,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 1, 15))
 
-      position = MessierCatalog.find_by_number(31).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M31").at(
         Time.utc(2026, 1, 15, 22),
         observer: observer,
         night: night
@@ -95,7 +95,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 1, 15))
 
-      position = MessierCatalog.find_by_number(45).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M45").at(
         Time.utc(2026, 1, 15, 23),
         observer: observer,
         night: night
@@ -111,7 +111,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 6, 21))
 
-      position = MessierCatalog.find_by_number(13).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M13").at(
         Time.utc(2026, 6, 21, 23),
         observer: observer,
         night: night
@@ -127,7 +127,7 @@ RSpec.describe MessierObjectPosition, type: :model do
       )
       night = ObservingNight.new(observer: observer, date: Date.new(2026, 9, 30))
 
-      position = MessierCatalog.find_by_number(45).at(
+      position = DeepSkyObjectsCatalog.find_by_designation("M45").at(
         Time.utc(2026, 9, 30, 23),
         observer: observer,
         night: night

@@ -30,8 +30,8 @@ RSpec.describe AngularSeparation do
     end
 
     it "measures the known separation between M81 and M82" do
-      m81 = MessierCatalog.find_by_number(81).j2000_coordinates
-      m82 = MessierCatalog.find_by_number(82).j2000_coordinates
+      m81 = DeepSkyObjectsCatalog.find_by_designation("M81").j2000_coordinates
+      m82 = DeepSkyObjectsCatalog.find_by_designation("M82").j2000_coordinates
 
       separation = described_class.between(m81, m82)
 

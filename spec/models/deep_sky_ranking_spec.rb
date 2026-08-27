@@ -15,14 +15,14 @@ RSpec.describe DeepSkyRanking, type: :model do
           observer: observer,
           date: Date.new(2026, 1, 15)
         )
-      ).best(6).map { |placement| placement.messier_object.number }
+      ).best(6).map { |placement| placement.deep_sky_object.number }
 
       summer = described_class.new(
         night: ObservingNight.new(
           observer: observer,
           date: Date.new(2026, 7, 15)
         )
-      ).best(6).map { |placement| placement.messier_object.number }
+      ).best(6).map { |placement| placement.deep_sky_object.number }
 
       expect(winter).not_to match_array(summer)
     end
@@ -70,7 +70,7 @@ RSpec.describe DeepSkyRanking, type: :model do
       )
 
       numbers = ranking.placements.map do |placement|
-        placement.messier_object.number
+        placement.deep_sky_object.number
       end
 
       expect(numbers).not_to include(7)
@@ -113,7 +113,7 @@ RSpec.describe DeepSkyRanking, type: :model do
       ).best(6)
 
       families = best.map do |placement|
-        described_class::FAMILIES.fetch(placement.messier_object.type, :other)
+        described_class::FAMILIES.fetch(placement.deep_sky_object.type, :other)
       end
 
       expect(families.tally.values.max)
@@ -134,7 +134,7 @@ RSpec.describe DeepSkyRanking, type: :model do
       ).best(6)
 
       expect(best.size).to eq(6)
-      expect(best.map { |placement| placement.messier_object.number }.uniq.size)
+      expect(best.map { |placement| placement.deep_sky_object.number }.uniq.size)
         .to eq(6)
     end
   end
@@ -145,15 +145,15 @@ RSpec.describe DeepSkyRanking, type: :model do
         latitude: Astronoby::Angle.from_degrees(48.8),
         longitude: Astronoby::Angle.from_degrees(2.3)
       )
-      galaxy = MessierCatalog.find_by_number(31)
-      cluster = MessierCatalog.find_by_number(45)
+      galaxy = DeepSkyObjectsCatalog.find_by_designation("M31")
+      cluster = DeepSkyObjectsCatalog.find_by_designation("M45")
 
       full_moon = described_class.new(
         night: ObservingNight.new(
           observer: observer,
           date: Date.new(2026, 8, 27)
         ),
-        messier_objects: [galaxy, cluster]
+        deep_sky_objects: [galaxy, cluster]
       ).placements
 
       new_moon = described_class.new(
@@ -161,11 +161,11 @@ RSpec.describe DeepSkyRanking, type: :model do
           observer: observer,
           date: Date.new(2026, 9, 10)
         ),
-        messier_objects: [galaxy, cluster]
+        deep_sky_objects: [galaxy, cluster]
       ).placements
 
-      expect(full_moon.first.messier_object).to eq(cluster)
-      expect(new_moon.first.messier_object).to eq(galaxy)
+      expect(full_moon.first.deep_sky_object).to eq(cluster)
+      expect(new_moon.first.deep_sky_object).to eq(galaxy)
     end
   end
 
@@ -175,18 +175,18 @@ RSpec.describe DeepSkyRanking, type: :model do
         latitude: Astronoby::Angle.from_degrees(48.8),
         longitude: Astronoby::Angle.from_degrees(2.3)
       )
-      showpiece = MessierCatalog.find_by_number(81)
-      ordinary = MessierCatalog.find_by_number(40)
+      showpiece = DeepSkyObjectsCatalog.find_by_designation("M81")
+      ordinary = DeepSkyObjectsCatalog.find_by_designation("M40")
 
       placements = described_class.new(
         night: ObservingNight.new(
           observer: observer,
           date: Date.new(2026, 3, 15)
         ),
-        messier_objects: [ordinary, showpiece]
+        deep_sky_objects: [ordinary, showpiece]
       ).placements
 
-      expect(placements.first.messier_object).to eq(showpiece)
+      expect(placements.first.deep_sky_object).to eq(showpiece)
     end
   end
 end

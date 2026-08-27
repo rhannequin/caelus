@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-class MessierObjectPosition
+class DeepSkyObjectPosition
   include ActiveModel::Model
 
   Culmination = Data.define(:position, :time)
 
-  attr_accessor :messier_object, :time, :observer, :use_ephem, :night
+  attr_accessor :deep_sky_object, :time, :observer, :use_ephem, :night
 
   def topocentric
-    @topocentric ||= messier_object
-      .deep_sky_object
+    @topocentric ||= deep_sky_object
+      .astronoby_deep_sky_object
       .at(instant, ephem: (use_ephem ? spk : nil))
       .observed_by(observer)
   end
@@ -70,15 +70,15 @@ class MessierObjectPosition
   end
 
   def position_at(moment)
-    messier_object
-      .deep_sky_object
+    deep_sky_object
+      .astronoby_deep_sky_object
       .at(Astronoby::Instant.from_time(moment), ephem: spk)
       .observed_by(observer)
   end
 
   def rts_calculator
     @rts_calculator ||= Astronoby::RiseTransitSetCalculator.new(
-      body: messier_object.deep_sky_object,
+      body: deep_sky_object.astronoby_deep_sky_object,
       observer: observer,
       ephem: spk
     )
