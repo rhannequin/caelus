@@ -2,6 +2,14 @@
 
 class ObservingNight
   SAMPLE_COUNT = 12
+  SCAN_STEP = 10 * 60
+  SCAN_REFINEMENTS = 12
+
+  DARKNESS_ALTITUDES = {
+    astronomical: Astronoby::Angle.from_degrees(-18),
+    nautical: Astronoby::Angle.from_degrees(-12),
+    civil: Astronoby::Angle.from_degrees(-6)
+  }.freeze
 
   DARKNESS_LEVELS = {
     astronomical: [
@@ -103,7 +111,76 @@ class ObservingNight
       .keys
       .lazy
       .filter_map { |level| window_for(level) }
+      .first || scanned_window
+  end
+
+  def scanned_window
+    DARKNESS_LEVELS
+      .keys
+      .lazy
+      .filter_map { |level| scanned_window_for(level) }
       .first || {darkness: :none, range: nil}
+  end
+
+  def scanned_window_for(level)
+    limit = DARKNESS_ALTITUDES.fetch(level)
+    dark = solar_altitudes.each_index.select { |i| solar_altitudes[i] <= limit }
+    return if dark.empty?
+
+    first, last = longest_run(dark)
+    return if first == last
+
+    {
+      darkness: level,
+      range: crossing(first, -1, limit)..crossing(last, 1, limit)
+    }
+  end
+
+  def solar_altitudes
+    @solar_altitudes ||= scan_times.map { |time| solar_altitude_at(time) }
+  end
+
+  def scan_times
+    @scan_times ||= begin
+      noon = Time.new(@date.year, @date.month, @date.day, 12, 0, 0, utc_offset)
+      steps = (24 * 3600 / SCAN_STEP)
+      (0..steps).map { |step| noon + step * SCAN_STEP }
+    end
+  end
+
+  def solar_altitude_at(time)
+    Astronoby::Sun
+      .new(instant: Astronoby::Instant.from_time(time), ephem: spk)
+      .observed_by(@observer)
+      .horizontal
+      .altitude
+  end
+
+  def longest_run(indexes)
+    runs = indexes.slice_when { |a, b| b != a + 1 }.to_a
+    longest = runs.max_by(&:size)
+
+    [longest.first, longest.last]
+  end
+
+  def crossing(index, direction, limit)
+    inside = scan_times[index]
+    outside_index = index + direction
+    return inside if outside_index.negative?
+
+    outside = scan_times[outside_index]
+    return inside unless outside
+
+    SCAN_REFINEMENTS.times do
+      middle = inside + (outside - inside) / 2
+      if solar_altitude_at(middle) <= limit
+        inside = middle
+      else
+        outside = middle
+      end
+    end
+
+    inside
   end
 
   def window_for(level)
@@ -144,11 +221,16 @@ class ObservingNight
   end
 
   def evening_twilight
-    @evening_twilight ||= twilight_calculator.event_on(@date)
+    @evening_twilight ||= twilight_calculator.event_on(@date, utc_offset: utc_offset)
   end
 
   def morning_twilight
-    @morning_twilight ||= twilight_calculator.event_on(@date + 1)
+    @morning_twilight ||=
+      twilight_calculator.event_on(@date + 1, utc_offset: utc_offset)
+  end
+
+  def utc_offset
+    @observer.utc_offset || 0
   end
 
   def twilight_calculator

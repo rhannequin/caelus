@@ -70,4 +70,44 @@ RSpec.describe DeepSkyObjectsCatalog do
       expect(deep_sky_object).to be_nil
     end
   end
+
+  describe "declinations just south of the celestial equator" do
+    it "keeps the sign on a declination between 0 and -1 degrees" do
+      expect(
+        DeepSkyObjectsCatalog
+          .find_by_designation("M2")
+          .j2000_coordinates
+          .declination
+          .degrees
+      ).to be_within(0.001).of(-0.8233)
+
+      expect(
+        DeepSkyObjectsCatalog
+          .find_by_designation("M77")
+          .j2000_coordinates
+          .declination
+          .degrees
+      ).to be_within(0.001).of(-0.0133)
+    end
+  end
+
+  describe ".find_all_by_designation" do
+    it "returns the objects in the order asked for" do
+      designations = ["M31", "NGC 5139", "M45"]
+
+      expect(
+        DeepSkyObjectsCatalog
+          .find_all_by_designation(designations)
+          .map(&:designation)
+      ).to eq(designations)
+    end
+
+    it "skips designations it does not hold" do
+      expect(
+        DeepSkyObjectsCatalog
+          .find_all_by_designation(["M31", "NGC 9999"])
+          .map(&:designation)
+      ).to eq(["M31"])
+    end
+  end
 end

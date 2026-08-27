@@ -136,4 +136,88 @@ RSpec.describe ObservingNight, type: :model do
       expect(moonless.end - moonless.begin).to be > night.duration * 0.9
     end
   end
+
+  describe "time zones" do
+    it "pairs a local evening with the following local morning" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(-33.87),
+        longitude: Astronoby::Angle.from_degrees(151.21),
+        utc_offset: "+11:00"
+      )
+
+      night = described_class.new(
+        observer: observer,
+        date: Date.new(2026, 4, 15)
+      )
+
+      expect(night.duration / 3600.0).to be_between(8, 14)
+    end
+
+    it "keeps every night of the year a plausible length far from UTC" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(-36.85),
+        longitude: Astronoby::Angle.from_degrees(174.76),
+        utc_offset: "+13:00"
+      )
+
+      durations = (0..350).step(50).filter_map do |offset|
+        night = described_class.new(
+          observer: observer,
+          date: Date.new(2026, 1, 1) + offset
+        )
+        night.duration / 3600.0 if night.dark?
+      end
+
+      expect(durations).not_to be_empty
+      expect(durations.max).to be < 16
+    end
+  end
+
+  describe "polar night" do
+    it "reports the darkness that exists when the Sun never rises" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(69.65),
+        longitude: Astronoby::Angle.from_degrees(18.96),
+        utc_offset: "+01:00"
+      )
+
+      night = described_class.new(
+        observer: observer,
+        date: Date.new(2026, 12, 21)
+      )
+
+      expect(night.darkness).to eq(:astronomical)
+      expect(night.duration / 3600.0).to be > 12
+    end
+
+    it "treats a Sun that never clears the threshold as dark all day" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(88),
+        longitude: Astronoby::Angle.zero
+      )
+
+      night = described_class.new(
+        observer: observer,
+        date: Date.new(2026, 12, 21)
+      )
+
+      expect(night.darkness).to eq(:astronomical)
+      expect(night.duration / 3600.0).to be_within(0.1).of(24)
+    end
+
+    it "still reports no darkness under the midnight Sun" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(88),
+        longitude: Astronoby::Angle.zero
+      )
+
+      night = described_class.new(
+        observer: observer,
+        date: Date.new(2026, 6, 21)
+      )
+
+      expect(night.darkness).to eq(:none)
+      expect(night).not_to be_dark
+    end
+  end
 end

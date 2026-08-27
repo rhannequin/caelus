@@ -66,7 +66,7 @@ class DeepSkyObjectsCatalog
       size: {major_arcminutes: 16},
       distance_ly: 37500,
       ra: {h: 21, m: 33, s: 27.02},
-      dec: {d: -0, m: 49, s: 23.7}
+      dec: {sign: -1, d: 0, m: 49, s: 23.7}
     },
     {
       number: 3,
@@ -966,7 +966,7 @@ class DeepSkyObjectsCatalog
       size: {major_arcminutes: 7, minor_arcminutes: 6},
       distance_ly: 47000000,
       ra: {h: 2, m: 42, s: 40.7},
-      dec: {d: -0, m: 0, s: 48.0}
+      dec: {sign: -1, d: 0, m: 0, s: 48.0}
     },
     {
       number: 78,
@@ -1576,6 +1576,12 @@ class DeepSkyObjectsCatalog
     all.find { |object| object.designation == designation }
   end
 
+  def self.find_all_by_designation(designations)
+    index = all.index_by(&:designation)
+
+    designations.filter_map { |designation| index[designation] }
+  end
+
   def self.designation_for(catalog, number)
     (catalog == :ngc) ? "NGC #{number}" : "M#{number}"
   end
@@ -1594,6 +1600,14 @@ class DeepSkyObjectsCatalog
     return :large_telescope if LARGE_TELESCOPE.include?(designation)
 
     :small_telescope
+  end
+
+  def self.declination(parts)
+    magnitude =
+      parts[:d].abs + parts[:m] / 60.0 + parts[:s] / 3600.0
+    sign = parts[:sign] || (parts[:d].negative? ? -1 : 1)
+
+    Astronoby::Angle.from_degrees(sign * magnitude)
   end
 
   def self.arcminutes(value)
@@ -1624,11 +1638,7 @@ class DeepSkyObjectsCatalog
           data.dig(:ra, :m),
           data.dig(:ra, :s)
         ),
-        declination: Astronoby::Angle.from_dms(
-          data.dig(:dec, :d),
-          data.dig(:dec, :m),
-          data.dig(:dec, :s)
-        ),
+        declination: declination(data[:dec]),
         epoch: Astronoby::JulianDate::J2000
       ),
       distance: data[:distance_ly]

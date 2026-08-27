@@ -46,14 +46,16 @@ class HomeController < ApplicationController
       date: @time.to_date
     )
 
-    @deep_sky_object_positions = best_designations.map do |designation|
-      DeepSkyObjectsCatalog.find_by_designation(designation).at(
-        @time,
-        observer: @observer,
-        use_ephem: true,
-        night: @observing_night
-      )
-    end
+    @deep_sky_object_positions = DeepSkyObjectsCatalog
+      .find_all_by_designation(best_designations)
+      .map do |deep_sky_object|
+        deep_sky_object.at(
+          @time,
+          observer: @observer,
+          use_ephem: true,
+          night: @observing_night
+        )
+      end
 
     track_page_view("home")
   end
