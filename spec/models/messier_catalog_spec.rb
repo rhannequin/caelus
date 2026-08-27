@@ -7,10 +7,24 @@ RSpec.describe MessierCatalog do
     it "returns a list of MessierObject" do
       messier_objects = MessierCatalog.all
 
+      expect(messier_objects.size).to eq(110)
       expect(messier_objects).to be_an(Array)
       messier_objects.each do |messier_object|
         expect(messier_object).to be_a(MessierObject)
       end
+    end
+  end
+
+  describe ".notability" do
+    it "tiers the famous objects above the obscure ones" do
+      expect(MessierCatalog.notability(31)).to eq(:showpiece)
+      expect(MessierCatalog.notability(33)).to eq(:notable)
+      expect(MessierCatalog.notability(30)).to eq(:ordinary)
+      expect(MessierCatalog.notability(40)).to eq(:faint)
+    end
+
+    it "gives every catalogued object a tier" do
+      expect(MessierCatalog.all.map(&:notability)).to all(be_present)
     end
   end
 

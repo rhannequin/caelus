@@ -227,6 +227,8 @@ en:
         transit: "Transit:"
     deep_sky_objects:
       details: Astronomical Details
+      highest: Highest point of the night
+      highest_at: "at %{time}"
       magnitude: Magnitude
       rise: Rise
       set: Set
@@ -238,9 +240,6 @@ en:
         right_ascension: "Right Ascension:"
       transit: Transit
       type: Type
-      visibility:
-        not_visible: Not Visible
-        visible: Visible
     index:
       distances_table:
         distance_from_earth: Distance from Earth

@@ -7,6 +7,7 @@ class MessierObject
   BINOCULARS_MAGNITUDE_LIMIT = 6
 
   attr_accessor :number,
+    :notability,
     :ngc_number,
     :name,
     :type,
@@ -16,12 +17,13 @@ class MessierObject
     :j2000_coordinates,
     :distance
 
-  def at(time, observer:, use_ephem: false)
+  def at(time, observer:, use_ephem: false, night: nil)
     MessierObjectPosition.new(
       messier_object: self,
       time: time,
       observer: observer,
-      use_ephem: use_ephem
+      use_ephem: use_ephem,
+      night: night
     )
   end
 

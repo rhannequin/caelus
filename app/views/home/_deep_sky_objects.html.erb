@@ -35,11 +35,30 @@
             </div>
           </div>
           <div class="flex items-center gap-2 self-start">
-            <div class="inline-flex items-center rounded-full border px-2.5
-              py-0.5 text-xs font-semibold
-              <%= messier_object_position.visibility.visible? ? "border-transparent bg-primary text-primary-foreground" : "border-transparent" %>">
-              <%= messier_object_position.visibility.visible? ? t(".visibility.visible") : t(".visibility.not_visible") %>
-            </div>
+            <% if messier_object_position.highest_altitude %>
+              <div
+                class="inline-flex items-center gap-1.5 rounded-full border
+                  px-2.5 py-0.5 text-xs font-semibold"
+                title="<%= t ".highest" %>"
+              >
+                <span class="font-mono">
+                  <%= format_number(
+                    messier_object_position.highest_altitude.degrees,
+                    unit: :degree,
+                    precision: 0
+                  ) %>
+                </span>
+                <span class="font-normal text-muted-foreground">
+                  <%= t(
+                    ".highest_at",
+                    time: nillable_datetime(
+                      messier_object_position.highest_altitude_time,
+                      format: :hm
+                    )
+                  ) %>
+                </span>
+              </div>
+            <% end %>
             <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold
               transition-colors focus:outline-none focus:ring-2 focus:ring-ring
               focus:ring-offset-2 border-transparent">

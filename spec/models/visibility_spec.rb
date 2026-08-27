@@ -4,6 +4,54 @@ require "rails_helper"
 
 RSpec.describe Visibility, type: :model do
   describe "#visible?" do
+    context "when the object never rises nor sets" do
+      it "returns true for a circumpolar object" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(48.8),
+          longitude: Astronoby::Angle.from_degrees(2.1)
+        )
+        visibility = described_class.new(
+          body: MessierCatalog.find_by_number(81),
+          observer: observer,
+          date: Date.new(2026, 1, 15)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+    end
+
+    context "when there is no darkness at all" do
+      it "returns false" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(69.65),
+          longitude: Astronoby::Angle.from_degrees(18.96)
+        )
+        visibility = described_class.new(
+          body: MessierCatalog.find_by_number(13),
+          observer: observer,
+          date: Date.new(2026, 6, 21)
+        )
+
+        expect(visibility.visible?).to be false
+      end
+    end
+
+    context "when the night only reaches nautical twilight" do
+      it "still reports a well-placed object as visible" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(48.8),
+          longitude: Astronoby::Angle.from_degrees(2.1)
+        )
+        visibility = described_class.new(
+          body: MessierCatalog.find_by_number(13),
+          observer: observer,
+          date: Date.new(2026, 6, 21)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+    end
+
     context "when it rises early in the night" do
       it "returns true" do
         date = Date.new(2025, 12, 1)

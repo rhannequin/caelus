@@ -41,12 +41,36 @@ class HomeController < ApplicationController
       ).event_on(@time.to_date + 1)
     end
 
-    @messier_object_positions = MessierCatalog
-      .all
-      .sort_by(&:magnitude)
-      .first(MAXIMUM_DEEP_SKY_OBJECTS)
-      .map { |obj| obj.at(@time, observer: @observer, use_ephem: true) }
+    @messier_object_positions = best_messier_numbers.map do |number|
+      MessierCatalog.find_by_number(number).at(
+        @time,
+        observer: @observer,
+        use_ephem: true,
+        night: observing_night
+      )
+    end
 
     track_page_view("home")
+  end
+
+  private
+
+  def observing_night
+    @observing_night ||= ObservingNight.new(
+      observer: @observer,
+      date: @time.to_date
+    )
+  end
+
+  def best_messier_numbers
+    Rails.cache.fetch(
+      "deep_sky_ranking/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      DeepSkyRanking
+        .new(night: observing_night)
+        .best(MAXIMUM_DEEP_SKY_OBJECTS)
+        .map { |placement| placement.messier_object.number }
+    end
   end
 end
