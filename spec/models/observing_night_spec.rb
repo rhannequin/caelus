@@ -205,6 +205,44 @@ RSpec.describe ObservingNight, type: :model do
       expect(night.duration / 3600.0).to be_within(0.1).of(24)
     end
 
+    it "answers a requested darkness level during polar night too" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(69.65),
+        longitude: Astronoby::Angle.from_degrees(18.96),
+        utc_offset: "+01:00"
+      )
+
+      night = described_class.new(
+        observer: observer,
+        date: Date.new(2026, 12, 21)
+      )
+
+      civil = night.range(darkness: :civil)
+
+      expect(civil).not_to be_nil
+      expect(civil.end - civil.begin).to be > night.duration
+    end
+
+    it "knows when darkness lasts the whole day" do
+      polar = described_class.new(
+        observer: Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(88),
+          longitude: Astronoby::Angle.zero
+        ),
+        date: Date.new(2026, 12, 21)
+      )
+      paris = described_class.new(
+        observer: Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(48.85),
+          longitude: Astronoby::Angle.from_degrees(2.35)
+        ),
+        date: Date.new(2026, 1, 15)
+      )
+
+      expect(polar).to be_all_day
+      expect(paris).not_to be_all_day
+    end
+
     it "still reports no darkness under the midnight Sun" do
       observer = Astronoby::Observer.new(
         latitude: Astronoby::Angle.from_degrees(88),

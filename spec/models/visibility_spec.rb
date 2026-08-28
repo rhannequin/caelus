@@ -20,6 +20,23 @@ RSpec.describe Visibility, type: :model do
       end
     end
 
+    context "during polar night" do
+      it "does not suppress the inner planets" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(69.65),
+          longitude: Astronoby::Angle.from_degrees(18.96),
+          utc_offset: "+01:00"
+        )
+        visibility = described_class.new(
+          body: Venus,
+          observer: observer,
+          date: Date.new(2026, 12, 21)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+    end
+
     context "when there is no darkness at all" do
       it "returns false" do
         observer = Astronoby::Observer.new(

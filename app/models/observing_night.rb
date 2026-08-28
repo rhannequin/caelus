@@ -2,6 +2,7 @@
 
 class ObservingNight
   SAMPLE_COUNT = 12
+  ALL_DAY = 24 * 3600
   SCAN_STEP = 10 * 60
   SCAN_REFINEMENTS = 12
 
@@ -47,7 +48,7 @@ class ObservingNight
   def range(darkness: nil)
     return deepest_window.fetch(:range) if darkness.nil?
 
-    window_at(darkness)
+    window_at(darkness) || scanned_window_for(darkness)&.fetch(:range)
   end
 
   def dark?
@@ -56,6 +57,10 @@ class ObservingNight
 
   def full_darkness?
     darkness == :astronomical
+  end
+
+  def all_day?
+    dark? && duration >= ALL_DAY - SCAN_STEP
   end
 
   def duration

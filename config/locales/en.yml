@@ -233,6 +233,7 @@ en:
       moon_distance: Distance from the Moon when the object is highest
       near_moon: "%{separation} from the Moon"
       night:
+        all_day: Dark all day. The Sun never rises.
         astronomical: "Dark from %{from} to %{to}"
         civil: "Only civil twilight tonight, from %{from} to %{to}"
         moon: "Moon %{percentage}% lit"

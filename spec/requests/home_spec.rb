@@ -43,6 +43,22 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    context "when darkness lasts the whole day" do
+      it "says so instead of showing an empty time range" do
+        travel_to Time.utc(2026, 12, 21, 12) do
+          post cookie_consent_path
+          patch location_path, params: {latitude: "88.0", longitude: "0.0"}
+
+          get root_path
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(
+            I18n.t("home.deep_sky_objects.night.all_day")
+          )
+        end
+      end
+    end
+
     context "when the night only reaches nautical twilight" do
       it "says the sky never gets fully dark and still lists objects" do
         travel_to Time.utc(2026, 6, 21, 12) do

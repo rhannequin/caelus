@@ -6,11 +6,15 @@
   <% if night.dark? %>
     <p class="text-sm text-muted-foreground mb-4 flex flex-wrap gap-x-2">
       <span>
-        <%= t(
-          ".night.#{night.darkness}",
-          from: nillable_datetime(night.range.begin, format: :hm),
-          to: nillable_datetime(night.range.end, format: :hm)
-        ) %>
+        <% if night.all_day? %>
+          <%= t ".night.all_day" %>
+        <% else %>
+          <%= t(
+            ".night.#{night.darkness}",
+            from: nillable_datetime(night.range.begin, format: :hm),
+            to: nillable_datetime(night.range.end, format: :hm)
+          ) %>
+        <% end %>
       </span>
       <span aria-hidden="true">·</span>
       <span>
