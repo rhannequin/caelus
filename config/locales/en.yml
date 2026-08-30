@@ -1,4 +1,7 @@
 en:
+  almanac:
+    show:
+      title: Almanac
   cardinal_direction:
     north: N
     north_east: NE
@@ -759,6 +762,7 @@ en:
         label: Accept cookies for location features
         title: Accept cookies for location features
     navigation:
+      almanac: Almanac
       lunar_eclipses: Lunar Eclipses
       moon: Moon
       sun: Sun
