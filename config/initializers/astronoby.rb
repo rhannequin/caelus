@@ -19,6 +19,10 @@ class SPK
     @inpop19a ||= Astronoby::Ephem.load("lib/astronoby/spk/inpop19a.bsp")
   end
 
+  def self.inpop19a
+    instance.inpop19a
+  end
+
   def self.for_time(time)
     instance.for_time(time)
   end

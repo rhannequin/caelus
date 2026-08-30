@@ -1,5 +1,10 @@
+# frozen_string_literal: true
+
 class CelestialEvent < ApplicationRecord
-  KINDS = %w[opposition greatest_elongation].freeze
+  KINDS = [
+    OPPOSITION = "opposition",
+    MAXIMUM_ELONGATION = "maximum_elongation"
+  ].freeze
 
   validates :kind, presence: true, inclusion: {in: KINDS}
   validates :peak_tt, presence: true
