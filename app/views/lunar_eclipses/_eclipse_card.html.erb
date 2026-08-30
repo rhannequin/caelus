@@ -14,6 +14,11 @@
       <%= t "lunar_eclipses.kinds.#{lunar_eclipse.kind}.name" %>
     </span>
 
+    <span class="eclipse-badge
+      eclipse-visibility-badge--<%= visibility.circumstance %>">
+      <%= t "lunar_eclipses.visibility.badges.#{visibility.circumstance}" %>
+    </span>
+
     <div class="text-lg font-bold mt-2 leading-tight">
       <%= l lunar_eclipse_date(lunar_eclipse), format: :long %>
     </div>

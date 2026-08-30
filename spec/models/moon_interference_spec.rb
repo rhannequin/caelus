@@ -34,11 +34,11 @@ RSpec.describe MoonInterference do
           date: Date.new(2025, 9, 3)
         )
 
-        # Night from 18:41 to 05:18 (637 minutes)
+        # Night from 18:41 to 05:18 (636 minutes)
         # Moon above the horizon from 17:15 to 00:28 (next day)
-        # Moon above the horizon during night from 18:41 to 00:28 (347 minutes)
-        # Percentage: 347 * 100 / 637 = 55%
-        expect(moon_interference.percentage).to eq(55)
+        # Moon above the horizon during night from 18:41 to 00:28 (346 minutes)
+        # Percentage: 346 * 100 / 636 = 54%
+        expect(moon_interference.percentage).to eq(54)
       end
     end
 

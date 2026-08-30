@@ -11,19 +11,25 @@ RSpec.describe LunarEclipseDiscComponent, type: :component do
     axis_distance_km:,
     position_angle:,
     umbra_km: 4664,
-    penumbra_km: 8254
+    penumbra_km: 8254,
+    north_of_axis: true
   )
     Astronoby::LunarEclipseGeometry.new(
       axis_distance: Astronoby::Distance.from_kilometers(axis_distance_km),
       position_angle: Astronoby::Angle.from_degrees(position_angle),
       umbra_radius: Astronoby::Distance.from_kilometers(umbra_km),
       penumbra_radius: Astronoby::Distance.from_kilometers(penumbra_km),
-      moon_distance: Astronoby::Distance.from_kilometers(400_000)
+      moon_distance: Astronoby::Distance.from_kilometers(400_000),
+      moon_coordinates: Astronoby::Coordinates::Equatorial.new(
+        right_ascension: Astronoby::Angle.from_hours(11.64),
+        declination: Astronoby::Angle.from_degrees(2.68)
+      ),
+      north_of_axis: north_of_axis
     )
   end
 
   def build_phase(starting_geometry:, ending_geometry:, from: 0, to: 2)
-    Astronoby::EclipsePhase.new(
+    Astronoby::LunarEclipsePhase.new(
       starting_instant: Astronoby::Instant.from_time(
         Time.utc(2026, 3, 3, 10) + from.hours
       ),

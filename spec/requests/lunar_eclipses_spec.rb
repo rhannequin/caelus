@@ -4,6 +4,15 @@ require "rails_helper"
 
 RSpec.describe LunarEclipsesController, type: :request do
   describe "GET /lunar_eclipses" do
+    it "says whether each eclipse is visible from the observer" do
+      travel_to Time.utc(2027, 1, 1) do
+        get lunar_eclipses_path(year: 2027)
+
+        expect(response.body).to include("Visible")
+        expect(response.body).to include("Not visible")
+      end
+    end
+
     it "returns a successful response" do
       travel_to Time.utc(2026, 8, 25) do
         get lunar_eclipses_path
@@ -81,6 +90,36 @@ RSpec.describe LunarEclipsesController, type: :request do
   end
 
   describe "GET /lunar_eclipses/:id" do
+    it "describes what the observer sees of the eclipse" do
+      travel_to Time.utc(2025, 1, 1) do
+        get lunar_eclipse_path(id: "2025-03-14")
+
+        expect(response.body).to include("Visibility")
+        expect(response.body)
+          .to include("The Moon sets while the eclipse is still under way.")
+        expect(response.body).to include("Moon sets")
+      end
+    end
+
+    it "shows where to look for the Moon at each contact" do
+      travel_to Time.utc(2025, 1, 1) do
+        get lunar_eclipse_path(id: "2025-03-14")
+
+        expect(response.body).to include("20.8° alt · 249° az")
+        expect(response.body).to include("-3.1° alt · 277° az")
+      end
+    end
+
+    it "reports each phase separately" do
+      travel_to Time.utc(2025, 1, 1) do
+        get lunar_eclipse_path(id: "2025-03-14")
+
+        # Paris loses the Moon before totality begins.
+        expect(response.body).to include("Totality")
+        expect(response.body).to include("Not visible")
+      end
+    end
+
     context "with a valid date" do
       it "returns a successful response" do
         travel_to Time.utc(2026, 8, 25) do

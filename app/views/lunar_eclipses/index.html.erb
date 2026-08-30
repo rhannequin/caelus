@@ -22,11 +22,16 @@
 
 <% if @lunar_eclipses.any? %>
   <%= cache(
-    lunar_eclipse_cache_key("list/#{@selected_year}/#{time_zone_cache_key}")
+    lunar_eclipse_cache_key("list/#{@selected_year}/#{observer_cache_key}"),
+    expires_in: 1.week
   ) do %>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       <% @lunar_eclipses.each do |lunar_eclipse| %>
-        <%= render "eclipse_card", lunar_eclipse: lunar_eclipse %>
+        <%= render(
+          "eclipse_card",
+          lunar_eclipse: lunar_eclipse,
+          visibility: lunar_eclipse_visibility(lunar_eclipse, @observer)
+        ) %>
       <% end %>
     </div>
   <% end %>
