@@ -11,6 +11,7 @@ class DeepSkyObject
     :irregular_galaxy,
     :lenticular_galaxy,
     :nebula,
+    :nebula_with_cluster,
     :reflection_nebula,
     :planetary_nebula,
     :supernova_remnant

@@ -78,6 +78,16 @@ RSpec.describe DeepSkyObject do
         .to be_nil
     end
 
+    it "is computed for a nebula that also holds a cluster" do
+      lagoon = DeepSkyObjectsCatalog.find_by_designation("M8")
+      trifid = DeepSkyObjectsCatalog.find_by_designation("M20")
+
+      # Their nebulosity is what an observer sees, so the cluster inside them
+      # does not make them resolved objects.
+      expect(lagoon.surface_brightness).to be_between(15, 26)
+      expect(trifid.surface_brightness).to be_between(15, 26)
+    end
+
     it "is computed for every diffuse object" do
       diffuse = DeepSkyObjectsCatalog.all.select(&:diffuse?)
 
