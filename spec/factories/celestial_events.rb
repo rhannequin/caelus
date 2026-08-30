@@ -4,7 +4,7 @@ FactoryBot.define do
       peak { Time.utc(2023, 2, 24, 12) }
     end
 
-    kind { "eclipse" }
+    kind { "opposition" }
     peak_tt { Astronoby::Instant.from_time(peak).tt }
   end
 end

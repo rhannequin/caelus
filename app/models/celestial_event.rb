@@ -1,5 +1,7 @@
 class CelestialEvent < ApplicationRecord
-  validates :kind, presence: true
+  KINDS = %w[opposition greatest_elongation].freeze
+
+  validates :kind, presence: true, inclusion: {in: KINDS}
   validates :peak_tt, presence: true
   validates :peak_at, presence: true
 

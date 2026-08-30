@@ -9,6 +9,10 @@ RSpec.describe CelestialEvent, type: :model do
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:kind) }
+    it {
+      is_expected.to validate_inclusion_of(:kind)
+        .in_array(CelestialEvent::KINDS)
+    }
     it { is_expected.to validate_presence_of(:peak_tt) }
     it { is_expected.to validate_presence_of(:peak_at) }
   end
@@ -51,13 +55,13 @@ RSpec.describe CelestialEvent, type: :model do
 
     describe ".of_kind" do
       it "returns events of the given kind" do
-        event1 = create(:celestial_event, kind: "eclipse")
-        _event2 = create(:celestial_event, kind: "transit")
-        event3 = create(:celestial_event, kind: "eclipse")
+        event1 = create(:celestial_event, kind: "opposition")
+        _event2 = create(:celestial_event, kind: "greatest_elongation")
+        event3 = create(:celestial_event, kind: "opposition")
 
-        eclipses = CelestialEvent.of_kind("eclipse")
+        oppositions = CelestialEvent.of_kind("opposition")
 
-        expect(eclipses).to contain_exactly(event1, event3)
+        expect(oppositions).to contain_exactly(event1, event3)
       end
     end
 
