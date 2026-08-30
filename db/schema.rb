@@ -10,5 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 0) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_30_202436) do
+  create_table "celestial_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "kind"
+    t.datetime "peak_at", null: false
+    t.decimal "peak_tt", precision: 15, scale: 6, null: false
+    t.string "primary_body"
+    t.string "secondary_body"
+    t.datetime "updated_at", null: false
+  end
 end
