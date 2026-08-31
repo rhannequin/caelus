@@ -9,12 +9,35 @@ RSpec.describe CelestialEvent, type: :model do
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:kind) }
-    it {
+    it do
       is_expected.to validate_inclusion_of(:kind)
         .in_array(CelestialEvent::KINDS)
-    }
+    end
     it { is_expected.to validate_presence_of(:peak_tt) }
     it { is_expected.to validate_presence_of(:peak_at) }
+
+    describe "#primary_body" do
+      it "is required for a kind that names a body" do
+        event = build(
+          :celestial_event,
+          kind: CelestialEvent::OPPOSITION,
+          primary_body: nil
+        )
+
+        expect(event).not_to be_valid
+        expect(event.errors[:primary_body]).to include("can't be blank")
+      end
+
+      it "is optional for a kind that names no body" do
+        event = build(
+          :celestial_event,
+          kind: CelestialEvent::LUNAR_ECLIPSE,
+          primary_body: nil
+        )
+
+        expect(event).to be_valid
+      end
+    end
   end
 
   describe "#peak_at" do
@@ -55,9 +78,21 @@ RSpec.describe CelestialEvent, type: :model do
 
     describe ".of_kind" do
       it "returns events of the given kind" do
-        event1 = create(:celestial_event, kind: "opposition")
-        _event2 = create(:celestial_event, kind: "greatest_elongation")
-        event3 = create(:celestial_event, kind: "opposition")
+        event1 = create(
+          :celestial_event,
+          kind: "opposition",
+          primary_body: "Mars"
+        )
+        _event2 = create(
+          :celestial_event,
+          kind: "greatest_elongation",
+          primary_body: "Venus"
+        )
+        event3 = create(
+          :celestial_event,
+          kind: "opposition",
+          primary_body: "Jupiter"
+        )
 
         oppositions = CelestialEvent.of_kind("opposition")
 

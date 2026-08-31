@@ -15,6 +15,9 @@ en:
         greatest_elongation:
           name: Greatest elongation
           title: "%{body} at greatest elongation"
+        lunar_eclipse:
+          name: Lunar eclipse
+          title: "Lunar eclipse on %{date}"
         opposition:
           name: Opposition
           title: "%{body} at opposition"

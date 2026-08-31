@@ -34,12 +34,22 @@ RSpec.describe CelestialEvents::Generator, type: :model do
       end_date = Time.utc(2027, 1, 1)
       allow(CelestialEvents::OppositionsGenerator)
         .to receive(:new).and_call_original
+      allow(CelestialEvents::LunarEclipsesGenerator)
+        .to receive(:new).and_call_original
+      allow(CelestialEvents::GreatestElongationsGenerator)
+        .to receive(:new).and_call_original
 
       CelestialEvents::Generator
         .new(start_date, end_date)
         .generate_all
 
       expect(CelestialEvents::OppositionsGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
+      expect(CelestialEvents::LunarEclipsesGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
+      expect(CelestialEvents::GreatestElongationsGenerator)
         .to have_received(:new)
         .with(start_date, end_date)
     end

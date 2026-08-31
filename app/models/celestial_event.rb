@@ -2,11 +2,17 @@
 
 class CelestialEvent < ApplicationRecord
   KINDS = [
-    OPPOSITION = "opposition",
-    GREATEST_ELONGATION = "greatest_elongation"
+    GREATEST_ELONGATION = "greatest_elongation",
+    LUNAR_ECLIPSE = "lunar_eclipse",
+    OPPOSITION = "opposition"
   ].freeze
 
+  KINDS_WITH_BODY = [GREATEST_ELONGATION, OPPOSITION].freeze
+
   validates :kind, presence: true, inclusion: {in: KINDS}
+  validates :primary_body,
+    presence: true,
+    if: -> { KINDS_WITH_BODY.include?(kind) }
   validates :peak_tt, presence: true
   validates :peak_at, presence: true
 

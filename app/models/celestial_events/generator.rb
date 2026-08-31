@@ -3,13 +3,15 @@
 module CelestialEvents
   class Generator
     EVENT_TYPES = [
-      OPPOSITIONS = :oppositions,
-      GREATEST_ELONGATIONS = :greatest_elongations
+      GREATEST_ELONGATIONS = :greatest_elongations,
+      LUNAR_ECLIPSES = :lunar_eclipses,
+      OPPOSITIONS = :oppositions
     ].freeze
 
     GENERATORS = {
-      OPPOSITIONS => OppositionsGenerator,
-      GREATEST_ELONGATIONS => GreatestElongationsGenerator
+      GREATEST_ELONGATIONS => GreatestElongationsGenerator,
+      LUNAR_ECLIPSES => LunarEclipsesGenerator,
+      OPPOSITIONS => OppositionsGenerator
     }.freeze
 
     def initialize(start_date, end_date)

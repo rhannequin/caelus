@@ -712,13 +712,33 @@ h1, h2, h3 {
   color: hsl(240 90% 82%);
 }
 
+.almanac-badge--lunar-eclipse {
+  border-color: rgba(156, 69, 38, 0.6);
+  background: rgba(156, 69, 38, 0.15);
+  color: #8a3a22;
+}
+
+.dark .almanac-badge--lunar-eclipse {
+  color: #e08a63;
+}
+
 .almanac-badge--greatest-elongation {
   border-color: hsl(var(--accent) / 0.5);
   background: hsl(var(--accent) / 0.12);
   color: hsl(280 55% 42%);
 }
 
-.dark .almanac-badge--greatest-elongation {
+.dark .almanac-badge--lunar-eclipse {
+  border-color: rgba(156, 69, 38, 0.6);
+  background: rgba(156, 69, 38, 0.15);
+  color: #8a3a22;
+}
+
+.dark .almanac-badge--lunar-eclipse {
+  color: #e08a63;
+}
+
+.almanac-badge--greatest-elongation {
   color: hsl(280 90% 80%);
 }
 

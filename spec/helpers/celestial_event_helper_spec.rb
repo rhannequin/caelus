@@ -7,7 +7,7 @@ RSpec.describe CelestialEventHelper do
 
   describe "#celestial_event_title" do
     it "names the body and its opposition" do
-      event = build(
+      event = create(
         :celestial_event,
         kind: CelestialEvent::OPPOSITION,
         primary_body: "Mars"
@@ -17,7 +17,7 @@ RSpec.describe CelestialEventHelper do
     end
 
     it "names the body and its greatest elongation" do
-      event = build(
+      event = create(
         :celestial_event,
         kind: CelestialEvent::GREATEST_ELONGATION,
         primary_body: "Mercury"
@@ -25,6 +25,18 @@ RSpec.describe CelestialEventHelper do
 
       expect(celestial_event_title(event))
         .to eq("Mercury at greatest elongation")
+    end
+
+    it "names an event that has no body without one" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::LUNAR_ECLIPSE,
+        primary_body: nil,
+        peak: Time.utc(2026, 8, 28, 12)
+      )
+
+      expect(celestial_event_title(event))
+        .to eq("Lunar eclipse on August 28, 2026")
     end
   end
 
@@ -41,6 +53,12 @@ RSpec.describe CelestialEventHelper do
       event = build(:celestial_event, primary_body: "Jupiter")
 
       expect(celestial_event_body_name(event)).to eq("Jupiter")
+    end
+
+    it "returns nothing when the event has no body" do
+      event = build(:celestial_event, primary_body: nil)
+
+      expect(celestial_event_body_name(event)).to be_nil
     end
   end
 end
