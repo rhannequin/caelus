@@ -712,13 +712,13 @@ h1, h2, h3 {
   color: hsl(240 90% 82%);
 }
 
-.almanac-badge--maximum-elongation {
+.almanac-badge--greatest-elongation {
   border-color: hsl(var(--accent) / 0.5);
   background: hsl(var(--accent) / 0.12);
   color: hsl(280 55% 42%);
 }
 
-.dark .almanac-badge--maximum-elongation {
+.dark .almanac-badge--greatest-elongation {
   color: hsl(280 90% 80%);
 }
 

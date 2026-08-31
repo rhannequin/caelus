@@ -12,12 +12,12 @@ en:
       timeline:
         heading: Event timeline
       kinds:
+        greatest_elongation:
+          name: Greatest elongation
+          title: "%{body} at greatest elongation"
         opposition:
           name: Opposition
           title: "%{body} at opposition"
-        maximum_elongation:
-          name: Maximum elongation
-          title: "%{body} at maximum elongation"
   cardinal_direction:
     north: N
     north_east: NE

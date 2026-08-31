@@ -16,15 +16,15 @@ RSpec.describe CelestialEventHelper do
       expect(celestial_event_title(event)).to eq("Mars at opposition")
     end
 
-    it "names the body and its maximum elongation" do
+    it "names the body and its greatest elongation" do
       event = build(
         :celestial_event,
-        kind: CelestialEvent::MAXIMUM_ELONGATION,
+        kind: CelestialEvent::GREATEST_ELONGATION,
         primary_body: "Mercury"
       )
 
       expect(celestial_event_title(event))
-        .to eq("Mercury at maximum elongation")
+        .to eq("Mercury at greatest elongation")
     end
   end
 

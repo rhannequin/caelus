@@ -56,7 +56,7 @@ RSpec.describe CelestialEvent, type: :model do
     describe ".of_kind" do
       it "returns events of the given kind" do
         event1 = create(:celestial_event, kind: "opposition")
-        _event2 = create(:celestial_event, kind: "maximum_elongation")
+        _event2 = create(:celestial_event, kind: "greatest_elongation")
         event3 = create(:celestial_event, kind: "opposition")
 
         oppositions = CelestialEvent.of_kind("opposition")

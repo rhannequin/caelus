@@ -3,7 +3,7 @@
 class CelestialEvent < ApplicationRecord
   KINDS = [
     OPPOSITION = "opposition",
-    MAXIMUM_ELONGATION = "maximum_elongation"
+    GREATEST_ELONGATION = "greatest_elongation"
   ].freeze
 
   validates :kind, presence: true, inclusion: {in: KINDS}
