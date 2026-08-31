@@ -3,6 +3,7 @@
 module CelestialEvents
   class Generator
     EVENT_TYPES = [
+      EQUINOXES_SOLSTICES = :equinoxes_solstices,
       GREATEST_ELONGATIONS = :greatest_elongations,
       LUNAR_ECLIPSES = :lunar_eclipses,
       MOON_PHASES = :moon_phases,
@@ -10,6 +11,7 @@ module CelestialEvents
     ].freeze
 
     GENERATORS = {
+      EQUINOXES_SOLSTICES => EquinoxesSolsticesGenerator,
       GREATEST_ELONGATIONS => GreatestElongationsGenerator,
       LUNAR_ECLIPSES => LunarEclipsesGenerator,
       MOON_PHASES => MoonPhasesGenerator,

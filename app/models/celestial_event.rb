@@ -2,16 +2,27 @@
 
 class CelestialEvent < ApplicationRecord
   KINDS = [
+    DECEMBER_SOLSTICE = "december_solstice",
     FIRST_QUARTER = "first_quarter",
     FULL_MOON = "full_moon",
     GREATEST_ELONGATION = "greatest_elongation",
+    JUNE_SOLSTICE = "june_solstice",
     LAST_QUARTER = "last_quarter",
     LUNAR_ECLIPSE = "lunar_eclipse",
+    MARCH_EQUINOX = "march_equinox",
     NEW_MOON = "new_moon",
-    OPPOSITION = "opposition"
+    OPPOSITION = "opposition",
+    SEPTEMBER_EQUINOX = "september_equinox"
   ].freeze
 
   KINDS_WITH_BODY = [GREATEST_ELONGATION, OPPOSITION].freeze
+
+  SEASON_KINDS = [
+    MARCH_EQUINOX,
+    JUNE_SOLSTICE,
+    SEPTEMBER_EQUINOX,
+    DECEMBER_SOLSTICE
+  ].freeze
 
   MOON_PHASE_KINDS = [
     NEW_MOON,

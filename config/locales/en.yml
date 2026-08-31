@@ -14,15 +14,27 @@ en:
       timeline:
         heading: Event timeline
       kinds:
+        december_solstice:
+          name: Solstice
+          title: December solstice
         greatest_elongation:
           name: Greatest elongation
           title: "%{body} at greatest elongation"
+        june_solstice:
+          name: Solstice
+          title: June solstice
         lunar_eclipse:
           name: Lunar eclipse
           title: "Lunar eclipse on %{date}"
+        march_equinox:
+          name: Equinox
+          title: March equinox
         opposition:
           name: Opposition
           title: "%{body} at opposition"
+        september_equinox:
+          name: Equinox
+          title: September equinox
   cardinal_direction:
     north: N
     north_east: NE

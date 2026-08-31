@@ -750,6 +750,16 @@ h1, h2, h3 {
   color: hsl(240 90% 82%);
 }
 
+.almanac-badge--greatest-elongation {
+  border-color: hsl(var(--accent) / 0.5);
+  background: hsl(var(--accent) / 0.12);
+  color: hsl(280 55% 42%);
+}
+
+.dark .almanac-badge--greatest-elongation {
+  color: hsl(280 90% 80%);
+}
+
 .almanac-badge--lunar-eclipse {
   border-color: rgba(156, 69, 38, 0.6);
   background: rgba(156, 69, 38, 0.15);
@@ -760,24 +770,20 @@ h1, h2, h3 {
   color: #e08a63;
 }
 
-.almanac-badge--greatest-elongation {
-  border-color: hsl(var(--accent) / 0.5);
-  background: hsl(var(--accent) / 0.12);
-  color: hsl(280 55% 42%);
+.almanac-badge--march-equinox,
+.almanac-badge--june-solstice,
+.almanac-badge--september-equinox,
+.almanac-badge--december-solstice {
+  border-color: rgba(217, 143, 12, 0.5);
+  background: rgba(253, 184, 19, 0.18);
+  color: #8a5a08;
 }
 
-.dark .almanac-badge--lunar-eclipse {
-  border-color: rgba(156, 69, 38, 0.6);
-  background: rgba(156, 69, 38, 0.15);
-  color: #8a3a22;
-}
-
-.dark .almanac-badge--lunar-eclipse {
-  color: #e08a63;
-}
-
-.almanac-badge--greatest-elongation {
-  color: hsl(280 90% 80%);
+.dark .almanac-badge--march-equinox,
+.dark .almanac-badge--june-solstice,
+.dark .almanac-badge--september-equinox,
+.dark .almanac-badge--december-solstice {
+  color: #f0b429;
 }
 
 @media (max-width: 768px) {

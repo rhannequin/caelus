@@ -38,6 +38,10 @@ RSpec.describe CelestialEvents::Generator, type: :model do
         .to receive(:new).and_call_original
       allow(CelestialEvents::GreatestElongationsGenerator)
         .to receive(:new).and_call_original
+      allow(CelestialEvents::MoonPhasesGenerator)
+        .to receive(:new).and_call_original
+      allow(CelestialEvents::EquinoxesSolsticesGenerator)
+        .to receive(:new).and_call_original
 
       CelestialEvents::Generator
         .new(start_date, end_date)
@@ -50,6 +54,12 @@ RSpec.describe CelestialEvents::Generator, type: :model do
         .to have_received(:new)
         .with(start_date, end_date)
       expect(CelestialEvents::GreatestElongationsGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
+      expect(CelestialEvents::MoonPhasesGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
+      expect(CelestialEvents::EquinoxesSolsticesGenerator)
         .to have_received(:new)
         .with(start_date, end_date)
     end
