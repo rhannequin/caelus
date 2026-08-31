@@ -5,12 +5,14 @@ module CelestialEvents
     EVENT_TYPES = [
       GREATEST_ELONGATIONS = :greatest_elongations,
       LUNAR_ECLIPSES = :lunar_eclipses,
+      MOON_PHASES = :moon_phases,
       OPPOSITIONS = :oppositions
     ].freeze
 
     GENERATORS = {
       GREATEST_ELONGATIONS => GreatestElongationsGenerator,
       LUNAR_ECLIPSES => LunarEclipsesGenerator,
+      MOON_PHASES => MoonPhasesGenerator,
       OPPOSITIONS => OppositionsGenerator
     }.freeze
 

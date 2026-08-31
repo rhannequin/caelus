@@ -2,12 +2,23 @@
 
 class CelestialEvent < ApplicationRecord
   KINDS = [
+    FIRST_QUARTER = "first_quarter",
+    FULL_MOON = "full_moon",
     GREATEST_ELONGATION = "greatest_elongation",
+    LAST_QUARTER = "last_quarter",
     LUNAR_ECLIPSE = "lunar_eclipse",
+    NEW_MOON = "new_moon",
     OPPOSITION = "opposition"
   ].freeze
 
   KINDS_WITH_BODY = [GREATEST_ELONGATION, OPPOSITION].freeze
+
+  MOON_PHASE_KINDS = [
+    NEW_MOON,
+    FIRST_QUARTER,
+    FULL_MOON,
+    LAST_QUARTER
+  ].freeze
 
   validates :kind, presence: true, inclusion: {in: KINDS}
   validates :primary_body,
@@ -22,6 +33,8 @@ class CelestialEvent < ApplicationRecord
   )
 
   scope :between, ->(from, to) { where(peak_at: from..to) }
+  scope :moon_phases, -> { where(kind: MOON_PHASE_KINDS) }
+  scope :notable, -> { where.not(kind: MOON_PHASE_KINDS) }
   scope :of_kind, ->(kinds) { where(kind: kinds) }
   scope :chronological, -> { order(:peak_at) }
 

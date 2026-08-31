@@ -100,6 +100,29 @@ RSpec.describe CelestialEvent, type: :model do
       end
     end
 
+    describe ".moon_phases" do
+      it "returns only the principal moon phases" do
+        full_moon = create(:celestial_event, kind: CelestialEvent::FULL_MOON)
+        _opposition = create(:celestial_event,
+          kind: CelestialEvent::OPPOSITION, primary_body: "Mars")
+
+        expect(CelestialEvent.moon_phases).to contain_exactly(full_moon)
+      end
+    end
+
+    describe ".notable" do
+      it "returns everything that is not a principal moon phase" do
+        _full_moon = create(:celestial_event, kind: CelestialEvent::FULL_MOON)
+        opposition = create(:celestial_event,
+          kind: CelestialEvent::OPPOSITION, primary_body: "Mars")
+        eclipse = create(:celestial_event,
+          kind: CelestialEvent::LUNAR_ECLIPSE)
+
+        expect(CelestialEvent.notable)
+          .to contain_exactly(opposition, eclipse)
+      end
+    end
+
     describe ".chronological" do
       it "returns events in chronological order" do
         event1 = create(:celestial_event, peak: Time.utc(2024, 6, 1))

@@ -606,8 +606,46 @@ h1, h2, h3 {
   margin-top: 1.75rem;
 }
 
+.almanac-month-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-bottom: 0.35rem;
+}
+
+.almanac-phase-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.almanac-phase {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.almanac-phase-glyph {
+  font-size: 0.95rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px hsl(var(--accent) / 0.3));
+}
+
+.almanac-phase-day {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+}
+
 .almanac-month-label {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;

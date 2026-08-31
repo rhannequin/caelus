@@ -1,5 +1,7 @@
 en:
   almanac:
+    moon_phase_strip:
+      label: Moon phases in %{month}
     show:
       title: Almanac
       subtitle: Celestial events coming up over the next twelve months.
