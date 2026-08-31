@@ -7,7 +7,7 @@ class AlmanacController < ApplicationController
     @events = notable_events
     @events_by_month = group_by_month(@events)
     @moon_phases_by_month = group_by_month(moon_phases)
-    @months = (@events_by_month.keys | @moon_phases_by_month.keys).sort
+    @months = (@events_by_month.keys | upcoming_phase_months).sort
 
     track_page_view("almanac")
   end
@@ -23,6 +23,12 @@ class AlmanacController < ApplicationController
       .moon_phases
       .between(@time.beginning_of_month, (@time + LOOKAHEAD).end_of_month)
       .chronological
+  end
+
+  def upcoming_phase_months
+    @moon_phases_by_month
+      .select { |_, phases| phases.any? { |phase| phase.peak_at >= @time } }
+      .keys
   end
 
   def group_by_month(scope)

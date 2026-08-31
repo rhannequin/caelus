@@ -37,8 +37,11 @@ RSpec.describe AlmanacController, type: :request do
 
     it "shows moon phases in the month strip rather than the timeline" do
       travel_to Time.utc(2026, 8, 30) do
-        create(:celestial_event, kind: CelestialEvent::FULL_MOON,
-          peak: Time.utc(2026, 11, 4, 12))
+        create(
+          :celestial_event,
+          kind: CelestialEvent::FULL_MOON,
+          peak: Time.utc(2026, 11, 4, 12)
+        )
 
         get almanac_path
 
@@ -50,15 +53,41 @@ RSpec.describe AlmanacController, type: :request do
 
     it "shows a whole month of phases even mid-month" do
       travel_to Time.utc(2026, 9, 12) do
-        early = create(:celestial_event, kind: CelestialEvent::NEW_MOON,
-          peak: Time.utc(2026, 9, 4, 12))
-        late = create(:celestial_event, kind: CelestialEvent::FULL_MOON,
-          peak: Time.utc(2026, 9, 26, 12))
+        early = create(
+          :celestial_event,
+          kind: CelestialEvent::NEW_MOON,
+          peak: Time.utc(2026, 9, 4, 12)
+        )
+        late = create(
+          :celestial_event,
+          kind: CelestialEvent::FULL_MOON,
+          peak: Time.utc(2026, 9, 26, 12)
+        )
 
         get almanac_path
 
         expect(response.body).to include(early.peak_at.in_time_zone.iso8601)
         expect(response.body).to include(late.peak_at.in_time_zone.iso8601)
+      end
+    end
+
+    it "drops a month whose events and phases have all passed" do
+      travel_to Time.utc(2026, 8, 31, 12) do
+        create(
+          :celestial_event,
+          kind: CelestialEvent::FULL_MOON,
+          peak: Time.utc(2026, 8, 28, 12)
+        )
+        create(
+          :celestial_event,
+          kind: CelestialEvent::NEW_MOON,
+          peak: Time.utc(2026, 9, 11, 12)
+        )
+
+        get almanac_path
+
+        expect(response.body).not_to include("August 2026")
+        expect(response.body).to include("September 2026")
       end
     end
 
