@@ -22,7 +22,7 @@ RSpec.describe CelestialEvents::OppositionsGenerator, type: :model do
 
       generator.generate
 
-      expect(CelestialEvent.pluck(:kind).uniq)
+      expect(CelestialEvent.distinct(:kind).pluck(:kind))
         .to contain_exactly(CelestialEvent::OPPOSITION)
     end
 

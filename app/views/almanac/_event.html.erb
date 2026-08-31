@@ -1,0 +1,24 @@
+<% peak_at = event.peak_at.in_time_zone %>
+<li class="almanac-event">
+  <div class="almanac-event-date" aria-hidden="true">
+    <span class="almanac-event-day"><%= peak_at.day %></span>
+    <span class="almanac-event-weekday">
+      <%= l peak_at.to_date, format: :abbreviated_day %>
+    </span>
+  </div>
+
+  <div class="almanac-event-body">
+    <span class="almanac-badge almanac-badge--<%= event.kind.dasherize %>">
+      <%= celestial_event_kind_name(event) %>
+    </span>
+
+    <p class="text-base font-bold mt-2 leading-tight">
+      <%= celestial_event_title(event) %>
+    </p>
+  </div>
+
+  <time class="almanac-event-time" datetime="<%= peak_at.iso8601 %>">
+    <span class="sr-only"><%= l peak_at.to_date, format: :long %></span>
+    <%= l peak_at, format: :hm %>
+  </time>
+</li>

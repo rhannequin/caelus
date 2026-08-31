@@ -582,3 +582,152 @@ h1, h2, h3 {
     opacity: 0.7;
   }
 }
+
+.almanac-board {
+  position: relative;
+  padding-left: 2.25rem;
+}
+
+.almanac-board::before {
+  content: '';
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.35rem;
+  width: 1px;
+  background: linear-gradient(
+      to bottom,
+      hsl(var(--accent) / 0.6),
+      hsl(var(--border) / 0.5)
+  );
+}
+
+.almanac-month + .almanac-month {
+  margin-top: 1.75rem;
+}
+
+.almanac-month-label {
+  margin-bottom: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.almanac-event {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid hsl(var(--border) / 0.2);
+}
+
+.almanac-event:last-child {
+  border-bottom: none;
+}
+
+.almanac-event::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -2.24rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: -0.35rem;
+  border-radius: 50%;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--muted-foreground) / 0.6);
+}
+
+.almanac-event-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 3.25rem;
+  padding: 0.4rem 0;
+  border-radius: 0.5rem;
+  background: hsl(var(--background) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.3);
+}
+
+.dark .almanac-event-date {
+  background: hsl(var(--card) / 0.25);
+}
+
+.almanac-event-day {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.almanac-event-weekday {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-event-body {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.almanac-event-time {
+  margin-left: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border) / 0.6);
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.almanac-badge--opposition {
+  border-color: hsl(var(--primary) / 0.5);
+  background: hsl(var(--primary) / 0.12);
+  color: hsl(240 70% 42%);
+}
+
+.dark .almanac-badge--opposition {
+  color: hsl(240 90% 82%);
+}
+
+.almanac-badge--maximum-elongation {
+  border-color: hsl(var(--accent) / 0.5);
+  background: hsl(var(--accent) / 0.12);
+  color: hsl(280 55% 42%);
+}
+
+.dark .almanac-badge--maximum-elongation {
+  color: hsl(280 90% 80%);
+}
+
+@media (max-width: 768px) {
+  .almanac-board {
+    padding-left: 1.6rem;
+  }
+
+  .almanac-event::before {
+    left: -1.59rem;
+  }
+}

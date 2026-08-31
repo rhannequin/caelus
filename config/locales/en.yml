@@ -2,6 +2,22 @@ en:
   almanac:
     show:
       title: Almanac
+      subtitle: Celestial events coming up over the next twelve months.
+      count:
+        one: 1 event
+        other: "%{count} events"
+      empty:
+        title: No events on the horizon
+        description: There is nothing scheduled for the next twelve months.
+      timeline:
+        heading: Event timeline
+      kinds:
+        opposition:
+          name: Opposition
+          title: "%{body} at opposition"
+        maximum_elongation:
+          name: Maximum elongation
+          title: "%{body} at maximum elongation"
   cardinal_direction:
     north: N
     north_east: NE
@@ -203,6 +219,7 @@ en:
     formats:
       abbreviated_day: "%a"
       full_month_short: "%B %d"
+      month_year: "%B %Y"
   description: Open source astronomy dashboard.
   location:
     edit:

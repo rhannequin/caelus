@@ -13,6 +13,7 @@ module CelestialEvents
       astronoby_events.each do |opposition|
         CelestialEvent.create!(
           kind: CelestialEvent::OPPOSITION,
+          primary_body: opposition.body.name.demodulize,
           peak_tt: opposition.instant.tt
         )
       end

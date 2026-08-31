@@ -1,1 +1,49 @@
 <% content_for :title, "#{t("title")} • #{t(".title")}" %>
+
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm
+  cosmic-card">
+  <div class="max-w-xl">
+    <h2 class="text-2xl font-bold text-cosmic"><%= t ".title" %></h2>
+    <p class="text-sm text-muted-foreground mt-1"><%= t ".subtitle" %></p>
+    <p class="text-xs text-muted-foreground mt-2 font-mono">
+      <%= t ".count", count: @events.size %>
+    </p>
+  </div>
+</div>
+
+<% if @events.any? %>
+  <section
+    aria-labelledby="almanac-timeline-heading"
+    class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card"
+  >
+    <h2 id="almanac-timeline-heading" class="sr-only">
+      <%= t ".timeline.heading" %>
+    </h2>
+
+    <div class="almanac-board">
+      <% @events_by_month.each do |month, events| %>
+        <div class="almanac-month">
+          <h3 class="almanac-month-label">
+            <time datetime="<%= month.strftime("%Y-%m") %>">
+              <%= l month.to_date, format: :month_year %>
+            </time>
+          </h3>
+
+          <ol class="almanac-timeline">
+            <% events.each do |event| %>
+              <%= render "event", event: event %>
+            <% end %>
+          </ol>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% else %>
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm
+    cosmic-card text-center py-10">
+    <p class="text-lg font-bold"><%= t ".empty.title" %></p>
+    <p class="text-sm text-muted-foreground mt-1">
+      <%= t ".empty.description" %>
+    </p>
+  </div>
+<% end %>
