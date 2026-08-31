@@ -8,11 +8,9 @@ RSpec.describe CelestialEvents::Generator, type: :model do
       allow(CelestialEvents::OppositionsGenerator)
         .to receive(:new).and_call_original
 
-      CelestialEvents::Generator.new(
-        CelestialEvents::Generator::OPPOSITIONS,
-        start_date,
-        end_date
-      ).generate
+      CelestialEvents::Generator
+        .new(start_date, end_date)
+        .generate(CelestialEvents::Generator::OPPOSITIONS)
 
       expect(CelestialEvents::OppositionsGenerator)
         .to have_received(:new)
@@ -23,14 +21,27 @@ RSpec.describe CelestialEvents::Generator, type: :model do
       start_date = Time.utc(2026, 1, 1)
       end_date = Time.utc(2027, 1, 1)
 
-      generator = CelestialEvents::Generator.new(
-        :unsupported_event_type,
-        start_date,
-        end_date
-      )
+      generator = CelestialEvents::Generator.new(start_date, end_date)
 
-      expect { generator.generate }
+      expect { generator.generate(:unsupported_event_type) }
         .to raise_error(ArgumentError, /Unsupported event type/)
+    end
+  end
+
+  describe "#generate_all" do
+    it "creates celestial events for all supported event types" do
+      start_date = Time.utc(2026, 1, 1)
+      end_date = Time.utc(2027, 1, 1)
+      allow(CelestialEvents::OppositionsGenerator)
+        .to receive(:new).and_call_original
+
+      CelestialEvents::Generator
+        .new(start_date, end_date)
+        .generate_all
+
+      expect(CelestialEvents::OppositionsGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
     end
   end
 end

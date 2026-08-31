@@ -16,7 +16,7 @@ class CelestialEvent < ApplicationRecord
   )
 
   scope :between, ->(from, to) { where(peak_at: from..to) }
-  scope :of_kind, ->(kinds) { where(kind: kinds) if kinds.present? }
+  scope :of_kind, ->(kinds) { where(kind: kinds) }
   scope :chronological, -> { order(:peak_at) }
 
   def instant
