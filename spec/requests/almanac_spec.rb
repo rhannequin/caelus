@@ -93,10 +93,16 @@ RSpec.describe AlmanacController, type: :request do
 
     it "shows lunar apsides in the month header rather than the timeline" do
       travel_to Time.utc(2026, 8, 30) do
-        create(:celestial_event, kind: CelestialEvent::FULL_MOON,
-          peak: Time.utc(2026, 11, 4, 12))
-        create(:celestial_event, kind: CelestialEvent::MOON_PERIGEE,
-          peak: Time.utc(2026, 11, 9, 12))
+        create(
+          :celestial_event,
+          kind: CelestialEvent::FULL_MOON,
+          peak: Time.utc(2026, 11, 4, 12)
+        )
+        create(
+          :celestial_event,
+          kind: CelestialEvent::MOON_PERIGEE,
+          peak: Time.utc(2026, 11, 9, 12)
+        )
 
         get almanac_path
 
@@ -104,6 +110,26 @@ RSpec.describe AlmanacController, type: :request do
         expect(response.body).to include("Moon distance in November 2026")
         expect(response.body).not_to include("The Moon at perigee")
         expect(response.body).not_to include('class="almanac-timeline"')
+      end
+    end
+
+    it "shows a month whose only upcoming event is a lunar apsis" do
+      travel_to Time.utc(2026, 10, 27) do
+        create(
+          :celestial_event,
+          kind: CelestialEvent::FULL_MOON,
+          peak: Time.utc(2026, 10, 26, 12)
+        )
+        create(
+          :celestial_event,
+          kind: CelestialEvent::MOON_APOGEE,
+          peak: Time.utc(2026, 10, 30, 12)
+        )
+
+        get almanac_path
+
+        expect(response.body).to include("October 2026")
+        expect(response.body).to include("almanac-apsis-strip")
       end
     end
 

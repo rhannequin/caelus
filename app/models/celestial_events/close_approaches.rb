@@ -24,7 +24,15 @@ module CelestialEvents
           here.first if before.last > here.last && here.last <= after.last
         end
         .map { |time| approach_at(primary, secondary, time) }
-        .select { |approach| approach.separation <= MAX_APPROACH_SEPARATION }
+        .select { |approach| near_pass?(approach) && covered?(approach.time) }
+    end
+
+    def near_pass?(approach)
+      approach.separation <= MAX_APPROACH_SEPARATION
+    end
+
+    def covered?(time)
+      time.between?(@start_date, @end_date)
     end
 
     def separation_samples(primary, secondary)
@@ -32,8 +40,9 @@ module CelestialEvents
     end
 
     def sample_times
-      steps = ((@end_date - @start_date) / SAMPLE_STEP).ceil
-      (0..steps).map { |step| @start_date + (step * SAMPLE_STEP) }
+      steps = ((@end_date - @start_date) / SAMPLE_STEP).ceil + 2
+      first_sample = @start_date - SAMPLE_STEP
+      (0..steps).map { |step| first_sample + (step * SAMPLE_STEP) }
     end
 
     def approach_at(primary, secondary, sampled_time)

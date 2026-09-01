@@ -56,5 +56,28 @@ RSpec.describe CelestialEvents::MoonPlanetConjunctionsGenerator, type: :model do
 
       expect(CelestialEvent.count).to eq(0)
     end
+    it "finds an approach that sits close to the start of the period" do
+      # The Moon meets Jupiter on 2026-10-06 at 10:23, an hour in.
+      start_date = Time.utc(2026, 10, 6, 9, 0)
+      end_date = Time.utc(2026, 10, 9, 9, 0)
+
+      CelestialEvents::MoonPlanetConjunctionsGenerator
+        .new(start_date, end_date)
+        .generate
+
+      expect(CelestialEvent.pluck(:primary_body)).to eq(["Jupiter"])
+    end
+
+    it "creates nothing outside the period it was asked for" do
+      start_date = Time.utc(2026, 9, 20, 6, 0)
+      end_date = Time.utc(2026, 10, 6, 7, 0)
+
+      CelestialEvents::MoonPlanetConjunctionsGenerator
+        .new(start_date, end_date)
+        .generate
+
+      expect(CelestialEvent.pluck(:peak_at))
+        .to all(be_between(start_date, end_date))
+    end
   end
 end

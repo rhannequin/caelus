@@ -8,7 +8,7 @@ class AlmanacController < ApplicationController
     @events_by_month = group_by_month(@events)
     @moon_phases_by_month = group_by_month(lunar_rhythm(:moon_phases))
     @moon_apsides_by_month = group_by_month(lunar_rhythm(:moon_apsides))
-    @months = (@events_by_month.keys | upcoming_phase_months).sort
+    @months = (@events_by_month.keys | upcoming_rhythm_months).sort
 
     track_page_view("almanac")
   end
@@ -26,9 +26,14 @@ class AlmanacController < ApplicationController
       .chronological
   end
 
-  def upcoming_phase_months
-    @moon_phases_by_month
-      .select { |_, phases| phases.any? { |phase| phase.peak_at >= @time } }
+  def upcoming_rhythm_months
+    upcoming_months(@moon_phases_by_month) |
+      upcoming_months(@moon_apsides_by_month)
+  end
+
+  def upcoming_months(events_by_month)
+    events_by_month
+      .select { |_, events| events.any? { |event| event.peak_at >= @time } }
       .keys
   end
 
