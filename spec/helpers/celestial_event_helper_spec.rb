@@ -38,6 +38,27 @@ RSpec.describe CelestialEventHelper do
       expect(celestial_event_title(event))
         .to eq("Lunar eclipse on August 28, 2026")
     end
+
+    it "names both bodies of a two-body event" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Mars",
+        secondary_body: "Jupiter"
+      )
+
+      expect(celestial_event_title(event)).to eq("Mars meets Jupiter")
+    end
+
+    it "names the planet the Moon meets" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::MOON_PLANET_CONJUNCTION,
+        primary_body: "Venus"
+      )
+
+      expect(celestial_event_title(event)).to eq("The Moon meets Venus")
+    end
   end
 
   describe "#celestial_event_kind_name" do

@@ -7,7 +7,9 @@ module CelestialEvents
       GREATEST_ELONGATIONS = :greatest_elongations,
       LUNAR_ECLIPSES = :lunar_eclipses,
       MOON_PHASES = :moon_phases,
-      OPPOSITIONS = :oppositions
+      MOON_PLANET_CONJUNCTIONS = :moon_planet_conjunctions,
+      OPPOSITIONS = :oppositions,
+      PLANETARY_CONJUNCTIONS = :planetary_conjunctions
     ].freeze
 
     GENERATORS = {
@@ -15,7 +17,9 @@ module CelestialEvents
       GREATEST_ELONGATIONS => GreatestElongationsGenerator,
       LUNAR_ECLIPSES => LunarEclipsesGenerator,
       MOON_PHASES => MoonPhasesGenerator,
-      OPPOSITIONS => OppositionsGenerator
+      MOON_PLANET_CONJUNCTIONS => MoonPlanetConjunctionsGenerator,
+      OPPOSITIONS => OppositionsGenerator,
+      PLANETARY_CONJUNCTIONS => PlanetaryConjunctionsGenerator
     }.freeze
 
     def initialize(start_date, end_date)

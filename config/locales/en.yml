@@ -29,9 +29,15 @@ en:
         march_equinox:
           name: Equinox
           title: March equinox
+        moon_planet_conjunction:
+          name: Conjunction
+          title: "The Moon meets %{body}"
         opposition:
           name: Opposition
           title: "%{body} at opposition"
+        planetary_conjunction:
+          name: Conjunction
+          title: "%{body} meets %{secondary_body}"
         september_equinox:
           name: Equinox
           title: September equinox

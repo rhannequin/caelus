@@ -770,6 +770,18 @@ h1, h2, h3 {
   color: #e08a63;
 }
 
+.almanac-badge--moon-planet-conjunction,
+.almanac-badge--planetary-conjunction {
+  border-color: hsl(200 70% 45% / 0.5);
+  background: hsl(200 70% 45% / 0.12);
+  color: hsl(200 75% 32%);
+}
+
+.dark .almanac-badge--moon-planet-conjunction,
+.dark .almanac-badge--planetary-conjunction {
+  color: hsl(200 85% 72%);
+}
+
 .almanac-badge--march-equinox,
 .almanac-badge--june-solstice,
 .almanac-badge--september-equinox,
@@ -779,7 +791,19 @@ h1, h2, h3 {
   color: #8a5a08;
 }
 
-.dark .almanac-badge--march-equinox,
+.dark .almanac-badge--moon-planet-conjunction,
+.almanac-badge--planetary-conjunction {
+  border-color: hsl(200 70% 45% / 0.5);
+  background: hsl(200 70% 45% / 0.12);
+  color: hsl(200 75% 32%);
+}
+
+.dark .almanac-badge--moon-planet-conjunction,
+.dark .almanac-badge--planetary-conjunction {
+  color: hsl(200 85% 72%);
+}
+
+.almanac-badge--march-equinox,
 .dark .almanac-badge--june-solstice,
 .dark .almanac-badge--september-equinox,
 .dark .almanac-badge--december-solstice {

@@ -5,6 +5,7 @@ module CelestialEventHelper
     I18n.t(
       "almanac.show.kinds.#{event.kind}.title",
       body: celestial_event_body_name(event),
+      secondary_body: celestial_event_secondary_body_name(event),
       date: I18n.l(event.peak_at.in_time_zone.to_date, format: :long)
     )
   end
@@ -14,8 +15,16 @@ module CelestialEventHelper
   end
 
   def celestial_event_body_name(event)
-    return if event.primary_body.blank?
+    planet_name(event.primary_body)
+  end
 
-    I18n.t("models.planets.#{event.primary_body.downcase}.name")
+  def celestial_event_secondary_body_name(event)
+    planet_name(event.secondary_body)
+  end
+
+  def planet_name(body)
+    return if body.blank?
+
+    I18n.t("models.planets.#{body.downcase}.name")
   end
 end

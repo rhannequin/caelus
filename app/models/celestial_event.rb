@@ -10,12 +10,21 @@ class CelestialEvent < ApplicationRecord
     LAST_QUARTER = "last_quarter",
     LUNAR_ECLIPSE = "lunar_eclipse",
     MARCH_EQUINOX = "march_equinox",
+    MOON_PLANET_CONJUNCTION = "moon_planet_conjunction",
     NEW_MOON = "new_moon",
     OPPOSITION = "opposition",
+    PLANETARY_CONJUNCTION = "planetary_conjunction",
     SEPTEMBER_EQUINOX = "september_equinox"
   ].freeze
 
-  KINDS_WITH_BODY = [GREATEST_ELONGATION, OPPOSITION].freeze
+  KINDS_WITH_BODY = [
+    GREATEST_ELONGATION,
+    MOON_PLANET_CONJUNCTION,
+    OPPOSITION,
+    PLANETARY_CONJUNCTION
+  ].freeze
+
+  KINDS_WITH_SECONDARY_BODY = [PLANETARY_CONJUNCTION].freeze
 
   SEASON_KINDS = [
     MARCH_EQUINOX,
@@ -35,6 +44,9 @@ class CelestialEvent < ApplicationRecord
   validates :primary_body,
     presence: true,
     if: -> { KINDS_WITH_BODY.include?(kind) }
+  validates :secondary_body,
+    presence: true,
+    if: -> { KINDS_WITH_SECONDARY_BODY.include?(kind) }
   validates :peak_tt, presence: true
   validates :peak_at, presence: true
 
