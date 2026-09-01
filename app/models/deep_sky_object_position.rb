@@ -1,0 +1,94 @@
+# frozen_string_literal: true
+
+class DeepSkyObjectPosition
+  include ActiveModel::Model
+
+  Culmination = Data.define(:position, :time)
+
+  attr_accessor :deep_sky_object, :time, :observer, :use_ephem, :night
+
+  def topocentric
+    @topocentric ||= deep_sky_object
+      .astronoby_deep_sky_object
+      .at(instant, ephem: (use_ephem ? spk : nil))
+      .observed_by(observer)
+  end
+
+  def rts
+    @rts ||= rts_calculator.event_on(time.to_date)
+  end
+
+  def highest_altitude
+    culmination&.position&.horizontal&.altitude
+  end
+
+  def highest_altitude_time
+    culmination&.time
+  end
+
+  def moon_separation
+    return unless culmination
+    return unless moon_at_culmination.horizontal.altitude.positive?
+
+    @moon_separation ||= AngularSeparation.between(
+      culmination.position.equatorial,
+      moon_at_culmination.equatorial
+    )
+  end
+
+  private
+
+  def culmination
+    return if candidate_times.empty?
+
+    @culmination ||= candidate_times
+      .map { |candidate| Culmination.new(position_at(candidate), candidate) }
+      .max_by { |candidate| candidate.position.horizontal.altitude }
+  end
+
+  def moon_at_culmination
+    @moon_at_culmination ||= Astronoby::Moon
+      .new(instant: Astronoby::Instant.from_time(culmination.time), ephem: spk)
+      .observed_by(observer)
+  end
+
+  def candidate_times
+    return [] unless night&.dark?
+
+    @candidate_times ||=
+      [night.range.begin, night.range.end] + transit_times_during_night
+  end
+
+  def transit_times_during_night
+    [rts, next_day_rts]
+      .filter_map(&:transit_time)
+      .select { |transit_time| night.range.cover?(transit_time) }
+  end
+
+  def next_day_rts
+    @next_day_rts ||= rts_calculator.event_on(time.to_date + 1)
+  end
+
+  def position_at(moment)
+    deep_sky_object
+      .astronoby_deep_sky_object
+      .at(Astronoby::Instant.from_time(moment), ephem: spk)
+      .observed_by(observer)
+  end
+
+  def rts_calculator
+    @rts_calculator ||= Astronoby::RiseTransitSetCalculator.new(
+      body: deep_sky_object.astronoby_deep_sky_object,
+      observer: observer,
+      ephem: spk
+    )
+  end
+
+  def instant
+    @instant ||= Astronoby::Instant.from_time(time)
+  end
+
+  def spk
+    @spk ||= SPK.for_time(time)
+  end
+end

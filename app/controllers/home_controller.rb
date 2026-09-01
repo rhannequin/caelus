@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  MAXIMUM_DEEP_SKY_OBJECTS = 10
+  MAXIMUM_DEEP_SKY_OBJECTS = 8
 
   def index
     @planets = [
@@ -41,12 +41,36 @@ class HomeController < ApplicationController
       ).event_on(@time.to_date + 1)
     end
 
-    @messier_object_positions = MessierCatalog
-      .all
-      .sort_by(&:magnitude)
-      .first(MAXIMUM_DEEP_SKY_OBJECTS)
-      .map { |obj| obj.at(@time, observer: @observer, use_ephem: true) }
+    @observing_night = ObservingNight.new(
+      observer: @observer,
+      date: @time.to_date
+    )
+
+    @deep_sky_object_positions = DeepSkyObjectsCatalog
+      .find_all_by_designation(best_designations)
+      .map do |deep_sky_object|
+        deep_sky_object.at(
+          @time,
+          observer: @observer,
+          use_ephem: true,
+          night: @observing_night
+        )
+      end
 
     track_page_view("home")
+  end
+
+  private
+
+  def best_designations
+    Rails.cache.fetch(
+      "deep_sky_ranking/#{observer_daily_cache_key}",
+      expires_at: observer_end_of_day
+    ) do
+      DeepSkyRanking
+        .new(night: @observing_night)
+        .best(MAXIMUM_DEEP_SKY_OBJECTS)
+        .map { |placement| placement.deep_sky_object.designation }
+    end
   end
 end

@@ -1,9 +1,49 @@
 <div>
-  <h2 class="text-2xl font-bold mb-4 text-cosmic">
+  <h2 class="text-2xl font-bold mb-2 text-cosmic">
     <%= t ".title" %>
   </h2>
+
+  <% if night.dark? %>
+    <p class="text-sm text-muted-foreground mb-4 flex flex-wrap gap-x-2">
+      <span>
+        <% if night.all_day? %>
+          <%= t ".night.all_day" %>
+        <% else %>
+          <%= t(
+            ".night.#{night.darkness}",
+            from: nillable_datetime(night.range.begin, format: :hm),
+            to: nillable_datetime(night.range.end, format: :hm)
+          ) %>
+        <% end %>
+      </span>
+      <span aria-hidden="true">·</span>
+      <span>
+        <%= t(
+          ".night.moon",
+          percentage: (night.moon_illuminated_fraction * 100).round
+        ) %>
+      </span>
+      <% if night.moonless_range %>
+        <span aria-hidden="true">·</span>
+        <span>
+          <%= t(
+            ".night.moonless",
+            hours: format_number(
+              (night.moonless_range.end - night.moonless_range.begin) / 3600.0,
+              precision: 1
+            )
+          ) %>
+        </span>
+      <% end %>
+    </p>
+  <% else %>
+    <p class="text-sm text-muted-foreground mb-4">
+      <%= t ".night.none" %>
+    </p>
+  <% end %>
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <% messier_object_positions.each do |messier_object_position| %>
+    <% deep_sky_object_positions.each do |deep_sky_object_position| %>
       <div class="rounded-lg border bg-card text-card-foreground shadow-sm
         cosmic-card flex flex-col p-4">
         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between
@@ -11,42 +51,81 @@
           <div class="flex items-center gap-3">
             <span class="text-4xl">
               <%= t(
-                "messier.types.#{messier_object_position.messier_object.type}.emoji"
+                "deep_sky.types.#{deep_sky_object_position.deep_sky_object.type}.emoji"
               ) %>
             </span>
             <div>
               <h3 class="text-lg font-bold leading-tight">
-                <% if messier_object_position.messier_object.name %>
-                  <%= messier_object_position.messier_object.name %>
-                <% else %>
-                  <%= t(
-                    "messier.title",
-                    number: messier_object_position.messier_object.number
-                  ) %>
-                <% end %>
+                <%= deep_sky_object_position.deep_sky_object.name ||
+                  deep_sky_object_position.deep_sky_object.designation %>
               </h3>
               <p class="text-sm text-muted-foreground">
-                <% if messier_object_position.messier_object.name %>
-                  <%= messier_object_position.messier_object.messier_number %>
+                <% if deep_sky_object_position.deep_sky_object.name %>
+                  <%= deep_sky_object_position.deep_sky_object.designation %>
                   ·
                 <% end %>
-                <%= messier_object_position.messier_object.constellation.name %>
+                <%= deep_sky_object_position.deep_sky_object.constellation.name %>
               </p>
             </div>
           </div>
           <div class="flex items-center gap-2 self-start">
-            <div class="inline-flex items-center rounded-full border px-2.5
-              py-0.5 text-xs font-semibold
-              <%= messier_object_position.visibility.visible? ? "border-transparent bg-primary text-primary-foreground" : "border-transparent" %>">
-              <%= messier_object_position.visibility.visible? ? t(".visibility.visible") : t(".visibility.not_visible") %>
-            </div>
+            <% if deep_sky_object_position.highest_altitude %>
+              <div
+                class="inline-flex items-center gap-1.5 rounded-full border
+                  px-2.5 py-0.5 text-xs font-semibold"
+                title="<%= t ".highest" %>"
+              >
+                <span class="font-mono">
+                  <%= format_number(
+                    deep_sky_object_position.highest_altitude.degrees,
+                    unit: :degree,
+                    precision: 0
+                  ) %>
+                </span>
+                <span class="font-normal text-muted-foreground">
+                  <%= t(
+                    ".highest_at",
+                    time: nillable_datetime(
+                      deep_sky_object_position.highest_altitude_time,
+                      format: :hm
+                    )
+                  ) %>
+                </span>
+              </div>
+            <% end %>
+            <% if near_moon?(deep_sky_object_position) %>
+              <div
+                class="inline-flex items-center rounded-full border
+                  border-transparent px-2.5 py-0.5 text-xs font-semibold
+                  text-amber-600 dark:text-amber-400"
+                title="<%= t ".moon_distance" %>"
+              >
+                <%= t(
+                  ".near_moon",
+                  separation: format_number(
+                    deep_sky_object_position.moon_separation.degrees,
+                    unit: :degree,
+                    precision: 0
+                  )
+                ) %>
+              </div>
+            <% end %>
             <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold
               transition-colors focus:outline-none focus:ring-2 focus:ring-ring
               focus:ring-offset-2 border-transparent">
-              <%= messier_object_position.messier_object.visible_with %>
+              <%= deep_sky_object_position.deep_sky_object.visible_with %>
             </div>
           </div>
         </div>
+
+        <% look_for = deep_sky_look_for(
+          deep_sky_object_position.deep_sky_object
+        ) %>
+        <% if look_for %>
+          <p class="text-sm text-muted-foreground mb-3">
+            <%= look_for %>
+          </p>
+        <% end %>
 
         <details class="text-xs mt-1">
           <summary class="cursor-pointer text-muted-foreground
@@ -60,7 +139,7 @@
                   <%= t ".magnitude" %>
                 </div>
                 <div class="font-semibold text-foreground">
-                  <%= messier_object_position.messier_object.magnitude %>
+                  <%= deep_sky_object_position.deep_sky_object.magnitude %>
                 </div>
               </div>
               <div class="sm:order-3">
@@ -68,7 +147,9 @@
                   <%= t ".size" %>
                 </div>
                 <div class="font-semibold text-foreground">
-                  <%= messier_object_position.messier_object.size %>
+                  <%= apparent_size(
+                    deep_sky_object_position.deep_sky_object
+                  ) %>
                 </div>
               </div>
               <div class="col-span-2 sm:col-span-1 sm:order-2">
@@ -77,7 +158,7 @@
                 </div>
                 <div class="font-semibold text-foreground">
                   <%= t(
-                    "messier.types.#{messier_object_position.messier_object.type}.name"
+                    "deep_sky.types.#{deep_sky_object_position.deep_sky_object.type}.name"
                   ) %>
                 </div>
               </div>
@@ -86,7 +167,7 @@
               <div class="text-center text-muted-foreground">
                 <div class="font-mono text-foreground">
                   <%= nillable_datetime(
-                    messier_object_position.rts.rising_time,
+                    deep_sky_object_position.rts.rising_time,
                     format: :hm
                   ) %>
                 </div>
@@ -97,7 +178,7 @@
               <div class="text-center text-sky-400 dark:text-sky-300">
                 <div class="font-mono font-bold">
                   <%= nillable_datetime(
-                    messier_object_position.rts.transit_time,
+                    deep_sky_object_position.rts.transit_time,
                     format: :hm
                   ) %>
                 </div>
@@ -108,7 +189,7 @@
               <div class="text-center text-muted-foreground">
                 <div class="font-mono text-foreground">
                   <%= nillable_datetime(
-                    messier_object_position.rts.setting_time,
+                    deep_sky_object_position.rts.setting_time,
                     format: :hm
                   ) %>
                 </div>
@@ -122,7 +203,7 @@
                 <%= t ".titles.right_ascension" %>
               </span>
               <span class="font-mono text-foreground">
-                <%= messier_object_position
+                <%= deep_sky_object_position
                   .topocentric
                   .equatorial
                   .right_ascension
@@ -134,20 +215,33 @@
                 <%= t ".titles.declination" %>
               </span>
               <span class="font-mono text-foreground">
-                <%= messier_object_position
+                <%= deep_sky_object_position
                   .topocentric
                   .equatorial
                   .declination
                   .str(:dms, precision: 0) %>
               </span>
             </div>
+            <% surface_brightness = surface_brightness_label(
+              deep_sky_object_position.deep_sky_object
+            ) %>
+            <% if surface_brightness %>
+              <div class="flex justify-between">
+                <span>
+                  <%= t ".titles.surface_brightness" %>
+                </span>
+                <span class="font-mono text-foreground">
+                  <%= surface_brightness %>
+                </span>
+              </div>
+            <% end %>
             <div class="flex justify-between">
               <span>
                 <%= t ".titles.distance" %>
               </span>
               <span class="font-mono text-foreground">
                 <%= format_number(
-                  messier_object_position.messier_object.distance,
+                  deep_sky_object_position.deep_sky_object.distance,
                   unit: :light_year,
                   precision: 0
                 ) %>

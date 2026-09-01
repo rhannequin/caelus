@@ -1,0 +1,304 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe DeepSkyRanking, type: :model do
+  describe "#best" do
+    it "recommends different objects in winter than in summer" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      winter = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 1, 15)
+        )
+      ).best(6).map { |placement| placement.deep_sky_object.number }
+
+      summer = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 7, 15)
+        )
+      ).best(6).map { |placement| placement.deep_sky_object.number }
+
+      expect(winter).not_to match_array(summer)
+    end
+
+    it "returns nothing when the night offers no darkness" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(69.65),
+        longitude: Astronoby::Angle.from_degrees(18.96)
+      )
+
+      ranking = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 6, 21)
+        )
+      )
+
+      expect(ranking.best(10)).to be_empty
+    end
+
+    it "still recommends objects on a summer night without full darkness" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      night = ObservingNight.new(
+        observer: observer,
+        date: Date.new(2026, 6, 21)
+      )
+
+      expect(night).not_to be_full_darkness
+      expect(described_class.new(night: night).best(10).size).to eq(10)
+    end
+
+    it "leaves out objects that never climb clear of the horizon" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      ranking = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 1, 15)
+        )
+      )
+
+      numbers = ranking.placements.map do |placement|
+        placement.deep_sky_object.number
+      end
+
+      expect(numbers).not_to include(7)
+      expect(ranking.placements).to all(
+        have_attributes(
+          highest_altitude: be >= described_class::MINIMUM_ALTITUDE
+        )
+      )
+    end
+
+    it "orders placements from best to worst" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      scores = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 1, 15)
+        )
+      ).placements.map(&:score)
+
+      expect(scores).to eq(scores.sort.reverse)
+    end
+  end
+
+  describe "variety" do
+    it "does not fill the list with objects of one family" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      best = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        )
+      ).best(6)
+
+      families = best.map do |placement|
+        described_class::FAMILIES.fetch(placement.deep_sky_object.type, :other)
+      end
+
+      expect(families.tally.values.max)
+        .to be <= described_class.maximum_per_family(6)
+    end
+
+    it "still returns the requested number of objects" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      best = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        )
+      ).best(6)
+
+      expect(best.size).to eq(6)
+      expect(best.map { |placement| placement.deep_sky_object.number }.uniq.size)
+        .to eq(6)
+    end
+  end
+
+  describe "rotation" do
+    it "always keeps the best-placed object of the night" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      ranking = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        )
+      )
+
+      expect(ranking.best(6).first).to eq(ranking.placements.first)
+    end
+
+    it "shows different objects from one night to the next" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      nights = (0..2).map do |offset|
+        described_class.new(
+          night: ObservingNight.new(
+            observer: observer,
+            date: Date.new(2026, 3, 15) + offset
+          )
+        ).best(6).map { |placement| placement.deep_sky_object.designation }
+      end
+
+      expect(nights[0]).not_to match_array(nights[1])
+      expect(nights.flatten.uniq.size).to be > 6
+    end
+
+    it "gives the same list every time for the same night" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      night = ObservingNight.new(
+        observer: observer,
+        date: Date.new(2026, 3, 15)
+      )
+
+      first = described_class.new(night: night).best(6)
+      second = described_class.new(night: night).best(6)
+
+      expect(first.map { |placement| placement.deep_sky_object.designation })
+        .to eq(second.map { |placement| placement.deep_sky_object.designation })
+    end
+
+    it "keeps the family cap across the whole list, anchors included" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+
+      [6, 8].each do |limit|
+        (0..20).each do |offset|
+          best = described_class.new(
+            night: ObservingNight.new(
+              observer: observer,
+              date: Date.new(2026, 3, 1) + offset
+            )
+          ).best(limit)
+
+          families = best.map do |placement|
+            described_class::FAMILIES.fetch(
+              placement.deep_sky_object.type,
+              :other
+            )
+          end
+
+          expect(families.tally.values.max)
+            .to be <= described_class.maximum_per_family(limit)
+        end
+      end
+    end
+
+    it "keeps the family cap at a southern latitude where one family dominates" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(-33.87),
+        longitude: Astronoby::Angle.from_degrees(151.21)
+      )
+
+      (0..14).each do |offset|
+        best = described_class.new(
+          night: ObservingNight.new(
+            observer: observer,
+            date: Date.new(2026, 4, 1) + offset
+          )
+        ).best(8)
+
+        families = best.map do |placement|
+          described_class::FAMILIES.fetch(placement.deep_sky_object.type, :other)
+        end
+
+        expect(best.size).to eq(8)
+        expect(families.tally.values.max)
+          .to be <= described_class.maximum_per_family(8)
+      end
+    end
+  end
+
+  describe ".maximum_per_family" do
+    it "lets no family take more than half the list" do
+      expect(described_class.maximum_per_family(6)).to eq(3)
+      expect(described_class.maximum_per_family(8)).to eq(4)
+    end
+  end
+
+  describe "moonlight" do
+    it "demotes a galaxy below a cluster of similar standing under a bright Moon" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      galaxy = DeepSkyObjectsCatalog.find_by_designation("M31")
+      cluster = DeepSkyObjectsCatalog.find_by_designation("M45")
+
+      full_moon = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 8, 27)
+        ),
+        deep_sky_objects: [galaxy, cluster]
+      ).placements
+
+      new_moon = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 9, 10)
+        ),
+        deep_sky_objects: [galaxy, cluster]
+      ).placements
+
+      expect(full_moon.first.deep_sky_object).to eq(cluster)
+      expect(new_moon.first.deep_sky_object).to eq(galaxy)
+    end
+  end
+
+  describe "notability" do
+    it "prefers a showpiece over an ordinary object at the same altitude" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.8),
+        longitude: Astronoby::Angle.from_degrees(2.3)
+      )
+      showpiece = DeepSkyObjectsCatalog.find_by_designation("M81")
+      ordinary = DeepSkyObjectsCatalog.find_by_designation("M40")
+
+      placements = described_class.new(
+        night: ObservingNight.new(
+          observer: observer,
+          date: Date.new(2026, 3, 15)
+        ),
+        deep_sky_objects: [ordinary, showpiece]
+      ).placements
+
+      expect(placements.first.deep_sky_object).to eq(showpiece)
+    end
+  end
+end

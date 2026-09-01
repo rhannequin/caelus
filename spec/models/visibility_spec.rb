@@ -4,6 +4,71 @@ require "rails_helper"
 
 RSpec.describe Visibility, type: :model do
   describe "#visible?" do
+    context "when the object never rises nor sets" do
+      it "returns true for a circumpolar object" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(48.8),
+          longitude: Astronoby::Angle.from_degrees(2.1)
+        )
+        visibility = described_class.new(
+          body: DeepSkyObjectsCatalog.find_by_designation("M81"),
+          observer: observer,
+          date: Date.new(2026, 1, 15)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+    end
+
+    context "during polar night" do
+      it "does not suppress the inner planets" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(69.65),
+          longitude: Astronoby::Angle.from_degrees(18.96),
+          utc_offset: "+01:00"
+        )
+        visibility = described_class.new(
+          body: Venus,
+          observer: observer,
+          date: Date.new(2026, 12, 21)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+    end
+
+    context "when there is no darkness at all" do
+      it "returns false" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(69.65),
+          longitude: Astronoby::Angle.from_degrees(18.96)
+        )
+        visibility = described_class.new(
+          body: DeepSkyObjectsCatalog.find_by_designation("M13"),
+          observer: observer,
+          date: Date.new(2026, 6, 21)
+        )
+
+        expect(visibility.visible?).to be false
+      end
+    end
+
+    context "when the night only reaches nautical twilight" do
+      it "still reports a well-placed object as visible" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(48.8),
+          longitude: Astronoby::Angle.from_degrees(2.1)
+        )
+        visibility = described_class.new(
+          body: DeepSkyObjectsCatalog.find_by_designation("M13"),
+          observer: observer,
+          date: Date.new(2026, 6, 21)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+    end
+
     context "when it rises early in the night" do
       it "returns true" do
         date = Date.new(2025, 12, 1)
@@ -153,14 +218,14 @@ RSpec.describe Visibility, type: :model do
         latitude: Astronoby::Angle.from_degrees(34.0),
         longitude: Astronoby::Angle.from_degrees(-118.0)
       )
-      messier_object = MessierObject.new(
+      deep_sky_object = DeepSkyObject.new(
         j2000_coordinates: Astronoby::Coordinates::Equatorial.new(
           right_ascension: Astronoby::Angle.zero,
           declination: Astronoby::Angle.zero
         )
       )
       visibility = described_class.new(
-        body: messier_object,
+        body: deep_sky_object,
         observer: observer,
         date: date
       )
