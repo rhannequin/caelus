@@ -6,7 +6,7 @@ module CelestialEvents
 
     PLANETS = %w[Mercury Venus Mars Jupiter Saturn].freeze
     MINIMUM_SOLAR_ELONGATION = Astronoby::Angle.from_degrees(10)
-    MAXIMUM_MAGNITUDE = 1.5
+    MAXIMUM_MAGNITUDE = 1.0
 
     def initialize(start_date, end_date)
       @start_date = start_date

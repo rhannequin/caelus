@@ -3,6 +3,8 @@
 class CelestialEvent < ApplicationRecord
   KINDS = [
     DECEMBER_SOLSTICE = "december_solstice",
+    EARTH_APHELION = "earth_aphelion",
+    EARTH_PERIHELION = "earth_perihelion",
     FIRST_QUARTER = "first_quarter",
     FULL_MOON = "full_moon",
     GREATEST_ELONGATION = "greatest_elongation",
@@ -10,6 +12,8 @@ class CelestialEvent < ApplicationRecord
     LAST_QUARTER = "last_quarter",
     LUNAR_ECLIPSE = "lunar_eclipse",
     MARCH_EQUINOX = "march_equinox",
+    MOON_APOGEE = "moon_apogee",
+    MOON_PERIGEE = "moon_perigee",
     MOON_PLANET_CONJUNCTION = "moon_planet_conjunction",
     NEW_MOON = "new_moon",
     OPPOSITION = "opposition",
@@ -40,6 +44,9 @@ class CelestialEvent < ApplicationRecord
     LAST_QUARTER
   ].freeze
 
+  MOON_APSIS_KINDS = [MOON_PERIGEE, MOON_APOGEE].freeze
+  LUNAR_RHYTHM_KINDS = (MOON_PHASE_KINDS + MOON_APSIS_KINDS).freeze
+
   validates :kind, presence: true, inclusion: {in: KINDS}
   validates :primary_body,
     presence: true,
@@ -57,7 +64,8 @@ class CelestialEvent < ApplicationRecord
 
   scope :between, ->(from, to) { where(peak_at: from..to) }
   scope :moon_phases, -> { where(kind: MOON_PHASE_KINDS) }
-  scope :notable, -> { where.not(kind: MOON_PHASE_KINDS) }
+  scope :moon_apsides, -> { where(kind: MOON_APSIS_KINDS) }
+  scope :notable, -> { where.not(kind: LUNAR_RHYTHM_KINDS) }
   scope :of_kind, ->(kinds) { where(kind: kinds) }
   scope :chronological, -> { order(:peak_at) }
 

@@ -62,6 +62,26 @@ RSpec.describe CelestialEventHelper do
   end
 
   describe "#celestial_event_kind_name" do
+    it "has a name and a title for every kind shown in the timeline" do
+      kinds = CelestialEvent::KINDS - CelestialEvent::MOON_PHASE_KINDS
+
+      kinds.each do |kind|
+        expect(I18n.exists?("almanac.show.kinds.#{kind}.name"))
+          .to be(true), "missing name for #{kind}"
+        expect(I18n.exists?("almanac.show.kinds.#{kind}.title"))
+          .to be(true), "missing title for #{kind}"
+      end
+    end
+
+    it "has a name and a glyph for every moon phase shown in the strip" do
+      CelestialEvent::MOON_PHASE_KINDS.each do |kind|
+        expect(I18n.exists?("moon.phases.#{kind}"))
+          .to be(true), "missing name for #{kind}"
+        expect(I18n.exists?("moon.phase_emojis.#{kind}"))
+          .to be(true), "missing glyph for #{kind}"
+      end
+    end
+
     it "returns the human name of the kind" do
       event = build(:celestial_event, kind: CelestialEvent::OPPOSITION)
 

@@ -103,20 +103,40 @@ RSpec.describe CelestialEvent, type: :model do
     describe ".moon_phases" do
       it "returns only the principal moon phases" do
         full_moon = create(:celestial_event, kind: CelestialEvent::FULL_MOON)
-        _opposition = create(:celestial_event,
-          kind: CelestialEvent::OPPOSITION, primary_body: "Mars")
+        _opposition = create(
+          :celestial_event,
+          kind: CelestialEvent::OPPOSITION,
+          primary_body: "Mars"
+        )
 
         expect(CelestialEvent.moon_phases).to contain_exactly(full_moon)
       end
     end
 
+    describe ".moon_apsides" do
+      it "returns only the lunar apsides" do
+        perigee = create(:celestial_event, kind: CelestialEvent::MOON_PERIGEE)
+        _opposition = create(
+          :celestial_event,
+          kind: CelestialEvent::OPPOSITION,
+          primary_body: "Mars"
+        )
+
+        expect(CelestialEvent.moon_apsides).to contain_exactly(perigee)
+      end
+    end
+
     describe ".notable" do
-      it "returns everything that is not a principal moon phase" do
+      it "returns everything that is not part of the lunar rhythm" do
         _full_moon = create(:celestial_event, kind: CelestialEvent::FULL_MOON)
-        opposition = create(:celestial_event,
-          kind: CelestialEvent::OPPOSITION, primary_body: "Mars")
-        eclipse = create(:celestial_event,
-          kind: CelestialEvent::LUNAR_ECLIPSE)
+        _perigee = create(:celestial_event, kind: CelestialEvent::MOON_PERIGEE)
+        _apogee = create(:celestial_event, kind: CelestialEvent::MOON_APOGEE)
+        opposition = create(
+          :celestial_event,
+          kind: CelestialEvent::OPPOSITION,
+          primary_body: "Mars"
+        )
+        eclipse = create(:celestial_event, kind: CelestialEvent::LUNAR_ECLIPSE)
 
         expect(CelestialEvent.notable)
           .to contain_exactly(opposition, eclipse)

@@ -1,5 +1,7 @@
 en:
   almanac:
+    moon_apsis_strip:
+      label: Moon distance in %{month}
     moon_phase_strip:
       label: Moon phases in %{month}
     show:
@@ -17,6 +19,12 @@ en:
         december_solstice:
           name: Solstice
           title: December solstice
+        earth_aphelion:
+          name: Aphelion
+          title: Earth at aphelion
+        earth_perihelion:
+          name: Perihelion
+          title: Earth at perihelion
         greatest_elongation:
           name: Greatest elongation
           title: "%{body} at greatest elongation"
@@ -29,6 +37,12 @@ en:
         march_equinox:
           name: Equinox
           title: March equinox
+        moon_apogee:
+          name: Apogee
+          title: The Moon at apogee
+        moon_perigee:
+          name: Perigee
+          title: The Moon at perigee
         moon_planet_conjunction:
           name: Conjunction
           title: "The Moon meets %{body}"

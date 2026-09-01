@@ -31,13 +31,23 @@
               </time>
             </h3>
 
-            <% if @moon_phases_by_month[month].present? %>
-              <%= render(
-                "moon_phase_strip",
-                moon_phases: @moon_phases_by_month[month],
-                month_label: month_label
-              ) %>
-            <% end %>
+            <div class="almanac-rhythm">
+              <% if @moon_phases_by_month[month].present? %>
+                <%= render(
+                  "moon_phase_strip",
+                  moon_phases: @moon_phases_by_month[month],
+                  month_label: month_label
+                ) %>
+              <% end %>
+
+              <% if @moon_apsides_by_month[month].present? %>
+                <%= render(
+                  "moon_apsis_strip",
+                  moon_apsides: @moon_apsides_by_month[month],
+                  month_label: month_label
+                ) %>
+              <% end %>
+            </div>
           </div>
 
           <% if @events_by_month[month].present? %>

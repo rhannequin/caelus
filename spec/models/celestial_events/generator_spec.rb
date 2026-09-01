@@ -46,6 +46,10 @@ RSpec.describe CelestialEvents::Generator, type: :model do
         .to receive(:new).and_call_original
       allow(CelestialEvents::PlanetaryConjunctionsGenerator)
         .to receive(:new).and_call_original
+      allow(CelestialEvents::EarthApheliaPeriheliaGenerator)
+        .to receive(:new).and_call_original
+      allow(CelestialEvents::MoonApogeesPerigeesGenerator)
+        .to receive(:new).and_call_original
 
       CelestialEvents::Generator
         .new(start_date, end_date)
@@ -70,6 +74,12 @@ RSpec.describe CelestialEvents::Generator, type: :model do
         .to have_received(:new)
         .with(start_date, end_date)
       expect(CelestialEvents::PlanetaryConjunctionsGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
+      expect(CelestialEvents::MoonApogeesPerigeesGenerator)
+        .to have_received(:new)
+        .with(start_date, end_date)
+      expect(CelestialEvents::EarthApheliaPeriheliaGenerator)
         .to have_received(:new)
         .with(start_date, end_date)
     end

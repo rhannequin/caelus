@@ -615,6 +615,45 @@ h1, h2, h3 {
   padding-bottom: 0.35rem;
 }
 
+.almanac-rhythm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1.25rem;
+}
+
+.almanac-apsis-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.85rem;
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+  list-style: none;
+  border-left: 1px solid hsl(var(--border) / 0.6);
+}
+
+.almanac-apsis {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.almanac-apsis-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-apsis-day {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+}
+
 .almanac-phase-strip {
   display: flex;
   flex-wrap: wrap;
@@ -770,6 +809,25 @@ h1, h2, h3 {
   color: #e08a63;
 }
 
+.almanac-badge--earth-aphelion,
+.almanac-badge--earth-perihelion {
+  border-color: hsl(168 60% 38% / 0.5);
+  background: hsl(168 60% 38% / 0.12);
+  color: hsl(168 70% 27%);
+}
+
+.dark .almanac-badge--earth-aphelion,
+.dark .almanac-badge--earth-perihelion {
+  color: hsl(168 60% 62%);
+}
+
+.almanac-badge--moon-apogee,
+.almanac-badge--moon-perigee {
+  border-color: hsl(var(--muted-foreground) / 0.35);
+  background: hsl(var(--muted-foreground) / 0.08);
+  color: hsl(var(--muted-foreground));
+}
+
 .almanac-badge--moon-planet-conjunction,
 .almanac-badge--planetary-conjunction {
   border-color: hsl(200 70% 45% / 0.5);
@@ -777,7 +835,25 @@ h1, h2, h3 {
   color: hsl(200 75% 32%);
 }
 
-.dark .almanac-badge--moon-planet-conjunction,
+.dark .almanac-badge--earth-aphelion,
+.almanac-badge--earth-perihelion {
+  border-color: hsl(168 60% 38% / 0.5);
+  background: hsl(168 60% 38% / 0.12);
+  color: hsl(168 70% 27%);
+}
+
+.dark .almanac-badge--earth-aphelion,
+.dark .almanac-badge--earth-perihelion {
+  color: hsl(168 60% 62%);
+}
+.almanac-badge--moon-apogee,
+.almanac-badge--moon-perigee {
+  border-color: hsl(var(--muted-foreground) / 0.35);
+  background: hsl(var(--muted-foreground) / 0.08);
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-badge--moon-planet-conjunction,
 .dark .almanac-badge--planetary-conjunction {
   color: hsl(200 85% 72%);
 }
@@ -791,14 +867,52 @@ h1, h2, h3 {
   color: #8a5a08;
 }
 
-.dark .almanac-badge--moon-planet-conjunction,
+.dark .almanac-badge--earth-aphelion,
+.almanac-badge--earth-perihelion {
+  border-color: hsl(168 60% 38% / 0.5);
+  background: hsl(168 60% 38% / 0.12);
+  color: hsl(168 70% 27%);
+}
+
+.dark .almanac-badge--earth-aphelion,
+.dark .almanac-badge--earth-perihelion {
+  color: hsl(168 60% 62%);
+}
+
+.almanac-badge--moon-apogee,
+.almanac-badge--moon-perigee {
+  border-color: hsl(var(--muted-foreground) / 0.35);
+  background: hsl(var(--muted-foreground) / 0.08);
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-badge--moon-planet-conjunction,
 .almanac-badge--planetary-conjunction {
   border-color: hsl(200 70% 45% / 0.5);
   background: hsl(200 70% 45% / 0.12);
   color: hsl(200 75% 32%);
 }
 
-.dark .almanac-badge--moon-planet-conjunction,
+.dark .almanac-badge--earth-aphelion,
+.almanac-badge--earth-perihelion {
+  border-color: hsl(168 60% 38% / 0.5);
+  background: hsl(168 60% 38% / 0.12);
+  color: hsl(168 70% 27%);
+}
+
+.dark .almanac-badge--earth-aphelion,
+.dark .almanac-badge--earth-perihelion {
+  color: hsl(168 60% 62%);
+}
+
+.almanac-badge--moon-apogee,
+.almanac-badge--moon-perigee {
+  border-color: hsl(var(--muted-foreground) / 0.35);
+  background: hsl(var(--muted-foreground) / 0.08);
+  color: hsl(var(--muted-foreground));
+}
+
+.almanac-badge--moon-planet-conjunction,
 .dark .almanac-badge--planetary-conjunction {
   color: hsl(200 85% 72%);
 }
@@ -811,6 +925,11 @@ h1, h2, h3 {
 }
 
 @media (max-width: 768px) {
+  .almanac-apsis-strip {
+    padding-left: 0;
+    border-left: none;
+  }
+
   .almanac-board {
     padding-left: 1.6rem;
   }

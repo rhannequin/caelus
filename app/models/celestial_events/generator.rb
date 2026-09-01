@@ -3,9 +3,11 @@
 module CelestialEvents
   class Generator
     EVENT_TYPES = [
+      EARTH_APHELIA_PERIHELIA = :earth_aphelia_perihelia,
       EQUINOXES_SOLSTICES = :equinoxes_solstices,
       GREATEST_ELONGATIONS = :greatest_elongations,
       LUNAR_ECLIPSES = :lunar_eclipses,
+      MOON_APOGEES_PERIGEES = :moon_apogees_perigees,
       MOON_PHASES = :moon_phases,
       MOON_PLANET_CONJUNCTIONS = :moon_planet_conjunctions,
       OPPOSITIONS = :oppositions,
@@ -13,13 +15,15 @@ module CelestialEvents
     ].freeze
 
     GENERATORS = {
+      EARTH_APHELIA_PERIHELIA => EarthApheliaPeriheliaGenerator,
       EQUINOXES_SOLSTICES => EquinoxesSolsticesGenerator,
       GREATEST_ELONGATIONS => GreatestElongationsGenerator,
       LUNAR_ECLIPSES => LunarEclipsesGenerator,
       MOON_PHASES => MoonPhasesGenerator,
       MOON_PLANET_CONJUNCTIONS => MoonPlanetConjunctionsGenerator,
       OPPOSITIONS => OppositionsGenerator,
-      PLANETARY_CONJUNCTIONS => PlanetaryConjunctionsGenerator
+      PLANETARY_CONJUNCTIONS => PlanetaryConjunctionsGenerator,
+      MOON_APOGEES_PERIGEES => MoonApogeesPerigeesGenerator
     }.freeze
 
     def initialize(start_date, end_date)
