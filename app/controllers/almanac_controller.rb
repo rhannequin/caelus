@@ -9,6 +9,7 @@ class AlmanacController < ApplicationController
     @moon_phases_by_month = group_by_month(lunar_rhythm(:moon_phases))
     @moon_apsides_by_month = group_by_month(lunar_rhythm(:moon_apsides))
     @months = (@events_by_month.keys | upcoming_rhythm_months).sort
+    @event_count = shown_event_count
 
     track_page_view("almanac")
   end
@@ -16,14 +17,21 @@ class AlmanacController < ApplicationController
   private
 
   def notable_events
-    CelestialEvent.notable.between(@time, @time + LOOKAHEAD).chronological
+    CelestialEvent
+      .notable
+      .between(@time, horizon)
+      .chronological
   end
 
   def lunar_rhythm(scope)
     CelestialEvent
       .public_send(scope)
-      .between(@time.beginning_of_month, (@time + LOOKAHEAD).end_of_month)
+      .between(@time.beginning_of_month, horizon)
       .chronological
+  end
+
+  def horizon
+    (@time + LOOKAHEAD).end_of_month
   end
 
   def upcoming_rhythm_months
@@ -35,6 +43,11 @@ class AlmanacController < ApplicationController
     events_by_month
       .select { |_, events| events.any? { |event| event.peak_at >= @time } }
       .keys
+  end
+
+  def shown_event_count
+    [@events_by_month, @moon_phases_by_month, @moon_apsides_by_month]
+      .sum { |by_month| @months.sum { |month| by_month.fetch(month, []).size } }
   end
 
   def group_by_month(scope)

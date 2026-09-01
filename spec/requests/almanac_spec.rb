@@ -133,6 +133,30 @@ RSpec.describe AlmanacController, type: :request do
       end
     end
 
+    it "counts everything it shows, not only the timeline" do
+      travel_to Time.utc(2026, 8, 30) do
+        create(:celestial_event, kind: CelestialEvent::FULL_MOON,
+          peak: Time.utc(2026, 11, 4, 12))
+        create(:celestial_event, kind: CelestialEvent::MOON_APOGEE,
+          peak: Time.utc(2026, 11, 9, 12))
+
+        get almanac_path
+
+        expect(response.body).to include("2 events")
+      end
+    end
+
+    it "shows the last month of the period whole" do
+      travel_to Time.utc(2026, 8, 30) do
+        create(:celestial_event, kind: CelestialEvent::OPPOSITION,
+          primary_body: "Mars", peak: Time.utc(2027, 8, 31, 12))
+
+        get almanac_path
+
+        expect(response.body).to include("Mars at opposition")
+      end
+    end
+
     it "renders an empty state when no event is upcoming" do
       travel_to Time.utc(2026, 8, 30) do
         create(:celestial_event, peak: Time.utc(2020, 1, 1))
