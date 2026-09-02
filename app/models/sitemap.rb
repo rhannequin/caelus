@@ -20,6 +20,7 @@ class Sitemap
       moon_path,
       sun_path,
       lunar_eclipses_path,
+      credits_path,
       privacy_policy_path
     ]
   end
