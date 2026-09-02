@@ -16,5 +16,10 @@ Rails.application.routes.draw do
     only: [:create, :destroy, :new],
     controller: :cookie_consent
 
+  get "/sitemap.xml",
+    to: "sitemaps#show",
+    as: :sitemap,
+    defaults: {format: "xml"}
+
   get "up" => "rails/health#show", :as => :rails_health_check
 end
