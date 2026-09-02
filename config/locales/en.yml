@@ -260,7 +260,7 @@ en:
     formats:
       abbreviated_day: "%a"
       full_month_short: "%B %d"
-      long_unpadded: "%B %-d, %Y"
+      long: "%B %-d, %Y"
       month_year: "%B %Y"
   description: Open source astronomy dashboard.
   location:

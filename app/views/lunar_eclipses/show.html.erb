@@ -1,17 +1,8 @@
 <% kind = t("lunar_eclipses.kinds.#{@lunar_eclipse.kind}.name") %>
-<% content_for :heading, t(".title", date: l(@date, format: :long)) %>
-<% content_for(
-  :title,
-  t(".meta_title", kind: kind, date: l(@date, format: :long_unpadded))
-) %>
-<% content_for(
-  :description,
-  t(
-    ".meta_description",
-    kind: kind,
-    date: l(@date, format: :long_unpadded)
-  )
-) %>
+<% date = l(@date, format: :long) %>
+<% content_for :heading, t(".title", date: date) %>
+<% content_for :title, t(".meta_title", kind: kind, date: date) %>
+<% content_for :description, t(".meta_description", kind: kind, date: date) %>
 
 <%= link_to(
   lunar_eclipses_path(year: @date.year),

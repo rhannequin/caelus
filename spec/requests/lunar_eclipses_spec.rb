@@ -157,6 +157,15 @@ RSpec.describe LunarEclipsesController, type: :request do
   end
 
   describe "GET /lunar_eclipses/:id" do
+    it "heads the page with a date that has no zero-padded day" do
+      travel_to Time.utc(2026, 1, 1) do
+        get lunar_eclipse_path(id: "2026-03-03")
+
+        expect(response.body).to include("Lunar Eclipse on March 3, 2026")
+        expect(response.body).not_to include("March 03, 2026")
+      end
+    end
+
     it "titles the page with the eclipse kind and an unpadded date" do
       travel_to Time.utc(2025, 1, 1) do
         get lunar_eclipse_path(id: "2025-03-14")
