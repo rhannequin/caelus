@@ -29,7 +29,7 @@ RSpec.describe CreditsCatalog do
     it "links every licence it names" do
       unlinked = (described_class.data + described_class.software)
         .select(&:license)
-        .reject(&:license_url)
+        .reject { |credit| credit.license.url }
         .map(&:name)
 
       expect(unlinked).to be_empty

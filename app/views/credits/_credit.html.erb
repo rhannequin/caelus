@@ -9,15 +9,15 @@
     <% if credit.license %>
       <span class="text-sm font-normal text-muted-foreground">
         -
-        <% if credit.license_url %>
+        <% if credit.license.url %>
           <a
-            href="<%= credit.license_url %>"
+            href="<%= credit.license.url %>"
             class="link"
             target="_blank"
             rel="noopener"
-          ><%= credit.license %></a>
+          ><%= credit.license.name %></a>
         <% else %>
-          <%= credit.license %>
+          <%= credit.license.name %>
         <% end %>
       </span>
     <% end %>

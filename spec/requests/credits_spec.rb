@@ -49,7 +49,7 @@ RSpec.describe CreditsController, type: :request do
       end
     end
 
-    it "names the licence of every credit that has one" do
+    it "links the licence of every credit that has one" do
       travel_to Time.utc(2025, 8, 30) do
         get credits_path
 
@@ -58,7 +58,8 @@ RSpec.describe CreditsController, type: :request do
           .uniq
 
         licences.each do |licence|
-          expect(response.body).to include(licence)
+          expect(response.body).to include(licence.name)
+          expect(response.body).to include(licence.url)
         end
       end
     end
