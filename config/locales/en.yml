@@ -1,4 +1,60 @@
 en:
+  almanac:
+    moon_apsis_strip:
+      label: Moon distance in %{month}
+    moon_phase_strip:
+      label: Moon phases in %{month}
+    show:
+      title: Almanac
+      subtitle: Celestial events coming up over the next twelve months.
+      count:
+        one: 1 event
+        other: "%{count} events"
+      empty:
+        title: No events on the horizon
+        description: There is nothing scheduled for the next twelve months.
+      timeline:
+        heading: Event timeline
+      kinds:
+        december_solstice:
+          name: Solstice
+          title: December solstice
+        earth_aphelion:
+          name: Aphelion
+          title: Earth at aphelion
+        earth_perihelion:
+          name: Perihelion
+          title: Earth at perihelion
+        greatest_elongation:
+          name: Greatest elongation
+          title: "%{body} at greatest elongation"
+        june_solstice:
+          name: Solstice
+          title: June solstice
+        lunar_eclipse:
+          name: Lunar eclipse
+          title: "Lunar eclipse on %{date}"
+        march_equinox:
+          name: Equinox
+          title: March equinox
+        moon_apogee:
+          name: Apogee
+          title: The Moon at apogee
+        moon_perigee:
+          name: Perigee
+          title: The Moon at perigee
+        moon_planet_conjunction:
+          name: Conjunction
+          title: "The Moon meets %{body}"
+        opposition:
+          name: Opposition
+          title: "%{body} at opposition"
+        planetary_conjunction:
+          name: Conjunction
+          title: "%{body} meets %{secondary_body}"
+        september_equinox:
+          name: Equinox
+          title: September equinox
   cardinal_direction:
     north: N
     north_east: NE
@@ -200,6 +256,7 @@ en:
     formats:
       abbreviated_day: "%a"
       full_month_short: "%B %d"
+      month_year: "%B %Y"
   description: Open source astronomy dashboard.
   location:
     edit:
@@ -857,6 +914,7 @@ en:
         label: Accept cookies for location features
         title: Accept cookies for location features
     navigation:
+      almanac: Almanac
       lunar_eclipses: Lunar Eclipses
       moon: Moon
       sun: Sun

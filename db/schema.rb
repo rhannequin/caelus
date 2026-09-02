@@ -10,5 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 0) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_120000) do
+  create_table "celestial_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "kind", null: false
+    t.datetime "peak_at", null: false
+    t.decimal "peak_tt", precision: 15, scale: 6, null: false
+    t.string "primary_body"
+    t.string "secondary_body"
+    t.datetime "updated_at", null: false
+    t.index ["kind", "peak_at"], name: "index_celestial_events_on_kind_and_peak_at"
+    t.index ["peak_at"], name: "index_celestial_events_on_peak_at"
+  end
 end

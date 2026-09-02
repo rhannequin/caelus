@@ -1,4 +1,5 @@
-<nav aria-label="Main navigation" class="flex items-center gap-4">
+<nav aria-label="Main navigation" class="flex flex-wrap items-center
+  gap-x-4 gap-y-2">
   <%= link_to(
     sun_path,
     class: "flex items-center gap-2 text-gray-800 dark:text-gray-100
@@ -31,5 +32,16 @@
       class: "w-5 h-5 fill-current group-hover:scale-110 transition-transform"
     ) %>
     <span class="text-sm font-medium"><%= t ".lunar_eclipses" %></span>
+  <% end %>
+  <%= link_to(
+    almanac_path,
+    class: "flex items-center gap-2 text-gray-800 dark:text-gray-100
+      hover:text-cosmic dark:hover:text-cosmic transition-colors group"
+  ) do %>
+    <%= render(
+      "shared/icons/almanac",
+      class: "w-5 h-5 fill-current group-hover:scale-110 transition-transform"
+    ) %>
+    <span class="text-sm font-medium"><%= t ".almanac" %></span>
   <% end %>
 </nav>

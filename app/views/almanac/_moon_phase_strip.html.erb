@@ -1,0 +1,19 @@
+<ul class="almanac-phase-strip" aria-label="<%= t ".label", month: month_label %>">
+  <% moon_phases.each do |moon_phase| %>
+    <% peak_at = moon_phase.peak_at.in_time_zone %>
+    <li
+      class="almanac-phase"
+      title="<%= t "moon.phases.#{moon_phase.kind}" %> - <%= l peak_at.to_date, format: :long %>"
+    >
+      <span class="almanac-phase-glyph" aria-hidden="true">
+        <%= t "moon.phase_emojis.#{moon_phase.kind}" %>
+      </span>
+      <time class="almanac-phase-day" datetime="<%= peak_at.iso8601 %>">
+        <span class="sr-only">
+          <%= t "moon.phases.#{moon_phase.kind}" %>,
+        </span>
+        <%= peak_at.day %>
+      </time>
+    </li>
+  <% end %>
+</ul>

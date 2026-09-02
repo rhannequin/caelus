@@ -1,0 +1,72 @@
+<% content_for :title, "#{t("title")} • #{t(".title")}" %>
+
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm
+  cosmic-card">
+  <div class="max-w-xl">
+    <h2 class="text-2xl font-bold text-cosmic"><%= t ".title" %></h2>
+    <p class="text-sm text-muted-foreground mt-1"><%= t ".subtitle" %></p>
+    <p class="text-xs text-muted-foreground mt-2 font-mono">
+      <%= t ".count", count: @event_count %>
+    </p>
+  </div>
+</div>
+
+<% if @months.any? %>
+  <section
+    aria-labelledby="almanac-timeline-heading"
+    class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card"
+  >
+    <h2 id="almanac-timeline-heading" class="sr-only">
+      <%= t ".timeline.heading" %>
+    </h2>
+
+    <div class="almanac-board">
+      <% @months.each do |month| %>
+        <% month_label = l month.to_date, format: :month_year %>
+        <div class="almanac-month">
+          <div class="almanac-month-head">
+            <h3 class="almanac-month-label">
+              <time datetime="<%= month.strftime("%Y-%m") %>">
+                <%= month_label %>
+              </time>
+            </h3>
+
+            <div class="almanac-rhythm">
+              <% if @moon_phases_by_month[month].present? %>
+                <%= render(
+                  "moon_phase_strip",
+                  moon_phases: @moon_phases_by_month[month],
+                  month_label: month_label
+                ) %>
+              <% end %>
+
+              <% if @moon_apsides_by_month[month].present? %>
+                <%= render(
+                  "moon_apsis_strip",
+                  moon_apsides: @moon_apsides_by_month[month],
+                  month_label: month_label
+                ) %>
+              <% end %>
+            </div>
+          </div>
+
+          <% if @events_by_month[month].present? %>
+            <ol class="almanac-timeline">
+              <% @events_by_month[month].each do |event| %>
+                <%= render "event", event: event %>
+              <% end %>
+            </ol>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% else %>
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm
+    cosmic-card text-center py-10">
+    <p class="text-lg font-bold"><%= t ".empty.title" %></p>
+    <p class="text-sm text-muted-foreground mt-1">
+      <%= t ".empty.description" %>
+    </p>
+  </div>
+<% end %>
