@@ -1,5 +1,6 @@
 <% content_for :title, "#{t("title")} • #{t(".title")}" %>
 <% content_for :canonical, lunar_eclipses_canonical_url(@selected_year) %>
+<% content_for :description, t(".meta_description", year: @selected_year) %>
 
 <div class="rounded-lg border bg-card text-card-foreground shadow-sm
   cosmic-card">

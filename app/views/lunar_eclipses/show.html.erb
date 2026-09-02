@@ -1,5 +1,14 @@
-<% content_for :title,
-  "#{t("title")} • #{t(".title", date: l(@date, format: :long))}" %>
+<% content_for(
+  :title, "#{t("title")} • #{t(".title", date: l(@date, format: :long))}" 
+) %>
+<% content_for(
+  :description,
+  t(
+    ".meta_description",
+    kind: t("lunar_eclipses.kinds.#{@lunar_eclipse.kind}.name"),
+    date: l(@date, format: :long)
+  )
+) %>
 
 <%= link_to(
   lunar_eclipses_path(year: @date.year),

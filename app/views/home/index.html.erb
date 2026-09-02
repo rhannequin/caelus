@@ -1,3 +1,5 @@
+<% content_for :description, t(".meta_description") %>
+
 <div class="lg:col-span-4 space-y-6">
   <%= cache(
     "tonight_sky/#{observer_daily_cache_key}",

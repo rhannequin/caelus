@@ -12,6 +12,16 @@ RSpec.describe SunController, type: :request do
       end
     end
 
+    it "describes the page for search engines" do
+      travel_to Time.utc(2025, 8, 30) do
+        get sun_path
+
+        expect(response.body).to include(
+          ERB::Util.html_escape(I18n.t("sun.show.meta_description"))
+        )
+      end
+    end
+
     context "using an extreme latitude" do
       it "returns a successful response" do
         travel_to Time.utc(2025, 12, 21) do

@@ -1,4 +1,5 @@
 <% content_for :title, "#{t("title")} • #{t(".title")}" %>
+<% content_for :description, t(".meta_description") %>
 
 <%= render("hero", sun: @sun, yesterday_sun: @yesterday_sun) %>
 
