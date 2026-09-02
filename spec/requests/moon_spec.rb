@@ -12,6 +12,24 @@ RSpec.describe MoonController, type: :request do
       end
     end
 
+    it "titles the page before the site name" do
+      travel_to Time.utc(2025, 8, 30) do
+        get moon_path
+
+        expect(response.body).to include(
+          "<title>Moon phase tonight, rise and set times • Caelus</title>"
+        )
+      end
+    end
+
+    it "keeps the site name in the on-page heading" do
+      travel_to Time.utc(2025, 8, 30) do
+        get moon_path
+
+        expect(response.body).to include("✨ Caelus • Moon")
+      end
+    end
+
     it "describes the page for search engines" do
       travel_to Time.utc(2025, 8, 30) do
         get moon_path

@@ -12,6 +12,17 @@ RSpec.describe AlmanacController, type: :request do
       end
     end
 
+    it "titles the page before the site name" do
+      travel_to Time.utc(2025, 8, 30) do
+        get almanac_path
+
+        expect(response.body).to include(
+          "<title>Astronomy calendar: the next twelve months " \
+            "• Caelus</title>"
+        )
+      end
+    end
+
     it "describes the page for search engines" do
       travel_to Time.utc(2025, 8, 30) do
         get almanac_path

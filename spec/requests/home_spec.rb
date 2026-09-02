@@ -22,6 +22,17 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    it "titles the page before the site name" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path
+
+        expect(response.body).to include(
+          "<title>Tonight&#39;s sky: Moon, planets and " \
+            "deep-sky objects • Caelus</title>"
+        )
+      end
+    end
+
     it "describes the page for search engines" do
       travel_to Time.utc(2025, 8, 30) do
         get root_path

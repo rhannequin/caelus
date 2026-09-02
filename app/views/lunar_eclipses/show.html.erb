@@ -1,12 +1,15 @@
+<% kind = t("lunar_eclipses.kinds.#{@lunar_eclipse.kind}.name") %>
+<% content_for :heading, t(".title", date: l(@date, format: :long)) %>
 <% content_for(
-  :title, "#{t("title")} • #{t(".title", date: l(@date, format: :long))}" 
+  :title,
+  t(".meta_title", kind: kind, date: l(@date, format: :long_unpadded))
 ) %>
 <% content_for(
   :description,
   t(
     ".meta_description",
-    kind: t("lunar_eclipses.kinds.#{@lunar_eclipse.kind}.name"),
-    date: l(@date, format: :long)
+    kind: kind,
+    date: l(@date, format: :long_unpadded)
   )
 ) %>
 

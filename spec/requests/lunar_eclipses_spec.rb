@@ -76,6 +76,17 @@ RSpec.describe LunarEclipsesController, type: :request do
       end
     end
 
+    it "titles the page with the selected year" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2027)
+
+        expect(response.body).to include(
+          "<title>Lunar eclipses in 2027: dates and visibility " \
+            "• Caelus</title>"
+        )
+      end
+    end
+
     it "describes the selected year for search engines" do
       travel_to Time.utc(2026, 8, 25) do
         get lunar_eclipses_path(year: 2027)
@@ -146,6 +157,16 @@ RSpec.describe LunarEclipsesController, type: :request do
   end
 
   describe "GET /lunar_eclipses/:id" do
+    it "titles the page with the eclipse kind and an unpadded date" do
+      travel_to Time.utc(2025, 1, 1) do
+        get lunar_eclipse_path(id: "2025-03-14")
+
+        expect(response.body).to include(
+          "<title>Total Lunar Eclipse on March 14, 2025 • Caelus</title>"
+        )
+      end
+    end
+
     it "describes the eclipse kind and date for search engines" do
       travel_to Time.utc(2025, 1, 1) do
         get lunar_eclipse_path(id: "2025-03-14")
