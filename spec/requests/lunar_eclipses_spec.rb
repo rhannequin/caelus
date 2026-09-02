@@ -32,6 +32,50 @@ RSpec.describe LunarEclipsesController, type: :request do
       end
     end
 
+    it "canonicalises the current year to the bare path" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2026)
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses">'
+        )
+      end
+    end
+
+    it "canonicalises another year to its own parameter" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2027)
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses?year=2027">'
+        )
+      end
+    end
+
+    it "canonicalises an out-of-range year to the year it clamps to" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 99999)
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses?year=2100">'
+        )
+      end
+    end
+
+    it "canonicalises a malformed year to the bare path" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: "abc")
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses">'
+        )
+      end
+    end
+
     context "without year parameter" do
       it "returns lunar eclipses for the current year" do
         travel_to Time.utc(2026, 8, 25) do

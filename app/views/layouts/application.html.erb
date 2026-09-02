@@ -13,6 +13,7 @@
     name="description"
     content="<%= content_for?(:description) ? yield(:description) : t("description") %>"
   >
+  <link rel="canonical" href="<%= canonical_url %>">
   <meta property="og:type" content="website">
   <meta
     property="og:title"
@@ -22,7 +23,7 @@
     property="og:description"
     content="<%= content_for?(:description) ? yield(:description) : t("description") %>"
   >
-  <meta property="og:url" content="<%= request.original_url %>">
+  <meta property="og:url" content="<%= canonical_url %>">
   <meta property="og:site_name" content="<%= t("title") %>">
   <meta property="og:locale" content="en_US">
   <% if content_for?(:og_image) %>

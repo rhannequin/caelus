@@ -34,6 +34,12 @@ module LunarEclipseHelper
     ].select { |_name, phase| phase }
   end
 
+  def lunar_eclipses_canonical_url(year)
+    return lunar_eclipses_url if year == Time.current.year
+
+    lunar_eclipses_url(year: year)
+  end
+
   def lunar_eclipse_date(lunar_eclipse)
     lunar_eclipse.instant.to_time.utc.to_date
   end

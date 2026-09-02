@@ -12,6 +12,16 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    it "canonicalises to the path without query parameters" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path, params: {utm_source: "newsletter"}
+
+        expect(response.body).to include(
+          '<link rel="canonical" href="http://www.example.com/">'
+        )
+      end
+    end
+
     context "with a very high latitude location" do
       it "handles edge cases gracefully a returns a successful response" do
         travel_to Time.utc(2025, 8, 30) do
