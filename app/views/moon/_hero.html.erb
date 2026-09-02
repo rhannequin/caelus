@@ -4,9 +4,9 @@
       <div class="moon-hero-container mb-4">
         <%= render(LunarDiscComponent.new(moon: moon, size: 120)) %>
       </div>
-      <h3 class="text-3xl font-bold text-cosmic mb-2">
+      <h2 class="text-3xl font-bold text-cosmic mb-2">
         <%= t "moon.phases.#{moon.current_phase_name}" %>
-      </h3>
+      </h2>
       <div class="text-5xl font-bold text-primary mb-2">
         <%= number_to_percentage moon.illuminated_percentage, precision: 0 %>
       </div>

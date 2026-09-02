@@ -12,6 +12,16 @@ RSpec.describe SunController, type: :request do
       end
     end
 
+    it "nests its sections directly under the page heading" do
+      travel_to Time.utc(2025, 8, 30) do
+        get sun_path
+
+        levels = response.body.scan(/<h([1-6])[\s>]/).flatten.map(&:to_i)
+
+        expect(levels.uniq.sort).to eq([1, 2, 3])
+      end
+    end
+
     it "titles the page before the site name" do
       travel_to Time.utc(2025, 8, 30) do
         get sun_path
