@@ -13,6 +13,7 @@ RSpec.describe Sitemap do
         "/moon",
         "/sun",
         "/lunar_eclipses",
+        "/credits",
         "/privacy_policy"
       )
     end

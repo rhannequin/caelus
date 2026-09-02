@@ -256,6 +256,86 @@ en:
       vir: ♍
       vol: 🐟
       vul: 🦊
+  credits:
+    show:
+      meta_description: The data sources, catalogues and open source software
+        Caelus is built on, with their licences.
+      meta_title: Credits
+      title: Credits
+      introduction: Caelus stands on public astronomical data and open source
+        software. This page lists what it uses and under which terms.
+      sections:
+        data:
+          title: Astronomical data
+          intro: Every position, time and diagram on this site is computed from
+            the following sources.
+          credits:
+            inpop19a: Planetary and lunar ephemeris computed by the IMCCE at
+              the Paris Observatory. Caelus embeds INPOP19a segments to place
+              the Sun, the Moon and the planets. The IMCCE distributes INPOP
+              freely for scientific use and asks that it be cited.
+            iers_bulletins: Earth orientation parameters published by the
+              International Earth Rotation and Reference Systems Service.
+              They give the small, irregular variations in the Earth's
+              rotation that accurate rise and set times depend on. Caelus
+              refreshes them daily.
+            clementine: Albedo mosaic assembled from images taken by the
+              Clementine mission (NASA/USGS). The maria and highlands drawn on
+              the lunar disc are traced from it.
+            messier_catalog: Names, types, magnitudes, apparent sizes and
+              distances of the Messier objects listed in the deep sky
+              sections.
+            ngc_catalog: The same for the NGC objects listed alongside them.
+        software:
+          title: Software
+          intro_html: "The stack Caelus runs on. The complete list of
+            dependencies, direct and indirect, is in the %{gemfile_link}."
+          gemfile: Gemfile
+          credits:
+            astronoby: "Every astronomical calculation on this site:
+              positions, rise and set times, phases, eclipses, conjunctions.
+              Caelus exists largely to show what Astronoby can do."
+            ephem: Reads the binary SPK ephemeris files Astronoby computes
+              from.
+            iers: Downloads and parses the Earth orientation bulletins.
+            ruby: The language Caelus is written in.
+            rails: The web framework.
+            hotwire: Turbo and Stimulus, behind the page updates and the small
+              amount of JavaScript.
+            view_component: Renders the charts and diagrams.
+            tailwindcss: The styles.
+            propshaft: Serves the assets.
+            importmap_rails: Ships the JavaScript without a bundler.
+            solid_queue: Runs the background jobs that generate celestial
+              events.
+            solid_cache: Caches computed astronomical data.
+            solid_cable: Part of the Rails default stack, backing Action
+              Cable.
+            sqlite: Stores the celestial events, the cache and the job queue.
+            puma: The application server.
+            thruster: Sits in front of Puma for TLS and asset caching.
+            rack_attack: Rate limiting.
+            kamal: Deploys Caelus to its server.
+            rspec: The test suite.
+            standard: Formats and lints the Ruby and JavaScript.
+        services:
+          title: Services
+          intro_html: "The third-party services involved in running Caelus.
+            None of them is used for advertising or profiling. See the
+            %{privacy_policy_link} for what leaves your browser."
+          privacy_policy: Privacy Policy
+          credits:
+            appsignal: "Application monitoring: errors, performance and
+              anonymous usage counters."
+            goatcounter: Cookieless page-view counting.
+        caelus:
+          title: Caelus
+          license_html: "Caelus is released under the %{license_link} and
+            written by %{author_link}."
+          mit_license: MIT licence
+          source_html: "Contributions and feedback are welcome on the
+            %{source_code_link}."
+          source_code: source repository
   date:
     formats:
       abbreviated_day: "%a"
@@ -923,6 +1003,7 @@ en:
       accept_cookies: Accept Cookies
       decline: Not Now
     footer:
+      credits: Credits
       enable_cookies: Enable Cookies
       made_with_love_html: "Made with &hearts; by %{author_link}
         using %{link}"

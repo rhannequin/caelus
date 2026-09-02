@@ -1,0 +1,122 @@
+<% content_for :heading, t(".title") %>
+<% content_for :title, t(".meta_title") %>
+<% content_for :description, t(".meta_description") %>
+
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="text-center space-y-2">
+    <h2 class="text-4xl font-bold text-cosmic">
+      <%= t(".title") %>
+    </h2>
+  </div>
+
+  <div class="cosmic-card space-y-6">
+    <p class="text-lg leading-relaxed">
+      <%= t(".introduction") %>
+    </p>
+
+    <section class="space-y-4">
+      <h3 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.data.title") %>
+      </h3>
+      <p class="leading-relaxed">
+        <%= t(".sections.data.intro") %>
+      </p>
+      <dl class="space-y-4">
+        <% CreditsCatalog.data.each do |credit| %>
+          <%= render(
+            "credit",
+            credit: credit,
+            description: t(".sections.data.credits.#{credit.key}")
+          ) %>
+        <% end %>
+      </dl>
+    </section>
+
+    <section class="space-y-4">
+      <h3 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.software.title") %>
+      </h3>
+      <p class="leading-relaxed">
+        <%= t(
+          ".sections.software.intro_html",
+          gemfile_link: link_to(
+            t(".sections.software.gemfile"),
+            "https://github.com/rhannequin/caelus/blob/main/Gemfile",
+            class: "link",
+            target: "_blank",
+            rel: "noopener"
+          )
+        ) %>
+      </p>
+      <dl class="space-y-4">
+        <% CreditsCatalog.software.each do |credit| %>
+          <%= render(
+            "credit",
+            credit: credit,
+            description: t(".sections.software.credits.#{credit.key}")
+          ) %>
+        <% end %>
+      </dl>
+    </section>
+
+    <section class="space-y-4">
+      <h3 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.services.title") %>
+      </h3>
+      <p class="leading-relaxed">
+        <%= t(
+          ".sections.services.intro_html",
+          privacy_policy_link: link_to(
+            t(".sections.services.privacy_policy"),
+            privacy_policy_path,
+            class: "link"
+          )
+        ) %>
+      </p>
+      <dl class="space-y-4">
+        <% CreditsCatalog.services.each do |credit| %>
+          <%= render(
+            "credit",
+            credit: credit,
+            description: t(".sections.services.credits.#{credit.key}")
+          ) %>
+        <% end %>
+      </dl>
+    </section>
+
+    <section class="space-y-4">
+      <h3 class="text-2xl font-semibold text-primary">
+        <%= t(".sections.caelus.title") %>
+      </h3>
+      <p class="leading-relaxed">
+        <%= t(
+          ".sections.caelus.license_html",
+          license_link: link_to(
+            t(".sections.caelus.mit_license"),
+            "https://github.com/rhannequin/caelus/blob/main/LICENSE.txt",
+            class: "link",
+            target: "_blank",
+            rel: "noopener"
+          ),
+          author_link: link_to(
+            "Rémy Hannequin",
+            "https://rhannequ.in",
+            class: "link"
+          )
+        ) %>
+      </p>
+      <p class="leading-relaxed">
+        <%= t(
+          ".sections.caelus.source_html",
+          source_code_link: link_to(
+            t(".sections.caelus.source_code"),
+            "https://github.com/rhannequin/caelus",
+            class: "link",
+            target: "_blank",
+            rel: "noopener"
+          )
+        ) %>
+      </p>
+    </section>
+  </div>
+</div>

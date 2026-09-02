@@ -1,0 +1,28 @@
+<div>
+  <dt class="font-semibold">
+    <a
+      href="<%= credit.url %>"
+      class="link"
+      target="_blank"
+      rel="noopener"
+    ><%= credit.name %></a>
+    <% if credit.license %>
+      <span class="text-sm font-normal text-muted-foreground">
+        -
+        <% if credit.license.url %>
+          <a
+            href="<%= credit.license.url %>"
+            class="link"
+            target="_blank"
+            rel="noopener"
+          ><%= credit.license.name %></a>
+        <% else %>
+          <%= credit.license.name %>
+        <% end %>
+      </span>
+    <% end %>
+  </dt>
+  <dd class="leading-relaxed">
+    <%= description %>
+  </dd>
+</div>
