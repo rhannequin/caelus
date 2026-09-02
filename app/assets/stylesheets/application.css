@@ -476,6 +476,63 @@ h1, h2, h3 {
   color: hsl(var(--muted-foreground));
 }
 
+.eclipse-visibility-badge--entirely_visible {
+  border-color: hsl(150 45% 40% / 0.5);
+  background: hsl(150 45% 40% / 0.12);
+  color: hsl(150 55% 28%);
+}
+
+.dark .eclipse-visibility-badge--entirely_visible {
+  color: hsl(150 60% 70%);
+}
+
+.eclipse-visibility-badge--begins_before_moonrise,
+.eclipse-visibility-badge--ends_after_moonset,
+.eclipse-visibility-badge--partially_visible {
+  border-color: hsl(var(--accent) / 0.5);
+  background: hsl(var(--accent) / 0.12);
+  color: hsl(35 70% 32%);
+}
+
+.dark .eclipse-visibility-badge--begins_before_moonrise,
+.dark .eclipse-visibility-badge--ends_after_moonset,
+.dark .eclipse-visibility-badge--partially_visible {
+  color: hsl(35 85% 72%);
+}
+
+.eclipse-visibility-badge--not_visible {
+  color: hsl(220 18% 38%);
+  background: hsl(var(--muted-foreground) / 0.1);
+}
+
+.dark .eclipse-visibility-badge--not_visible {
+  color: hsl(var(--muted-foreground));
+}
+
+.eclipse-visibility-summary {
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border) / 0.6);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.eclipse-visibility-summary--entirely_visible {
+  border-color: hsl(150 45% 40% / 0.4);
+  background: hsl(150 45% 40% / 0.08);
+}
+
+.eclipse-visibility-summary--begins_before_moonrise,
+.eclipse-visibility-summary--ends_after_moonset,
+.eclipse-visibility-summary--partially_visible {
+  border-color: hsl(var(--accent) / 0.4);
+  background: hsl(var(--accent) / 0.08);
+}
+
+.eclipse-visibility-summary--not_visible {
+  background: hsl(var(--muted-foreground) / 0.08);
+}
+
 .eclipse-year-nav {
   display: inline-flex;
   align-items: center;

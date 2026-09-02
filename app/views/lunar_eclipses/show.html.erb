@@ -9,16 +9,26 @@
 <% end %>
 
 <%= cache(
-  lunar_eclipse_cache_key("details/#{@date.iso8601}/#{time_zone_cache_key}")
+  lunar_eclipse_cache_key("details/#{@date.iso8601}/#{observer_cache_key}"),
+  expires_in: 1.week
 ) do %>
   <%= render "hero", lunar_eclipse: @lunar_eclipse, date: @date %>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2 space-y-6">
-      <%= render "phases", lunar_eclipse: @lunar_eclipse %>
+      <%= render(
+        "phases",
+        lunar_eclipse: @lunar_eclipse,
+        observer: @observer
+      ) %>
     </div>
 
     <div class="space-y-6">
+      <%= render(
+        "visibility",
+        lunar_eclipse: @lunar_eclipse,
+        visibility: lunar_eclipse_visibility(@lunar_eclipse, @observer)
+      ) %>
       <%= render "durations", lunar_eclipse: @lunar_eclipse %>
       <%= render "about", lunar_eclipse: @lunar_eclipse %>
     </div>

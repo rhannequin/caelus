@@ -1,0 +1,72 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm
+  cosmic-card">
+  <h3 class="text-xl font-bold mb-1 text-primary">
+    <%= t ".title" %>
+  </h3>
+
+  <p class="text-sm text-muted-foreground mb-4">
+    <%= t ".subtitle" %>
+  </p>
+
+  <div class="eclipse-visibility-summary
+    eclipse-visibility-summary--<%= visibility.circumstance %>">
+    <%= t "lunar_eclipses.visibility.circumstances.#{visibility.circumstance}" %>
+  </div>
+
+  <dl class="mt-4 space-y-2 text-sm">
+    <% lunar_eclipse_phases(lunar_eclipse).each do |name, _phase| %>
+      <div class="flex items-baseline justify-between gap-4">
+        <dt class="text-muted-foreground">
+          <%= t "lunar_eclipses.phase_names.#{name}" %>
+        </dt>
+        <dd class="font-semibold text-right">
+          <%= t(
+            "lunar_eclipses.visibility.coverages.#{visibility.coverage(name)}"
+          ) %>
+        </dd>
+      </div>
+    <% end %>
+  </dl>
+
+  <% horizon_events = lunar_eclipse_horizon_events(lunar_eclipse, visibility) %>
+  <% if horizon_events.any? %>
+    <dl class="mt-4 pt-4 border-t space-y-2 text-sm">
+      <% horizon_events.each do |horizon_event| %>
+        <div class="flex items-baseline justify-between gap-4">
+          <dt class="text-muted-foreground">
+            <%= t "lunar_eclipses.visibility.horizon_events.#{horizon_event.name}" %>
+          </dt>
+          <dd class="font-mono text-right">
+            <%= nillable_datetime(horizon_event.time, format: :hm) %>
+            <span class="text-xs text-muted-foreground">
+              <%= l horizon_event.time, format: :utc_hm %>
+            </span>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  <% end %>
+
+  <% if visibility.visible? %>
+    <dl class="mt-4 pt-4 border-t space-y-2 text-sm">
+      <% visibility.observable_windows.each do |window| %>
+        <div class="flex items-baseline justify-between gap-4">
+          <dt class="text-muted-foreground">
+            <%= t ".window" %>
+          </dt>
+          <dd class="font-mono text-right">
+            <%= t(
+              ".window_range",
+              from: l(window.first.to_time.in_time_zone, format: :hm),
+              to: l(window.last.to_time.in_time_zone, format: :hm)
+            ) %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  <% end %>
+
+  <p class="text-xs text-muted-foreground mt-4">
+    <%= t ".note" %>
+  </p>
+</div>

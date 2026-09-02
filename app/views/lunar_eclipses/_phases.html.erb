@@ -9,7 +9,7 @@
   </p>
 
   <ol class="eclipse-timeline">
-    <% lunar_eclipse_contacts(lunar_eclipse).each do |contact| %>
+    <% lunar_eclipse_contacts(lunar_eclipse, observer).each do |contact| %>
       <li class="eclipse-contact
         <%= "eclipse-contact--greatest" if contact.key == :greatest %>">
         <div class="flex flex-col sm:flex-row sm:items-baseline
@@ -39,6 +39,22 @@
                   contact.position_angle.degrees,
                   unit: :degree,
                   precision: 1
+                )
+              ) %>
+            </div>
+            <div class="text-xs font-mono
+              <%= contact.above_horizon? ? "text-muted-foreground" : "opacity-60" %>">
+              <%= t(
+                ".horizontal",
+                altitude: format_number(
+                  contact.altitude.degrees,
+                  unit: :degree,
+                  precision: 1
+                ),
+                azimuth: format_number(
+                  contact.azimuth.degrees,
+                  unit: :degree,
+                  precision: 0
                 )
               ) %>
             </div>

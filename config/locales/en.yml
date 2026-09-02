@@ -393,6 +393,7 @@ en:
         u4:
           description: The Moon leaves the umbra and the partial eclipse ends.
           name: Fourth umbral contact (U4)
+      horizontal: "%{altitude} alt · %{azimuth} az"
       position_angle: "PA %{angle}"
       position_angle_note:
         The position angle is measured on the Moon's limb from celestial north
@@ -403,6 +404,33 @@ en:
     show:
       back: "All eclipses in %{year}"
       title: Lunar Eclipse on %{date}
+    visibility:
+      badges:
+        begins_before_moonrise: Partly visible
+        ends_after_moonset: Partly visible
+        entirely_visible: Visible
+        not_visible: Not visible
+        partially_visible: Partly visible
+      circumstances:
+        begins_before_moonrise: The eclipse is already under way when the Moon
+          rises.
+        ends_after_moonset: The Moon sets while the eclipse is still under way.
+        entirely_visible: The Moon is up from the first to the last contact.
+        not_visible: The Moon is below the horizon for the whole eclipse.
+        partially_visible: The Moon crosses the horizon during the eclipse.
+      coverages:
+        entirely_visible: Entirely visible
+        not_visible: Not visible
+        partially_visible: Partly visible
+      horizon_events:
+        moonrise: Moon rises
+        moonset: Moon sets
+      note: A lunar eclipse happens at the same moment everywhere. All that
+        changes from place to place is whether the Moon is above the horizon.
+      subtitle: From your location.
+      title: 👁 Visibility
+      window: Moon above the horizon
+      window_range: "%{from} – %{to}"
     year_selector:
       next: "Eclipses in %{year}"
       previous: "Eclipses in %{year}"
