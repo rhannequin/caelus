@@ -416,7 +416,7 @@ en:
         moonset: Moon sets
       note: A lunar eclipse happens at the same moment everywhere. All that
         changes from place to place is whether the Moon is above the horizon.
-      subtitle: From your location, using your saved coordinates.
+      subtitle: From your location.
       title: 👁 Visibility
       window: Moon above the horizon
       window_range: "%{from} – %{to}"

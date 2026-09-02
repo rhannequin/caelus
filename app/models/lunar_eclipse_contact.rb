@@ -18,10 +18,17 @@ class LunarEclipseContact
   delegate :altitude, :azimuth, to: :horizontal
 
   def above_horizon?
-    altitude.positive?
+    altitude > horizon_angle
   end
 
   private
+
+  def horizon_angle
+    Astronoby::Horizon.angle_for(
+      body: Astronoby::Moon,
+      distance: @geometry.moon_distance
+    )
+  end
 
   def horizontal
     @horizontal ||= Astronoby::Moon
