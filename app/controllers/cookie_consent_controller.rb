@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CookieConsentController < ApplicationController
+  self.noindex = true
+
   def new
     render layout: false
   end

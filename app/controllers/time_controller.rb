@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TimeController < ApplicationController
+  self.noindex = true
+
   TIME_RANGE = Time.utc(1900, 1, 1)...Time.utc(2100, 1, 1)
 
   before_action :require_cookie_consent, only: :update

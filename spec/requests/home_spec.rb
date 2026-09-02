@@ -22,6 +22,14 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    it "leaves the page open to search engines" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path
+
+        expect(response.headers["X-Robots-Tag"]).to be_nil
+      end
+    end
+
     it "titles the page before the site name" do
       travel_to Time.utc(2025, 8, 30) do
         get root_path
