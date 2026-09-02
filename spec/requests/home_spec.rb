@@ -12,6 +12,45 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    it "canonicalises to the path without query parameters" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path, params: {utm_source: "newsletter"}
+
+        expect(response.body).to include(
+          '<link rel="canonical" href="http://www.example.com/">'
+        )
+      end
+    end
+
+    it "leaves the page open to search engines" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path
+
+        expect(response.headers["X-Robots-Tag"]).to be_nil
+      end
+    end
+
+    it "titles the page before the site name" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path
+
+        expect(response.body).to include(
+          "<title>Tonight&#39;s sky: Moon, planets and " \
+            "deep-sky objects • Caelus</title>"
+        )
+      end
+    end
+
+    it "describes the page for search engines" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path
+
+        expect(response.body).to include(
+          ERB::Util.html_escape(I18n.t("home.index.meta_description"))
+        )
+      end
+    end
+
     context "with a very high latitude location" do
       it "handles edge cases gracefully a returns a successful response" do
         travel_to Time.utc(2025, 8, 30) do

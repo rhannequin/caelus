@@ -10,8 +10,11 @@ class ApplicationController < ActionController::Base
   DEFAULT_LOCATION = [48.85341, 2.3488] # Paris, France
   DEFAULT_TIME_ZONE = "Europe/Paris"
 
+  class_attribute :noindex, default: false, instance_writer: false
+
   around_action :set_observer_and_time
   around_action :set_breadcrumbs
+  before_action :discourage_indexing
 
   helper_method :cookie_consent_given?,
     :cookie_consent_chosen?,
@@ -24,6 +27,10 @@ class ApplicationController < ActionController::Base
     :time_zone_cache_key
 
   private
+
+  def discourage_indexing
+    response.set_header("X-Robots-Tag", "noindex") if noindex?
+  end
 
   def set_observer_and_time(&block)
     if cookie_consent_given?

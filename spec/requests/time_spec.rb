@@ -3,6 +3,16 @@
 require "rails_helper"
 
 RSpec.describe TimeController, type: :request do
+  describe "GET time/edit" do
+    it "keeps the page out of search results" do
+      travel_to Time.utc(2026, 8, 25) do
+        get edit_time_path
+
+        expect(response.headers["X-Robots-Tag"]).to eq("noindex")
+      end
+    end
+  end
+
   describe "PATCH time" do
     context "when cookie consent is given" do
       it "updates the observer's time, stores it in UTC" do

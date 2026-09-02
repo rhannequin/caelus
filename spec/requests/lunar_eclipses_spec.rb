@@ -32,6 +32,73 @@ RSpec.describe LunarEclipsesController, type: :request do
       end
     end
 
+    it "canonicalises the current year to the bare path" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2026)
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses">'
+        )
+      end
+    end
+
+    it "canonicalises another year to its own parameter" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2027)
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses?year=2027">'
+        )
+      end
+    end
+
+    it "canonicalises an out-of-range year to the year it clamps to" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 99999)
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses?year=2100">'
+        )
+      end
+    end
+
+    it "canonicalises a malformed year to the bare path" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: "abc")
+
+        expect(response.body).to include(
+          '<link rel="canonical" ' \
+            'href="http://www.example.com/lunar_eclipses">'
+        )
+      end
+    end
+
+    it "titles the page with the selected year" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2027)
+
+        expect(response.body).to include(
+          "<title>Lunar eclipses in 2027: dates and visibility " \
+            "• Caelus</title>"
+        )
+      end
+    end
+
+    it "describes the selected year for search engines" do
+      travel_to Time.utc(2026, 8, 25) do
+        get lunar_eclipses_path(year: 2027)
+
+        expect(response.body).to include(
+          ERB::Util.html_escape(
+            I18n.t("lunar_eclipses.index.meta_description", year: 2027)
+          )
+        )
+      end
+    end
+
     context "without year parameter" do
       it "returns lunar eclipses for the current year" do
         travel_to Time.utc(2026, 8, 25) do
@@ -90,6 +157,41 @@ RSpec.describe LunarEclipsesController, type: :request do
   end
 
   describe "GET /lunar_eclipses/:id" do
+    it "heads the page with a date that has no zero-padded day" do
+      travel_to Time.utc(2026, 1, 1) do
+        get lunar_eclipse_path(id: "2026-03-03")
+
+        expect(response.body).to include("Lunar Eclipse on March 3, 2026")
+        expect(response.body).not_to include("March 03, 2026")
+      end
+    end
+
+    it "titles the page with the eclipse kind and an unpadded date" do
+      travel_to Time.utc(2025, 1, 1) do
+        get lunar_eclipse_path(id: "2025-03-14")
+
+        expect(response.body).to include(
+          "<title>Total Lunar Eclipse on March 14, 2025 • Caelus</title>"
+        )
+      end
+    end
+
+    it "describes the eclipse kind and date for search engines" do
+      travel_to Time.utc(2025, 1, 1) do
+        get lunar_eclipse_path(id: "2025-03-14")
+
+        expect(response.body).to include(
+          ERB::Util.html_escape(
+            I18n.t(
+              "lunar_eclipses.show.meta_description",
+              kind: I18n.t("lunar_eclipses.kinds.total.name"),
+              date: "March 14, 2025"
+            )
+          )
+        )
+      end
+    end
+
     it "describes what the observer sees of the eclipse" do
       travel_to Time.utc(2025, 1, 1) do
         get lunar_eclipse_path(id: "2025-03-14")

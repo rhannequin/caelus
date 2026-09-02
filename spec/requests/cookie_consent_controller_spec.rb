@@ -3,6 +3,16 @@
 require "rails_helper"
 
 RSpec.describe CookieConsentController, type: :request do
+  describe "GET /cookie_consent/new" do
+    it "keeps the page out of search results" do
+      travel_to Time.utc(2026, 8, 25) do
+        get new_cookie_consent_path
+
+        expect(response.headers["X-Robots-Tag"]).to eq("noindex")
+      end
+    end
+  end
+
   describe "POST cookie_consent" do
     it "sets the cookie consent cookie" do
       post cookie_consent_path

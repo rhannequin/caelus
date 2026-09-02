@@ -5,6 +5,10 @@ en:
     moon_phase_strip:
       label: Moon phases in %{month}
     show:
+      meta_description:
+        Equinoxes, solstices, eclipses, oppositions, conjunctions and Moon
+        phases coming up over the next twelve months.
+      meta_title: "Astronomy calendar: the next twelve months"
       title: Almanac
       subtitle: Celestial events coming up over the next twelve months.
       count:
@@ -256,6 +260,7 @@ en:
     formats:
       abbreviated_day: "%a"
       full_month_short: "%B %d"
+      long: "%B %-d, %Y"
       month_year: "%B %Y"
   description: Open source astronomy dashboard.
   location:
@@ -312,6 +317,10 @@ en:
     index:
       distances_table:
         distance_from_earth: Distance from Earth
+      meta_description:
+        "Tonight's sky from your location: Moon phase, planet visibility,
+        deep-sky objects to observe, and twilight times."
+      meta_title: "Tonight's sky: Moon, planets and deep-sky objects"
     planets_tonight:
       illumination: "%{percentage}% illuminated"
       title: 🪐 Planets Tonight
@@ -395,6 +404,10 @@ en:
           zero: No eclipse
         empty: No lunar eclipse takes place in %{year}.
         title: "Lunar Eclipses in %{year}"
+      meta_description:
+        Every lunar eclipse in %{year}, with its type, times, duration, and
+        whether it is visible from your location.
+      meta_title: "Lunar eclipses in %{year}: dates and visibility"
       title: Lunar Eclipses
     kinds:
       partial:
@@ -460,6 +473,10 @@ en:
       title: 🕐 Contacts
     show:
       back: "All eclipses in %{year}"
+      meta_description:
+        "%{kind} on %{date}: contact times, duration, umbral magnitude, and
+        whether it is visible from your location."
+      meta_title: "%{kind} on %{date}"
       title: Lunar Eclipse on %{date}
     visibility:
       badges:
@@ -692,6 +709,10 @@ en:
       tilt: Tilt
       title: 🚀 Physical Characteristics
     show:
+      meta_description:
+        "The Moon right now: phase, illumination, age, distance, apparent size,
+        sky position, and the dates of its upcoming phases."
+      meta_title: Moon phase tonight, rise and set times
       title: Moon
     this_week:
       title: 📆 This Week
@@ -710,6 +731,10 @@ en:
       separator: "."
   privacy_policy:
     show:
+      meta_description:
+        "How Caelus handles your data: what is collected, why, how long it is
+        kept, and the rights you have over it."
+      meta_title: Privacy Policy
       title: Privacy Policy
       last_updated: "Last updated: 2025-10-31"
       introduction: This Privacy Policy explains how we collect, use, and
@@ -983,6 +1008,10 @@ en:
       next: Next
       title: 🍂 Next Seasons
     show:
+      meta_description:
+        "The Sun right now: sunrise, sunset, twilight and golden hour times,
+        sky position, and the dates of the upcoming seasons."
+      meta_title: Sunrise, sunset and twilight times today
       title: Sun
     sky_position:
       absolute_magnitude: Absolute Magnitude
