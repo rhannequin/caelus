@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rhannequin/astronoby.git
-  revision: 53d701516bc2bb65d518304d401691d793189cb7
+  revision: 09f4033efd9e0c7bc5a21d3bd54396d4934e59cb
   branch: main
   specs:
     astronoby (0.10.0)
@@ -145,7 +145,7 @@ GEM
       activesupport (>= 6.1)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
-    iers (0.2.0)
+    iers (0.3.0)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
