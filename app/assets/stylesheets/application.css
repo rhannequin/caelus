@@ -818,6 +818,39 @@ h1, h2, h3 {
   min-width: 0;
 }
 
+.almanac-event-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.almanac-event-link::after {
+  content: '\203A';
+  display: inline-block;
+  margin-left: 0.35rem;
+  color: hsl(var(--primary) / 0.7);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.almanac-event-link:hover {
+  color: hsl(var(--accent));
+  text-decoration-color: hsl(var(--accent) / 0.6);
+}
+
+.almanac-event-link:hover::after {
+  transform: translateX(2px);
+  color: hsl(var(--accent));
+}
+
+.almanac-event-link:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
 .almanac-event-time {
   margin-left: auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;

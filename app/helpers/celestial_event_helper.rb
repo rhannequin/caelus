@@ -27,4 +27,11 @@ module CelestialEventHelper
 
     I18n.t("models.planets.#{body.downcase}.name")
   end
+
+  def celestial_event_link(event)
+    case event.kind
+    when CelestialEvent::LUNAR_ECLIPSE
+      lunar_eclipse_path(id: event.peak_at.utc.to_date.iso8601)
+    end
+  end
 end
