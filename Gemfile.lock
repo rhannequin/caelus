@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/rhannequin/astronoby.git
-  revision: 53d701516bc2bb65d518304d401691d793189cb7
+  revision: 8b82a699e380a39f44411570122fbe3daf6f5aab
   branch: main
   specs:
     astronoby (0.10.0)
       ephem (~> 0.5)
-      iers (~> 0.1)
+      horologium (~> 0.1)
+      iers (~> 0.3, >= 0.3.1)
       matrix (~> 0.4.2)
 
 GEM
@@ -143,9 +144,11 @@ GEM
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    horologium (0.1.0)
+      iers (~> 0.3, >= 0.3.1)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
-    iers (0.2.0)
+    iers (0.3.1)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
