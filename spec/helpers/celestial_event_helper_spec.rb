@@ -2,9 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe CelestialEventHelper do
-  include CelestialEventHelper
-
+RSpec.describe CelestialEventHelper, type: :helper do
   describe "#celestial_event_title" do
     it "names the body and its opposition" do
       event = create(
@@ -13,7 +11,7 @@ RSpec.describe CelestialEventHelper do
         primary_body: "Mars"
       )
 
-      expect(celestial_event_title(event)).to eq("Mars at opposition")
+      expect(helper.celestial_event_title(event)).to eq("Mars at opposition")
     end
 
     it "names the body and its greatest elongation" do
@@ -23,7 +21,7 @@ RSpec.describe CelestialEventHelper do
         primary_body: "Mercury"
       )
 
-      expect(celestial_event_title(event))
+      expect(helper.celestial_event_title(event))
         .to eq("Mercury at greatest elongation")
     end
 
@@ -35,7 +33,7 @@ RSpec.describe CelestialEventHelper do
         peak: Time.utc(2026, 8, 28, 12)
       )
 
-      expect(celestial_event_title(event))
+      expect(helper.celestial_event_title(event))
         .to eq("Lunar eclipse on August 28, 2026")
     end
 
@@ -47,7 +45,7 @@ RSpec.describe CelestialEventHelper do
         secondary_body: "Jupiter"
       )
 
-      expect(celestial_event_title(event)).to eq("Mars meets Jupiter")
+      expect(helper.celestial_event_title(event)).to eq("Mars meets Jupiter")
     end
 
     it "names the planet the Moon meets" do
@@ -57,7 +55,7 @@ RSpec.describe CelestialEventHelper do
         primary_body: "Venus"
       )
 
-      expect(celestial_event_title(event)).to eq("The Moon meets Venus")
+      expect(helper.celestial_event_title(event)).to eq("The Moon meets Venus")
     end
   end
 
@@ -85,7 +83,7 @@ RSpec.describe CelestialEventHelper do
     it "returns the human name of the kind" do
       event = build(:celestial_event, kind: CelestialEvent::OPPOSITION)
 
-      expect(celestial_event_kind_name(event)).to eq("Opposition")
+      expect(helper.celestial_event_kind_name(event)).to eq("Opposition")
     end
   end
 
@@ -93,13 +91,41 @@ RSpec.describe CelestialEventHelper do
     it "translates the stored body name" do
       event = build(:celestial_event, primary_body: "Jupiter")
 
-      expect(celestial_event_body_name(event)).to eq("Jupiter")
+      expect(helper.celestial_event_body_name(event)).to eq("Jupiter")
     end
 
     it "returns nothing when the event has no body" do
       event = build(:celestial_event, primary_body: nil)
 
-      expect(celestial_event_body_name(event)).to be_nil
+      expect(helper.celestial_event_body_name(event)).to be_nil
+    end
+  end
+
+  describe "#celestial_event_link" do
+    context "when the event kind has its own page" do
+      it "returns the link to the event's page" do
+        event = create(
+          :celestial_event,
+          kind: CelestialEvent::LUNAR_ECLIPSE,
+          peak: Time.utc(2026, 8, 28, 12)
+        )
+
+        expect(helper.celestial_event_link(event))
+          .to eq("/lunar_eclipses/2026-08-28")
+      end
+    end
+
+    context "when the event kind does not have its own page" do
+      it "returns nil" do
+        event = create(
+          :celestial_event,
+          kind: CelestialEvent::OPPOSITION,
+          primary_body: "Mars",
+          peak: Time.utc(2026, 8, 28, 12)
+        )
+
+        expect(helper.celestial_event_link(event)).to be_nil
+      end
     end
   end
 end

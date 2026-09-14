@@ -1,4 +1,5 @@
 <% peak_at = event.peak_at.in_time_zone %>
+<% link = celestial_event_link(event) %>
 <li class="almanac-event">
   <div class="almanac-event-date" aria-hidden="true">
     <span class="almanac-event-day"><%= peak_at.day %></span>
@@ -13,7 +14,15 @@
     </span>
 
     <p class="text-base font-bold mt-2 leading-tight">
-      <%= celestial_event_title(event) %>
+      <% if link %>
+        <%= link_to(
+          celestial_event_title(event),
+          link,
+          class: "almanac-event-link"
+        ) %>
+      <% else %>
+        <%= celestial_event_title(event) %>
+      <% end %>
     </p>
   </div>
 
