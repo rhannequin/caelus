@@ -11,6 +11,10 @@ class Earth
     :earth
   end
 
+  def self.color
+    "#6b93d6"
+  end
+
   def self.symbol
     "⊕"
   end
