@@ -15,8 +15,7 @@ class ConjunctionsController < ApplicationController
   private
 
   def celestial_event
-    CelestialEvent
-      .of_kind(Conjunction::KINDS)
-      .find_by(id: params[:id]) || raise(Caelus::NotFound)
+    CelestialEvent.from_param(params[:id], kinds: Conjunction::KINDS) ||
+      raise(Caelus::NotFound)
   end
 end

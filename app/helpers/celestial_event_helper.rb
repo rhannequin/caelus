@@ -31,7 +31,7 @@ module CelestialEventHelper
   def celestial_event_link(event)
     case event.kind
     when CelestialEvent::LUNAR_ECLIPSE
-      lunar_eclipse_path(id: event.peak_at.utc.to_date.iso8601)
+      lunar_eclipse_path(id: event.peak_date.iso8601)
     when *Conjunction::KINDS
       conjunction_path(event)
     end

@@ -126,7 +126,7 @@ RSpec.describe CelestialEventHelper, type: :helper do
         )
 
         expect(helper.celestial_event_link(event))
-          .to eq("/conjunctions/#{event.id}")
+          .to eq("/conjunctions/2026-11-16-mars-jupiter")
       end
     end
 

@@ -4,6 +4,21 @@ require "rails_helper"
 
 RSpec.describe ConjunctionsController, type: :request do
   describe "GET /conjunctions/:id" do
+    it "addresses a conjunction by its date and bodies" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::MOON_PLANET_CONJUNCTION,
+        primary_body: "Saturn",
+        peak: Time.utc(2026, 9, 27, 6, 36)
+      )
+
+      get "/conjunctions/2026-09-27-moon-saturn"
+
+      expect(response).to have_http_status(:ok)
+      expect(conjunction_path(event))
+        .to eq("/conjunctions/2026-09-27-moon-saturn")
+    end
+
     it "shows both bodies of a planetary conjunction" do
       event = create(
         :celestial_event,
@@ -110,8 +125,28 @@ RSpec.describe ConjunctionsController, type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
-    it "returns a not found response for an unknown event" do
-      get conjunction_path(id: 0)
+    it "returns a not found response when no event matches the slug" do
+      get conjunction_path(id: "2026-11-16-mars-jupiter")
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "returns a not found response for a slug that is not a date" do
+      get conjunction_path(id: "mars-jupiter")
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "does not serve a conjunction under another day's slug" do
+      create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Mars",
+        secondary_body: "Jupiter",
+        peak: Time.utc(2026, 11, 16, 2, 4)
+      )
+
+      get conjunction_path(id: "2026-11-17-mars-jupiter")
 
       expect(response).to have_http_status(:not_found)
     end
