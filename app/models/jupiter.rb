@@ -11,6 +11,10 @@ class Jupiter
     :jupiter
   end
 
+  def self.color
+    "#ead6b0"
+  end
+
   def self.symbol
     "♃"
   end
