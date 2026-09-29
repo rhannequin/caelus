@@ -640,6 +640,145 @@ h1, h2, h3 {
   }
 }
 
+.conjunction-sky {
+  display: flex;
+  justify-content: center;
+}
+
+.conjunction-sky-svg {
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+}
+
+.conjunction-sky-field {
+  fill: hsl(232 45% 9%);
+  stroke: hsl(var(--border) / 0.4);
+  stroke-width: 1;
+}
+
+.conjunction-sky-link {
+  stroke: hsl(0 0% 100% / 0.28);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.conjunction-sky-body {
+  stroke: hsl(0 0% 100% / 0.25);
+  stroke-width: 0.5;
+}
+
+.conjunction-sky-label {
+  fill: hsl(0 0% 100% / 0.92);
+  font-size: 11px;
+  font-weight: 500;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke fill;
+  stroke: rgba(8, 10, 22, 0.85);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.conjunction-sky-separation {
+  fill: hsl(0 0% 100% / 0.8);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.conjunction-sky-compass line,
+.conjunction-sky-compass polyline,
+.conjunction-sky-scale line {
+  stroke: hsl(0 0% 100% / 0.4);
+  stroke-width: 1;
+  fill: none;
+}
+
+.conjunction-sky-tick {
+  fill: hsl(0 0% 100% / 0.55);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-anchor: middle;
+}
+
+.conjunction-sky-tick--start {
+  text-anchor: start;
+}
+
+.conjunction-legend {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--card) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.3);
+}
+
+.dark .conjunction-legend {
+  background: hsl(var(--card) / 0.3);
+}
+
+.conjunction-legend-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.conjunction-nights {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.conjunction-nights th,
+.conjunction-nights td {
+  padding: 0.4rem 0.35rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.conjunction-nights thead th {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 1px solid hsl(var(--border) / 0.4);
+}
+
+.conjunction-nights tbody th {
+  text-align: left;
+  font-weight: 600;
+}
+
+.conjunction-nights tbody td {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.conjunction-nights tbody tr + tr th,
+.conjunction-nights tbody tr + tr td {
+  border-top: 1px solid hsl(var(--border) / 0.2);
+}
+
+.conjunction-nights-row--peak th,
+.conjunction-nights-row--peak td {
+  background: hsl(var(--accent) / 0.12);
+  color: hsl(var(--foreground));
+}
+
+.conjunction-nights-row--peak th:first-child {
+  border-top-left-radius: 0.35rem;
+  border-bottom-left-radius: 0.35rem;
+}
+
+.conjunction-nights-row--peak td:last-child {
+  border-top-right-radius: 0.35rem;
+  border-bottom-right-radius: 0.35rem;
+}
+
 .almanac-board {
   position: relative;
   padding-left: 2.25rem;

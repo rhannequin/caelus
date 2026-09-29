@@ -69,11 +69,39 @@ class CelestialEvent < ApplicationRecord
   scope :of_kind, ->(kinds) { where(kind: kinds) }
   scope :chronological, -> { order(:peak_at) }
 
+  def self.from_param(param, kinds:)
+    date = Date.iso8601(param.to_s.first(10))
+
+    of_kind(kinds)
+      .between(date.beginning_of_day, date.end_of_day)
+      .find { |event| event.to_param == param }
+  rescue Date::Error
+    nil
+  end
+
   def instant
     Astronoby::Instant.from_terrestrial_time(peak_tt)
   end
 
+  def to_param
+    return unless peak_at
+
+    [peak_date.iso8601, *body_slugs].join("-")
+  end
+
+  def peak_date
+    peak_at.utc.to_date
+  end
+
   private
+
+  def body_slugs
+    case kind
+    when MOON_PLANET_CONJUNCTION then ["moon", primary_body]
+    when PLANETARY_CONJUNCTION then [primary_body, secondary_body]
+    else []
+    end.compact.map(&:downcase)
+  end
 
   def set_peak_at
     self.peak_at = instant.to_time

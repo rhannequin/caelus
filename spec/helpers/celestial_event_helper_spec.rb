@@ -115,6 +115,21 @@ RSpec.describe CelestialEventHelper, type: :helper do
       end
     end
 
+    context "when the event is a conjunction" do
+      it "returns the link to the conjunction page" do
+        event = create(
+          :celestial_event,
+          kind: CelestialEvent::PLANETARY_CONJUNCTION,
+          primary_body: "Mars",
+          secondary_body: "Jupiter",
+          peak: Time.utc(2026, 11, 16, 2, 4)
+        )
+
+        expect(helper.celestial_event_link(event))
+          .to eq("/conjunctions/2026-11-16-mars-jupiter")
+      end
+    end
+
     context "when the event kind does not have its own page" do
       it "returns nil" do
         event = create(

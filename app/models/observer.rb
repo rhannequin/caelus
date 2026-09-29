@@ -11,6 +11,7 @@ class Observer
 
   delegate :latitude,
     :longitude,
+    :elevation,
     :utc_offset,
     :earth_fixed_rotation_matrix_for,
     :geocentric_position,

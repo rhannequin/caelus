@@ -1,0 +1,81 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h2 class="text-xl font-bold mb-1 text-primary">
+    <%= t ".title" %>
+  </h2>
+
+  <p class="text-sm text-muted-foreground mb-4 font-mono">
+    <%= format_observer_coordinates(observer) %>
+  </p>
+
+  <% if conjunction.visible? %>
+    <div class="eclipse-visibility-summary eclipse-visibility-summary--entirely_visible">
+      <%= t(".visible", count: conjunction.apparitions.size) %>
+    </div>
+
+    <% unless conjunction.peak_observable? %>
+      <p class="text-sm text-muted-foreground mt-3">
+        <%= t(
+          ".peak_out_of_reach",
+          peak: conjunction_separation(conjunction.separation),
+          time: l(conjunction.peak_at, format: :hm)
+        ) %>
+      </p>
+    <% end %>
+
+    <table class="conjunction-nights">
+      <caption class="sr-only"><%= t ".nights_caption" %></caption>
+      <thead>
+        <tr>
+          <th scope="col"><%= t ".night" %></th>
+          <th scope="col"><%= t ".best_time" %></th>
+          <th scope="col"><%= t ".altitude" %></th>
+          <th scope="col"><%= t ".apart" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% conjunction.apparitions.each do |apparition| %>
+          <tr class="<%= "conjunction-nights-row--peak" if conjunction.peak_night?(apparition) %>">
+            <th scope="row">
+              <%= l apparition.date, format: :abbreviated_day_month %>
+            </th>
+            <td>
+              <%= l apparition.time.in_time_zone, format: :hm %>
+            </td>
+            <td>
+              <%= format_number(
+                apparition.altitude.degrees,
+                unit: :degree,
+                precision: 0
+              ) %>
+              <span class="text-muted-foreground">
+                <%= cardinal_direction(apparition.azimuth.degrees) %>
+              </span>
+            </td>
+            <td><%= conjunction_separation(apparition.separation) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <p class="text-xs text-muted-foreground mt-3">
+      <%= t ".peak_night_note" %>
+    </p>
+  <% else %>
+    <div class="eclipse-visibility-summary eclipse-visibility-summary--not_visible">
+      <%= t ".not_visible.#{conjunction.unobservable_reason}" %>
+    </div>
+
+    <% if conjunction.near_the_sun? %>
+      <p class="text-sm text-muted-foreground mt-4">
+        <%= t(
+          ".not_visible.elongation_hint",
+          elongation: format_number(
+            conjunction.solar_elongation.degrees,
+            unit: :degree,
+            precision: 0
+          )
+        ) %>
+      </p>
+    <% end %>
+  <% end %>
+</div>

@@ -17,6 +17,14 @@ module Planetable
     def planet_name
       I18n.t("models.planets.#{key}.name")
     end
+
+    def astronoby_body
+      planet_class
+    end
+
+    def at(time, observer:)
+      new(observer: observer, time: time)
+    end
   end
 
   included do
@@ -25,6 +33,7 @@ module Planetable
     delegate :angular_diameter,
       :apparent,
       :approaching_primary?,
+      :elongation,
       to: :planet
 
     def distance_from_earth

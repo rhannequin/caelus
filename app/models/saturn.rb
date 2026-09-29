@@ -11,6 +11,10 @@ class Saturn
     :saturn
   end
 
+  def self.color
+    "#e6d5a0"
+  end
+
   def self.symbol
     "♄"
   end

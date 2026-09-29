@@ -11,6 +11,10 @@ class Uranus
     :uranus
   end
 
+  def self.color
+    "#a9dfe6"
+  end
+
   def self.symbol
     "♅"
   end
