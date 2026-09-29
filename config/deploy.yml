@@ -78,6 +78,9 @@ volumes:
 # version inside the asset_path.
 asset_path: /rails/public/assets
 
+# Keep the running release plus 2 older ones to roll back to.
+retain_containers: 2
+
 # Configure the image builder.
 builder:
   arch: amd64
