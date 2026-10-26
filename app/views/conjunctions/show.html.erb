@@ -1,0 +1,23 @@
+<% title = conjunction_title(@conjunction) %>
+<% date = l @conjunction.date, format: :long %>
+<% content_for :heading, title %>
+<% content_for :title, t(".meta_title", title: title, date: date) %>
+<% content_for :description, t(".meta_description", title: title, date: date) %>
+
+<%= cache(
+  [@conjunction.celestial_event, observer_cache_key],
+  expires_in: 1.week
+) do %>
+  <%= render "header", conjunction: @conjunction, title: title, date: date %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2">
+      <%= render "sky", conjunction: @conjunction %>
+    </div>
+
+    <div class="space-y-6">
+      <%= render "observer", conjunction: @conjunction, observer: @observer %>
+      <%= render "about", conjunction: @conjunction %>
+    </div>
+  </div>
+<% end %>

@@ -77,6 +77,75 @@ en:
       south_west: ↙ SW
       west: ← W
       north_west: ↖ NW
+  conjunctions:
+    about:
+      title: About this event
+      moon_planet: A conjunction happens when the Moon and a planet appear close
+        together in the sky. They are not actually near each other in space,
+        this is a visual effect from Earth.
+      planetary: A conjunction happens when two planets appear close together in
+        the sky. They are not actually near each other in space, only along
+        nearly the same line of sight from Earth.
+      perspective: Because the alignment is a matter of perspective, the
+        separation you measure depends on where you stand. It is largest for the
+        Moon, whose nearness makes it shift against the background stars as the
+        Earth turns.
+    sky:
+      title: In the sky
+      apart: "%{separation} apart"
+      vantage: "at %{time} · %{altitude} above the %{direction} horizon"
+      subtitle: The pair as it stands in your sky at the best moment, straight
+        up towards the zenith, drawn to scale.
+      subtitle_geocentric: The pair as it appears from Earth, north up and east
+        left, drawn to scale.
+      apparent_size: Apparent size
+      description: "%{primary} and %{secondary}, %{separation} apart."
+      distance: Distance
+      geocentric: Separation from Earth's centre
+      illumination: Illuminated
+      magnitude: Magnitude
+      parallax_note: The geocentric separation is measured from the centre of
+        the Earth, the topocentric one from where you stand. The difference is
+        called parallax.
+      position_angle: Position angle
+      solar_elongation: Elongation from the Sun
+      scale_arcminutes:
+        one: 1 arcminute
+        other: "%{count} arcminutes"
+      scale_degrees:
+        one: 1 degree
+        other: "%{count} degrees"
+      topocentric: Separation from your location
+    header:
+      summary: "%{date} · closest at %{time} (%{utc}), %{separation} apart"
+    observer:
+      title: When to look
+      altitude: Altitude
+      apart: Apart
+      best_time: Best time
+      night: Night
+      nights_caption: Nights the pair is observable from your location
+      peak_out_of_reach: They come closest at %{time}, %{peak} apart, but the
+        pair is not observable from here at that moment. The nights below are
+        what you can actually see.
+      peak_night_note: The highlighted row is the night of closest approach.
+        Times are when the pair looks the highest in a dark sky.
+      visible:
+        one: One night around the peak brings the pair into a dark sky.
+        other: "%{count} nights around the peak bring the pair into a dark sky."
+      not_visible:
+        below_horizon: The pair stays below your horizon through every dark hour
+          of the nights around this conjunction.
+        drifted: The two are only above your horizon after they have drawn too
+          far apart to look as a pair.
+        no_darkness: The sky never grows dark enough at your latitude on these
+          dates.
+        elongation_hint: The pair sits %{elongation} from the Sun, so it shares
+          the daytime sky with it.
+    show:
+      meta_description: "%{title} on %{date}: how close the two come, how bright
+        they are and when to look from your location."
+      meta_title: "%{title}, %{date}"
   constellation:
     human_name:
       and: Andromeda
@@ -339,6 +408,7 @@ en:
   date:
     formats:
       abbreviated_day: "%a"
+      abbreviated_day_month: "%a %-d %b"
       full_month_short: "%B %d"
       long: "%B %-d, %Y"
       month_year: "%B %Y"
@@ -716,6 +786,10 @@ en:
         name: Uranus
       neptune:
         name: Neptune
+      moon:
+        name: Moon
+      sun:
+        name: Sun
   moon:
     coordinates:
       declination: Declination

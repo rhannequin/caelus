@@ -14,6 +14,14 @@ class Sun
     :sun
   end
 
+  def self.color
+    "#fdb813"
+  end
+
+  def self.symbol
+    "☉"
+  end
+
   def initialize(observer:, time:)
     @observer = observer
     @time = time

@@ -27,38 +27,29 @@ class Visibility
 
   def always_above_horizon?
     return false unless never_rises_nor_sets?
-    return false unless declination
 
-    circumpolar_limit = 90 - @observer.latitude.degrees.abs
-
-    if @observer.latitude.degrees.negative?
-      declination.degrees < -circumpolar_limit
-    else
-      declination.degrees > circumpolar_limit
-    end
+    altitude.positive?
   end
 
   def never_rises_nor_sets?
     today_body_rts.rising_time.nil? && today_body_rts.setting_time.nil?
   end
 
-  def declination
-    return unless @body.is_a?(DeepSkyObject)
-
-    @body.j2000_coordinates.declination
+  def altitude
+    @altitude ||= @body
+      .at(sample_time, observer: @observer)
+      .topocentric
+      .horizontal
+      .altitude
   end
 
-  def astronoby_body
-    if @body.is_a?(DeepSkyObject)
-      @body.astronoby_deep_sky_object
-    else
-      @body.planet_class
-    end
+  def sample_time
+    @date.noon
   end
 
   def body_rts
     @body_rts ||= Astronoby::RiseTransitSetCalculator.new(
-      body: astronoby_body,
+      body: @body.astronoby_body,
       observer: @observer,
       ephem: spk
     )

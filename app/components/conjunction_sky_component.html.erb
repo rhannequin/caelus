@@ -1,0 +1,156 @@
+<svg
+  viewBox="0 0 <%= WIDTH %> <%= HEIGHT %>"
+  class="conjunction-sky-svg"
+  role="img"
+  aria-label="<%= description %>"
+>
+  <rect
+    width="<%= WIDTH %>"
+    height="<%= HEIGHT %>"
+    rx="12"
+    class="conjunction-sky-field"
+  />
+
+  <% unless bodies_overlap? %>
+    <line
+      x1="<%= primary_point.first %>"
+      y1="<%= primary_point.second %>"
+      x2="<%= secondary_point.first %>"
+      y2="<%= secondary_point.second %>"
+      class="conjunction-sky-link"
+    />
+  <% end %>
+
+  <% if moon? %>
+    <g transform="rotate(<%= moon_rotation %>,
+      <%= primary_point.first %>, <%= primary_point.second %>)">
+      <g transform="translate(<%= moon_disc_offset.join(", ") %>)">
+      <%= render(
+        MoonPhaseComponent.new(
+          moon: view_primary,
+          size: moon_disc_size,
+          options: moon_disc_options
+        )
+      ) %>
+      </g>
+    </g>
+  <% else %>
+    <circle
+      cx="<%= primary_point.first %>"
+      cy="<%= primary_point.second %>"
+      r="<%= primary_radius %>"
+      fill="<%= body_color(view_primary) %>"
+      style="filter: drop-shadow(0 0 4px <%= body_color(view_primary) %>)"
+      class="conjunction-sky-body"
+    />
+  <% end %>
+
+  <circle
+    cx="<%= secondary_point.first %>"
+    cy="<%= secondary_point.second %>"
+    r="<%= secondary_radius %>"
+    fill="<%= body_color(view_secondary) %>"
+    style="filter: drop-shadow(0 0 4px <%= body_color(view_secondary) %>)"
+    class="conjunction-sky-body"
+  />
+
+  <text
+    x="<%= primary_label_point.first %>"
+    y="<%= primary_label_point.second %>"
+    class="conjunction-sky-label"
+  >
+    <%= body_name(view_primary) %>
+  </text>
+
+  <text
+    x="<%= secondary_label_point.first %>"
+    y="<%= secondary_label_point.second %>"
+    class="conjunction-sky-label"
+  >
+    <%= body_name(view_secondary) %>
+  </text>
+
+  <text
+    x="<%= SIDE_PADDING %>"
+    y="<%= 30 %>"
+    class="conjunction-sky-separation"
+  >
+    <%= t("conjunctions.sky.apart", separation: separation_text) %>
+  </text>
+
+  <% if horizon_view? %>
+    <text
+      x="<%= SIDE_PADDING %>"
+      y="<%= 48 %>"
+      class="conjunction-sky-tick conjunction-sky-tick--start"
+    >
+      <%= vantage_text %>
+    </text>
+
+    <g class="conjunction-sky-compass">
+      <g transform="rotate(<%= north_rotation %>,
+        <%= north_anchor.first %>, <%= north_anchor.second %>)">
+        <line
+          x1="<%= north_anchor.first %>"
+          y1="<%= north_anchor.second %>"
+          x2="<%= north_anchor.first %>"
+          y2="<%= north_anchor.second - NORTH_ARROW_LENGTH %>"
+        />
+        <polyline
+          points="<%= north_anchor.first - 4 %>,
+            <%= north_anchor.second - NORTH_ARROW_LENGTH + 6 %>
+            <%= north_anchor.first %>,
+            <%= north_anchor.second - NORTH_ARROW_LENGTH %>
+            <%= north_anchor.first + 4 %>,
+            <%= north_anchor.second - NORTH_ARROW_LENGTH + 6 %>"
+        />
+      </g>
+      <text
+        x="<%= north_label_point.first %>"
+        y="<%= north_label_point.second %>"
+        class="conjunction-sky-tick"
+      >
+        <%= t("cardinal_direction.north") %>
+      </text>
+    </g>
+  <% else %>
+    <g class="conjunction-sky-compass">
+      <line x1="<%= WIDTH - 46 %>" y1="54" x2="<%= WIDTH - 46 %>" y2="28" />
+      <line x1="<%= WIDTH - 46 %>" y1="54" x2="<%= WIDTH - 72 %>" y2="54" />
+      <text x="<%= WIDTH - 46 %>" y="22" class="conjunction-sky-tick">
+        <%= t("cardinal_direction.north") %>
+      </text>
+      <text x="<%= WIDTH - 80 %>" y="58" class="conjunction-sky-tick">
+        <%= t("cardinal_direction.east") %>
+      </text>
+    </g>
+  <% end %>
+
+  <g class="conjunction-sky-scale">
+    <line
+      x1="<%= SIDE_PADDING %>"
+      y1="<%= scale_y %>"
+      x2="<%= SIDE_PADDING + scale_pixels %>"
+      y2="<%= scale_y %>"
+    />
+    <line
+      x1="<%= SIDE_PADDING %>"
+      y1="<%= scale_y - 4 %>"
+      x2="<%= SIDE_PADDING %>"
+      y2="<%= scale_y + 4 %>"
+    />
+    <line
+      x1="<%= SIDE_PADDING + scale_pixels %>"
+      y1="<%= scale_y - 4 %>"
+      x2="<%= SIDE_PADDING + scale_pixels %>"
+      y2="<%= scale_y + 4 %>"
+    />
+    <text
+      x="<%= SIDE_PADDING + scale_pixels + 8 %>"
+      y="<%= scale_y + 4 %>"
+      class="conjunction-sky-tick conjunction-sky-tick--start"
+    >
+      <%= scale_label %>
+    </text>
+  </g>
+</svg>

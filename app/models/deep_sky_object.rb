@@ -45,6 +45,10 @@ class DeepSkyObject
     DeepSkyObjectsCatalog.designation_for(catalog, number)
   end
 
+  def astronoby_body
+    astronoby_deep_sky_object
+  end
+
   def astronoby_deep_sky_object
     @astronoby_deep_sky_object ||=
       Astronoby::DeepSkyObject.new(equatorial_coordinates: j2000_coordinates)

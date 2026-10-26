@@ -11,6 +11,10 @@ class Neptune
     :neptune
   end
 
+  def self.color
+    "#7f9fe3"
+  end
+
   def self.symbol
     "♆"
   end

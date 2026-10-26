@@ -11,6 +11,10 @@ class Venus
     :venus
   end
 
+  def self.color
+    "#fff8ec"
+  end
+
   def self.symbol
     "♀"
   end
