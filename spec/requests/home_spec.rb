@@ -12,6 +12,14 @@ RSpec.describe HomeController, type: :request do
       end
     end
 
+    it "links to the sky map from the navigation" do
+      travel_to Time.utc(2025, 8, 30) do
+        get root_path
+
+        expect(response.body).to include(%(href="#{sky_path}"))
+      end
+    end
+
     it "canonicalises to the path without query parameters" do
       travel_to Time.utc(2025, 8, 30) do
         get root_path, params: {utm_source: "newsletter"}
