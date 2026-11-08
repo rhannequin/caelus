@@ -3,6 +3,23 @@
 require "rails_helper"
 
 RSpec.describe MoonInterference do
+  describe "#duration" do
+    it "counts the Moon over the observer's own night" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(34.0),
+        longitude: Astronoby::Angle.from_degrees(-118.0),
+        utc_offset: "-08:00"
+      )
+
+      moon_interference = described_class.new(
+        observer: observer,
+        date: Date.new(2025, 3, 14)
+      )
+
+      expect(moon_interference.duration).to be < 12 * 3600
+    end
+  end
+
   describe "#percentage" do
     it "returns the percentage of nighttime the moon is above the horizon" do
       observer = Astronoby::Observer.new(

@@ -38,7 +38,10 @@ class HomeController < ApplicationController
       Astronoby::TwilightCalculator.new(
         observer: @observer,
         ephem: spk
-      ).event_on(@time.to_date + 1)
+      ).event_on(
+        @time.to_date + 1,
+        utc_offset: @observer.time_zone.formatted_offset
+      )
     end
 
     @observing_night = ObservingNight.new(

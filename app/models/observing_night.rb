@@ -1,30 +1,16 @@
 # frozen_string_literal: true
 
 class ObservingNight
+  include ObserverLocalTime
+
   SAMPLE_COUNT = 12
   ALL_DAY = 24 * 3600
-  SCAN_STEP = 10 * 60
-  SCAN_REFINEMENTS = 12
+  ALL_DAY_TOLERANCE = 10 * 60
 
   DARKNESS_ALTITUDES = {
     astronomical: Astronoby::Angle.from_degrees(-18),
     nautical: Astronoby::Angle.from_degrees(-12),
     civil: Astronoby::Angle.from_degrees(-6)
-  }.freeze
-
-  DARKNESS_LEVELS = {
-    astronomical: [
-      :evening_astronomical_twilight_time,
-      :morning_astronomical_twilight_time
-    ],
-    nautical: [
-      :evening_nautical_twilight_time,
-      :morning_nautical_twilight_time
-    ],
-    civil: [
-      :evening_civil_twilight_time,
-      :morning_civil_twilight_time
-    ]
   }.freeze
 
   MoonPosition = Data.define(
@@ -48,7 +34,7 @@ class ObservingNight
   def range(darkness: nil)
     return deepest_window.fetch(:range) if darkness.nil?
 
-    window_at(darkness) || scanned_window_for(darkness)&.fetch(:range)
+    window_for(darkness)&.fetch(:range)
   end
 
   def dark?
@@ -60,7 +46,7 @@ class ObservingNight
   end
 
   def all_day?
-    dark? && duration >= ALL_DAY - SCAN_STEP
+    dark? && duration >= ALL_DAY - ALL_DAY_TOLERANCE
   end
 
   def duration
@@ -73,7 +59,7 @@ class ObservingNight
     return [] unless dark?
 
     step = duration / SAMPLE_COUNT
-    (0..SAMPLE_COUNT).map { |index| range.begin + step * index }
+    (0...SAMPLE_COUNT).map { |index| range.begin + step * index } << range.end
   end
 
   def moon_positions
@@ -112,45 +98,59 @@ class ObservingNight
   private
 
   def deepest_window
-    @deepest_window ||= DARKNESS_LEVELS
-      .keys
-      .lazy
-      .filter_map { |level| window_for(level) }
-      .first || scanned_window
+    windows.values.compact.first || {darkness: :none, range: nil}
   end
 
-  def scanned_window
-    DARKNESS_LEVELS
-      .keys
-      .lazy
-      .filter_map { |level| scanned_window_for(level) }
-      .first || {darkness: :none, range: nil}
+  def window_for(level)
+    windows.fetch(level)
   end
 
-  def scanned_window_for(level)
-    limit = DARKNESS_ALTITUDES.fetch(level)
-    dark = solar_altitudes.each_index.select { |i| solar_altitudes[i] <= limit }
-    return if dark.empty?
+  def windows
+    @windows ||= begin
+      crossings = crossing_calculator.multiple_crossings_between(
+        noon,
+        noon + ALL_DAY,
+        altitudes: DARKNESS_ALTITUDES.values
+      )
 
-    first, last = longest_run(dark)
-    return if first == last
-
-    {
-      darkness: level,
-      range: crossing(first, -1, limit)..crossing(last, 1, limit)
-    }
-  end
-
-  def solar_altitudes
-    @solar_altitudes ||= scan_times.map { |time| solar_altitude_at(time) }
-  end
-
-  def scan_times
-    @scan_times ||= begin
-      noon = Time.new(@date.year, @date.month, @date.day, 12, 0, 0, utc_offset)
-      steps = (24 * 3600 / SCAN_STEP)
-      (0..steps).map { |step| noon + step * SCAN_STEP }
+      DARKNESS_ALTITUDES.keys.zip(DARKNESS_ALTITUDES.values, crossings)
+        .to_h { |level, limit, found| [level, window(level, limit, found)] }
     end
+  end
+
+  def window(level, limit, crossings)
+    longest = dark_stretches(crossings, limit)
+      .select { |stretch| span(stretch).positive? }
+      .max_by { |stretch| span(stretch) }
+
+    {darkness: level, range: longest} if longest
+  end
+
+  def dark_stretches(crossings, limit)
+    start = noon if dark_at_noon?(crossings, limit)
+
+    stretches = crossings.each_with_object([]) do |crossing, found|
+      time = crossing.instant.to_time
+
+      if crossing.direction == :setting
+        start = time
+      elsif start
+        found << (start..time)
+        start = nil
+      end
+    end
+
+    start ? stretches << (start..noon + ALL_DAY) : stretches
+  end
+
+  def dark_at_noon?(crossings, limit)
+    return solar_altitude_at(noon) <= limit if crossings.empty?
+
+    crossings.first.direction == :rising
+  end
+
+  def noon
+    @noon ||= Time.new(@date.year, @date.month, @date.day, 12, 0, 0, utc_offset_of(@observer))
   end
 
   def solar_altitude_at(time)
@@ -159,49 +159,6 @@ class ObservingNight
       .observed_by(@observer)
       .horizontal
       .altitude
-  end
-
-  def longest_run(indexes)
-    runs = indexes.slice_when { |a, b| b != a + 1 }.to_a
-    longest = runs.max_by(&:size)
-
-    [longest.first, longest.last]
-  end
-
-  def crossing(index, direction, limit)
-    inside = scan_times[index]
-    outside_index = index + direction
-    return inside if outside_index.negative?
-
-    outside = scan_times[outside_index]
-    return inside unless outside
-
-    SCAN_REFINEMENTS.times do
-      middle = inside + (outside - inside) / 2
-      if solar_altitude_at(middle) <= limit
-        inside = middle
-      else
-        outside = middle
-      end
-    end
-
-    inside
-  end
-
-  def window_for(level)
-    range = window_at(level)
-    return unless range
-
-    {darkness: level, range: range}
-  end
-
-  def window_at(level)
-    evening_time, morning_time = DARKNESS_LEVELS.fetch(level)
-    from = evening_twilight.public_send(evening_time)
-    to = morning_twilight.public_send(morning_time)
-    return unless from && to
-
-    from..to
   end
 
   def longest_moonless_stretch
@@ -225,21 +182,9 @@ class ObservingNight
     range.end - range.begin
   end
 
-  def evening_twilight
-    @evening_twilight ||= twilight_calculator.event_on(@date, utc_offset: utc_offset)
-  end
-
-  def morning_twilight
-    @morning_twilight ||=
-      twilight_calculator.event_on(@date + 1, utc_offset: utc_offset)
-  end
-
-  def utc_offset
-    @observer.utc_offset || 0
-  end
-
-  def twilight_calculator
-    @twilight_calculator ||= Astronoby::TwilightCalculator.new(
+  def crossing_calculator
+    @crossing_calculator ||= Astronoby::AltitudeCrossingCalculator.new(
+      body: Astronoby::Sun,
       observer: @observer,
       ephem: spk
     )

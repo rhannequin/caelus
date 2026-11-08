@@ -3,6 +3,23 @@
 require "rails_helper"
 
 RSpec.describe DeepSkyObjectPosition, type: :model do
+  describe "#rts" do
+    it "looks for the rising on the observer's local day" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(34.0),
+        longitude: Astronoby::Angle.from_degrees(-118.0),
+        utc_offset: "-08:00"
+      )
+      m87 = DeepSkyObjectsCatalog.find_by_designation("M87")
+
+      rising_days = [Time.utc(2025, 3, 15, 20), Time.utc(2025, 3, 16, 3)]
+        .map { |time| m87.at(time, observer: observer).rts.rising_time }
+        .map { |rising_time| rising_time.getlocal("-08:00").to_date }
+
+      expect(rising_days).to all(eq(Date.new(2025, 3, 15)))
+    end
+  end
+
   describe "#highest_altitude" do
     it "is nil when no night is given" do
       observer = Astronoby::Observer.new(

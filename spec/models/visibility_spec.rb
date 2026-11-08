@@ -246,11 +246,12 @@ RSpec.describe Visibility, type: :model do
       date = Date.new(2025, 3, 15)
       observer = Astronoby::Observer.new(
         latitude: Astronoby::Angle.from_degrees(34.0),
-        longitude: Astronoby::Angle.from_degrees(-118.0)
+        longitude: Astronoby::Angle.from_degrees(-118.0),
+        utc_offset: "-08:00"
       )
       deep_sky_object = DeepSkyObject.new(
         j2000_coordinates: Astronoby::Coordinates::Equatorial.new(
-          right_ascension: Astronoby::Angle.zero,
+          right_ascension: Astronoby::Angle.from_hours(12),
           declination: Astronoby::Angle.zero
         )
       )

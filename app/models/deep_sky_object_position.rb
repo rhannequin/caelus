@@ -2,6 +2,7 @@
 
 class DeepSkyObjectPosition
   include ActiveModel::Model
+  include ObserverLocalTime
 
   Culmination = Data.define(:position, :time)
 
@@ -15,7 +16,10 @@ class DeepSkyObjectPosition
   end
 
   def rts
-    @rts ||= rts_calculator.event_on(time.to_date)
+    @rts ||= rts_calculator.event_on(
+      local_date(time, observer),
+      utc_offset: utc_offset_of(observer)
+    )
   end
 
   def highest_altitude
@@ -66,7 +70,11 @@ class DeepSkyObjectPosition
   end
 
   def next_day_rts
-    @next_day_rts ||= rts_calculator.event_on(time.to_date + 1)
+    @next_day_rts ||=
+      rts_calculator.event_on(
+        local_date(time, observer) + 1,
+        utc_offset: utc_offset_of(observer)
+      )
   end
 
   def position_at(moment)

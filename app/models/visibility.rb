@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Visibility
+  include ObserverLocalTime
+
   def initialize(body:, observer:, date:)
     @body = body
     @observer = observer
@@ -56,11 +58,12 @@ class Visibility
   end
 
   def today_body_rts
-    @today_body_rts ||= body_rts.event_on(@date)
+    @today_body_rts ||= body_rts.event_on(@date, utc_offset: utc_offset_of(@observer))
   end
 
   def tomorrow_body_rts
-    @tomorrow_body_rts ||= body_rts.event_on(@date + 1)
+    @tomorrow_body_rts ||=
+      body_rts.event_on(@date + 1, utc_offset: utc_offset_of(@observer))
   end
 
   def observing_night

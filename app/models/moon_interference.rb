@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MoonInterference
+  include ObserverLocalTime
+
   def initialize(observer:, date: Time.zone.today)
     @evening_date = date
     @morning_date = date + 1
@@ -69,23 +71,38 @@ class MoonInterference
   end
 
   def today_sun_rts
-    @today_sun_rts ||= sun_rts.event_on(@evening_date)
+    @today_sun_rts ||= sun_rts.event_on(
+      @evening_date,
+      utc_offset: utc_offset_of(@observer)
+    )
   end
 
   def tomorrow_sun_rts
-    @tomorrow_sun_rts ||= sun_rts.event_on(@morning_date)
+    @tomorrow_sun_rts ||= sun_rts.event_on(
+      @morning_date,
+      utc_offset: utc_offset_of(@observer)
+    )
   end
 
   def today_moon_rts
-    @today_moon_rts ||= moon_rts.event_on(@evening_date)
+    @today_moon_rts ||= moon_rts.event_on(
+      @evening_date,
+      utc_offset: utc_offset_of(@observer)
+    )
   end
 
   def tomorrow_moon_rts
-    @tomorrow_moon_rts ||= moon_rts.event_on(@morning_date)
+    @tomorrow_moon_rts ||= moon_rts.event_on(
+      @morning_date,
+      utc_offset: utc_offset_of(@observer)
+    )
   end
 
   def third_day_moon_rts
-    @third_day_moon_rts ||= moon_rts.event_on(@day_after_morning_date)
+    @third_day_moon_rts ||= moon_rts.event_on(
+      @day_after_morning_date,
+      utc_offset: utc_offset_of(@observer)
+    )
   end
 
   def night_range
