@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class YearlyElevation
+  include ObserverLocalTime
+
   ElevationPoint = Struct.new(:yday, :date, :elevation)
 
   def initialize(year:, body:, observer:, samples: 365)
@@ -61,7 +63,10 @@ class YearlyElevation
         observer: @observer,
         ephem: SPK.for_time(Time.utc(@year, 1, 1))
       )
-      .events_between(start_date.to_time, end_date.to_time)
+      .events_between(
+        local_midnight(start_date, @observer),
+        local_midnight(end_date, @observer)
+      )
       .transit_times
   end
 

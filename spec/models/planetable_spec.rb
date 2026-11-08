@@ -30,6 +30,22 @@ RSpec.describe Planetable, type: :model do
     end
   end
 
+  describe "#rts" do
+    it "looks for the events on the observer's local day" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(34.0),
+        longitude: Astronoby::Angle.from_degrees(-118.0),
+        utc_offset: "-08:00"
+      )
+
+      setting_days = [Time.utc(2025, 3, 15, 20), Time.utc(2025, 3, 16, 3)]
+        .map { |time| Sun.at(time, observer: observer).rts.setting_time }
+        .map { |setting_time| setting_time.getlocal("-08:00").to_date }
+
+      expect(setting_days).to all(eq(Date.new(2025, 3, 15)))
+    end
+  end
+
   describe ".astronoby_body" do
     it "exposes the Astronoby class behind the model" do
       expect(Jupiter.astronoby_body).to eq(Astronoby::Jupiter)

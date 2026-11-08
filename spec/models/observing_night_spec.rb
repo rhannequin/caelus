@@ -53,6 +53,22 @@ RSpec.describe ObservingNight, type: :model do
   end
 
   describe "#range" do
+    it "keeps a brief astronomical darkness after local midnight to one night" do
+      observer = Astronoby::Observer.new(
+        latitude: Astronoby::Angle.from_degrees(48.85),
+        longitude: Astronoby::Angle.from_degrees(2.35),
+        utc_offset: "+01:00"
+      )
+
+      night = described_class.new(
+        observer: observer,
+        date: Date.new(2027, 6, 9)
+      )
+
+      expect(night.darkness).to eq(:astronomical)
+      expect(night.duration).to be < 2 * 3600
+    end
+
     it "returns the requested darkness level rather than the deepest one" do
       observer = Astronoby::Observer.new(
         latitude: Astronoby::Angle.from_degrees(48.8),

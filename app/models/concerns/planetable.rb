@@ -3,6 +3,8 @@
 module Planetable
   extend ActiveSupport::Concern
 
+  include ObserverLocalTime
+
   class_methods do
     def planet_class
       raise NotImplementedError,
@@ -55,7 +57,10 @@ module Planetable
         body: self.class.planet_class,
         observer: @observer,
         ephem: spk
-      ).event_on(@time.to_date)
+      ).event_on(
+        local_date(@time, @observer),
+        utc_offset: utc_offset_of(@observer)
+      )
     end
 
     def rising_azimuth

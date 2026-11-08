@@ -208,6 +208,31 @@ RSpec.describe Conjunction, type: :model do
 
   describe "#unobservable_reason" do
     it "says the pair drifted when it only clears the horizon too far apart" do
+      new_york = Observer.new(
+        astronoby_observer: Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(40.7),
+          longitude: Astronoby::Angle.from_degrees(-74.0),
+          utc_offset: "-05:00"
+        ),
+        time_zone: Time.find_zone("America/New_York")
+      )
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::MOON_PLANET_CONJUNCTION,
+        primary_body: "Jupiter",
+        peak: Time.utc(2027, 7, 7, 4)
+      )
+
+      conjunction = described_class.new(
+        celestial_event: event,
+        observer: new_york
+      )
+
+      expect(conjunction).not_to be_visible
+      expect(conjunction.unobservable_reason).to eq described_class::DRIFTED
+    end
+
+    it "says the pair is below the horizon when it never rises in the dark" do
       event = create(
         :celestial_event,
         kind: CelestialEvent::MOON_PLANET_CONJUNCTION,
@@ -218,7 +243,7 @@ RSpec.describe Conjunction, type: :model do
       conjunction = described_class.new(celestial_event: event, observer: paris)
 
       expect(conjunction).not_to be_visible
-      expect(conjunction.unobservable_reason).to eq described_class::DRIFTED
+      expect(conjunction.unobservable_reason).to eq described_class::BELOW_HORIZON
     end
 
     it "blames the midnight sun when no darkness falls" do
