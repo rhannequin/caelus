@@ -11,6 +11,10 @@ class Mercury
     :mercury
   end
 
+  def self.color
+    "#cfc3aa"
+  end
+
   def self.symbol
     "☿"
   end

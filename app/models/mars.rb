@@ -11,6 +11,10 @@ class Mars
     :mars
   end
 
+  def self.color
+    "#e2714a"
+  end
+
   def self.symbol
     "♂"
   end

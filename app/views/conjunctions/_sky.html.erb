@@ -1,0 +1,106 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-card">
+  <h2 class="text-xl font-bold mb-1 text-primary">
+    <%= t ".title" %>
+  </h2>
+
+  <p class="text-sm text-muted-foreground mb-4">
+    <%= t(conjunction.visible? ? ".subtitle" : ".subtitle_geocentric") %>
+  </p>
+
+  <div class="conjunction-sky">
+    <%= render ConjunctionSkyComponent.new(conjunction: conjunction) %>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+    <% conjunction.bodies.each do |body| %>
+      <div class="conjunction-legend">
+        <div class="flex items-center gap-2 mb-2">
+          <span
+            class="conjunction-legend-swatch"
+            style="background: <%= body.class.color %>;
+              box-shadow: 0 0 6px <%= body.class.color %>"
+          ></span>
+          <span class="text-lg text-accent"><%= body.class.symbol %></span>
+          <span class="font-semibold"><%= conjunction_body_name(body) %></span>
+        </div>
+
+        <dl class="space-y-1 text-sm">
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-muted-foreground"><%= t ".magnitude" %></dt>
+            <dd class="font-mono font-medium">
+              <%= conjunction_magnitude(body.magnitude) %>
+            </dd>
+          </div>
+
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-muted-foreground"><%= t ".apparent_size" %></dt>
+            <dd class="font-mono font-medium">
+              <%= conjunction_angular_diameter(body.angular_diameter) %>
+            </dd>
+          </div>
+
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-muted-foreground"><%= t ".distance" %></dt>
+            <dd class="font-mono font-medium">
+              <%= conjunction_distance(body.distance_from_earth) %>
+            </dd>
+          </div>
+
+          <% if conjunction_shows_illumination?(body) %>
+            <div class="flex items-baseline justify-between gap-4">
+              <dt class="text-muted-foreground"><%= t ".illumination" %></dt>
+              <dd class="font-mono font-medium">
+                <%= format_number(body.illuminated_percentage, precision: 0) %>%
+              </dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+    <% end %>
+  </div>
+
+  <dl class="mt-4 pt-4 border-t border-border/30 space-y-2 text-sm">
+    <div class="flex items-baseline justify-between gap-4">
+      <dt class="text-muted-foreground"><%= t ".geocentric" %></dt>
+      <dd class="font-mono font-medium">
+        <%= conjunction_separation(conjunction.separation) %>
+      </dd>
+    </div>
+
+    <div class="flex items-baseline justify-between gap-4">
+      <dt class="text-muted-foreground"><%= t ".topocentric" %></dt>
+      <dd class="font-mono font-medium">
+        <%= conjunction_separation(conjunction.apparent_separation) %>
+      </dd>
+    </div>
+
+    <div class="flex items-baseline justify-between gap-4">
+      <dt class="text-muted-foreground"><%= t ".solar_elongation" %></dt>
+      <dd class="font-mono font-medium">
+        <%= format_number(
+          conjunction.solar_elongation.degrees,
+          unit: :degree,
+          precision: 1
+        ) %>
+      </dd>
+    </div>
+
+    <div class="flex items-baseline justify-between gap-4">
+      <dt class="text-muted-foreground"><%= t ".position_angle" %></dt>
+      <dd class="font-mono font-medium">
+        <%= format_number(
+          conjunction.position_angle.degrees,
+          unit: :degree,
+          precision: 0
+        ) %>
+        <span class="text-xs text-muted-foreground">
+          <%= conjunction_relative_direction(conjunction.position_angle) %>
+        </span>
+      </dd>
+    </div>
+  </dl>
+
+  <p class="text-xs text-muted-foreground mt-4">
+    <%= t ".parallax_note" %>
+  </p>
+</div>

@@ -18,6 +18,36 @@ RSpec.describe Visibility, type: :model do
 
         expect(visibility.visible?).to be true
       end
+
+      it "returns true for a planet riding above the pole" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(78.22),
+          longitude: Astronoby::Angle.from_degrees(15.63),
+          utc_offset: "+02:00"
+        )
+        visibility = described_class.new(
+          body: Jupiter,
+          observer: observer,
+          date: Date.new(2026, 10, 6)
+        )
+
+        expect(visibility.visible?).to be true
+      end
+
+      it "returns false for a planet that stays under the horizon" do
+        observer = Astronoby::Observer.new(
+          latitude: Astronoby::Angle.from_degrees(78.22),
+          longitude: Astronoby::Angle.from_degrees(15.63),
+          utc_offset: "+02:00"
+        )
+        visibility = described_class.new(
+          body: Venus,
+          observer: observer,
+          date: Date.new(2026, 10, 6)
+        )
+
+        expect(visibility.visible?).to be false
+      end
     end
 
     context "during polar night" do

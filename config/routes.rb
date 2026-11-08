@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resource :time, only: [:edit, :update, :destroy], controller: :time
 
   resource :almanac, only: [:show], controller: :almanac
+  resources :conjunctions, only: [:show]
   resources :lunar_eclipses, only: [:index, :show]
   resource :moon, only: [:show], controller: :moon
   resource :sun, only: [:show], controller: :sun

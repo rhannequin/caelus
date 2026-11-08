@@ -60,6 +60,123 @@ RSpec.describe CelestialEvent, type: :model do
     end
   end
 
+  describe "#to_param" do
+    it "names the date and both planets of a planetary conjunction" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Mars",
+        secondary_body: "Jupiter",
+        peak: Time.utc(2026, 11, 16, 2, 4)
+      )
+
+      expect(event.to_param).to eq("2026-11-16-mars-jupiter")
+    end
+
+    it "puts the Moon first when it meets a planet" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::MOON_PLANET_CONJUNCTION,
+        primary_body: "Saturn",
+        peak: Time.utc(2026, 9, 27, 6, 36)
+      )
+
+      expect(event.to_param).to eq("2026-09-27-moon-saturn")
+    end
+
+    it "uses the UTC date rather than the local one" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::MOON_PLANET_CONJUNCTION,
+        primary_body: "Saturn",
+        peak: Time.utc(2026, 9, 27, 23, 30)
+      )
+
+      Time.use_zone("Asia/Tokyo") do
+        expect(event.to_param).to eq("2026-09-27-moon-saturn")
+      end
+    end
+
+    it "names only the date for a kind without bodies" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::LUNAR_ECLIPSE,
+        peak: Time.utc(2026, 8, 28, 4, 12)
+      )
+
+      expect(event.to_param).to eq("2026-08-28")
+    end
+  end
+
+  describe ".from_param" do
+    it "finds the event a slug was built from" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Mars",
+        secondary_body: "Jupiter",
+        peak: Time.utc(2026, 11, 16, 2, 4)
+      )
+
+      found = described_class.from_param(
+        event.to_param,
+        kinds: [CelestialEvent::PLANETARY_CONJUNCTION]
+      )
+
+      expect(found).to eq(event)
+    end
+
+    it "ignores an event of another kind on the same day" do
+      event = create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Mars",
+        secondary_body: "Jupiter",
+        peak: Time.utc(2026, 11, 16, 2, 4)
+      )
+
+      found = described_class.from_param(
+        event.to_param,
+        kinds: [CelestialEvent::MOON_PLANET_CONJUNCTION]
+      )
+
+      expect(found).to be_nil
+    end
+
+    it "tells apart two conjunctions sharing a day" do
+      create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Mars",
+        secondary_body: "Jupiter",
+        peak: Time.utc(2026, 11, 16, 2, 4)
+      )
+      venus = create(
+        :celestial_event,
+        kind: CelestialEvent::PLANETARY_CONJUNCTION,
+        primary_body: "Venus",
+        secondary_body: "Saturn",
+        peak: Time.utc(2026, 11, 16, 20, 15)
+      )
+
+      found = described_class.from_param(
+        "2026-11-16-venus-saturn",
+        kinds: [CelestialEvent::PLANETARY_CONJUNCTION]
+      )
+
+      expect(found).to eq(venus)
+    end
+
+    it "returns nil when the slug does not start with a date" do
+      found = described_class.from_param(
+        "mars-jupiter",
+        kinds: [CelestialEvent::PLANETARY_CONJUNCTION]
+      )
+
+      expect(found).to be_nil
+    end
+  end
+
   describe "scopes" do
     describe ".between" do
       it "returns events between two dates" do

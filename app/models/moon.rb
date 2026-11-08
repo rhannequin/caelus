@@ -38,6 +38,14 @@ class Moon
     :moon
   end
 
+  def self.color
+    "#faf8f0"
+  end
+
+  def self.symbol
+    "☾"
+  end
+
   def initialize(observer:, time:)
     @observer = observer
     @time = time
