@@ -11,6 +11,7 @@ RSpec.describe Sitemap do
         "/",
         "/almanac",
         "/moon",
+        "/sky",
         "/sun",
         "/lunar_eclipses",
         "/credits",

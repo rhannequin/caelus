@@ -11,6 +11,14 @@ class CreditsCatalog
     name: "BSD-3-Clause",
     url: "https://opensource.org/license/bsd-3-clause"
   )
+  CC_BY_4_0 = License.new(
+    name: "CC BY 4.0",
+    url: "https://creativecommons.org/licenses/by/4.0/"
+  )
+  CC_BY_NC_3_0_IGO = License.new(
+    name: "CC BY-NC 3.0 IGO",
+    url: "https://creativecommons.org/licenses/by-nc/3.0/igo/"
+  )
   CC_BY_SA_4_0 = License.new(
     name: "CC BY-SA 4.0",
     url: "https://creativecommons.org/licenses/by-sa/4.0/"
@@ -61,6 +69,18 @@ class CreditsCatalog
       name: "New General Catalogue",
       url: "https://en.wikipedia.org/wiki/New_General_Catalogue",
       license: CC_BY_SA_4_0
+    ),
+    Credit.new(
+      key: :star_catalog,
+      name: "ESA Gaia, Tycho-2 and Hipparcos",
+      url: "https://www.cosmos.esa.int/gaia",
+      license: CC_BY_NC_3_0_IGO
+    ),
+    Credit.new(
+      key: :constellation_figures,
+      name: "IAU constellation maps",
+      url: "https://www.astro4edu.org/",
+      license: CC_BY_4_0
     )
   ].freeze
 
@@ -69,6 +89,12 @@ class CreditsCatalog
       key: :astronoby,
       name: "Astronoby",
       url: "https://github.com/rhannequin/astronoby",
+      license: MIT
+    ),
+    Credit.new(
+      key: :skymap,
+      name: "Skymap",
+      url: "https://github.com/rhannequin/skymap",
       license: MIT
     ),
     Credit.new(
