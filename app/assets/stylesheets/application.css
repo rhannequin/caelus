@@ -645,6 +645,14 @@ h1, h2, h3 {
   justify-content: center;
 }
 
+.sky-map svg {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin: 0 auto;
+}
+
 .conjunction-sky-svg {
   width: 100%;
   max-width: 440px;

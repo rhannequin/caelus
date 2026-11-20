@@ -355,6 +355,12 @@ en:
               distances of the Messier objects listed in the deep sky
               sections.
             ngc_catalog: The same for the NGC objects listed alongside them.
+            star_catalog: "Positions, magnitudes and motions of the stars on
+              the sky map, from the Bright Star Catalogue, Tycho-2, Hipparcos
+              and Gaia DR3. Credit: ESA, Gaia DPAC. Credit: ESA."
+            constellation_figures: "Constellation lines and names drawn on the
+              sky map, from the maps of the IAU Office of Astronomy for
+              Education, adapted from the IAU and Sky & Telescope charts."
         software:
           title: Software
           intro_html: "The stack Caelus runs on. The complete list of
@@ -364,6 +370,7 @@ en:
             astronoby: "Every astronomical calculation on this site:
               positions, rise and set times, phases, eclipses, conjunctions.
               Caelus exists largely to show what Astronoby can do."
+            skymap: Draws the sky map from Astronoby positions.
             ephem: Reads the binary SPK ephemeris files Astronoby computes
               from.
             iers: Downloads and parses the Earth orientation bulletins.
@@ -1097,6 +1104,7 @@ en:
       almanac: Almanac
       lunar_eclipses: Lunar Eclipses
       moon: Moon
+      sky: Sky
       sun: Sun
     time_selector:
       time_modal:
@@ -1105,6 +1113,18 @@ en:
       cookie_consent_modal:
         label: Accept cookies for custom time features
         title: Accept cookies for custom time features
+  sky:
+    show:
+      title: Sky map
+      meta_title: Sky map tonight, stars, constellations and planets
+      meta_description:
+        "A map of the sky above you right now: the stars, the main
+        constellations, the planets, the Sun and the Moon."
+      overhead_title: Sky above you
+      subtitle: Zenith at the centre, horizon at the edge, north at the top
+        and east on the left.
+      description: Map of the sky above the observer with the stars,
+        constellations, planets, Sun and Moon
   sun:
     calendar:
       day_of_year: Day of Year

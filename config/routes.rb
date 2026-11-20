@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :conjunctions, only: [:show]
   resources :lunar_eclipses, only: [:index, :show]
   resource :moon, only: [:show], controller: :moon
+  resource :sky, only: [:show], controller: :sky
   resource :sun, only: [:show], controller: :sun
 
   resource :credits, only: :show, controller: :credits
