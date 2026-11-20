@@ -32,6 +32,15 @@ RSpec.describe LunarEclipsesController, type: :request do
       end
     end
 
+    it "does not track page views from crawlers" do
+      travel_to Time.utc(2026, 8, 25) do
+        expect(Appsignal).not_to receive(:increment_counter)
+
+        get lunar_eclipses_path,
+          headers: {"User-Agent" => "Mozilla/5.0 (compatible; SemrushBot/7~bl)"}
+      end
+    end
+
     it "canonicalises the current year to the bare path" do
       travel_to Time.utc(2026, 8, 25) do
         get lunar_eclipses_path(year: 2026)
