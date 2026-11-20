@@ -5,7 +5,11 @@ module Trackable
 
   private
 
+  BOT_USER_AGENT = /bot|crawl|spider|slurp|facebookexternalhit|headless/i
+
   def track_page_view(page)
+    return if declared_bot?
+
     Appsignal.increment_counter("page_view", 1, page: page)
 
     if personalized_location?
@@ -25,6 +29,10 @@ module Trackable
 
   def track_invalid_submission(form)
     Appsignal.increment_counter("invalid_submission", 1, form: form)
+  end
+
+  def declared_bot?
+    request.user_agent.to_s.match?(BOT_USER_AGENT)
   end
 
   def personalized_location?
