@@ -18,6 +18,7 @@ class Sitemap
       root_path,
       almanac_path,
       moon_path,
+      sky_path,
       sun_path,
       lunar_eclipses_path,
       credits_path,

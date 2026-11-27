@@ -49,3 +49,5 @@ class SPK
     )
   end
 end
+
+Rails.application.config.after_initialize { SkyCatalogs.preload }
